@@ -1,10 +1,14 @@
+import { useState } from 'react';
+import { AppContainer } from '../components/AppContainer';
 import { Navbar } from '../components/navbar/Navbar';
 
 export const HomePage = () => {
+  const [userData, setUserData] = useState(null);
   return (
-    <>
-      <Navbar />
-      <p>some content bro</p>
-    </>
+    <AppContainer setUserData={setUserData}>
+      <>
+        <Navbar userData={userData} />
+      </>
+    </AppContainer>
   );
 };

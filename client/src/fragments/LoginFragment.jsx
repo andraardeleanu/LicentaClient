@@ -1,39 +1,50 @@
-import { Button, Checkbox, Input, Stack } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Button,
+  Checkbox,
+  Input,
+  Stack
+} from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useCookies } from 'react-cookie';
+import useAuth from '../hooks/useAuth';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginFragment = () => {
   const [cookies, setCookie] = useCookies(['userToken']);
-  console.log('cookeis: ', cookies);
+  const { getUser, login } = useAuth(cookies.userToken);
+  const [userError, setUserError] = useState('');
+  const navigate = useNavigate();
   return (
     <Formik
       initialValues={{
         username: '',
-        password: ''
+        password: '',
+        rememberMe: true
       }}
       onSubmit={async (values) => {
-        setCookie('userToken', 'test');
-        console.log('cookies: ', cookies);
-        if (!values.username) {
-          //setGenericError('Numele de utilizator este necesar.');
-          return;
+        const response = await login(
+          values.username,
+          values.password,
+          values.rememberMe
+        );
+        if (response.errorMessage) {
+          setUserError(response.errorMessage);
+        } else {
+          setCookie('userToken', response.token);
+          navigate('/');
         }
-        if (!values.password) {
-          //setGenericError('Parola este necesara.');
-          return;
-        }
-        //   if (error) {
-        //     setGenericError(error);
-        //     return;
-        //   }
-        //dispatch(login({ ...values }));
-        //navigate('/');
       }}
     >
       {({ handleSubmit, handleChange, values }) => (
         <Form
           onSubmit={handleSubmit}
-          onChange={() => {}}
+          onChange={() => {
+            setUserError('');
+          }}
         >
           <Stack
             spacing={4}
@@ -54,20 +65,41 @@ export const LoginFragment = () => {
               value={values.password}
               type='password'
             />
-            {/* {genericError && (
-              <Alert
-                message={genericError}
-                type='error'
-              />
-            )} */}
-            <Checkbox defaultChecked>Tine-ma minte</Checkbox>
+            <Checkbox
+              id='rememberMe'
+              name='rememberMe'
+              value={values.rememberMe}
+              onChange={handleChange}
+              defaultChecked
+            >
+              Tine-ma minte
+            </Checkbox>
+            {userError && (
+              <Alert status='error'>
+                <AlertIcon />
+                <AlertTitle>{userError}</AlertTitle>
+              </Alert>
+            )}
             <Button
               colorScheme='blue'
-              type='submit'
+              onClick={handleSubmit}
             >
               Conecteaza-te
             </Button>
-            <Button>Inregistreaza-te</Button>
+            <Button
+              onClick={() => {
+                setCookie('userToken', '');
+              }}
+            >
+              Inregistreaza-te
+            </Button>
+            <Button
+              onClick={async () => {
+                await getUser();
+              }}
+            >
+              click me
+            </Button>
           </Stack>
         </Form>
       )}
