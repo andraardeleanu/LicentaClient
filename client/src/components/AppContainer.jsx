@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useCookies } from 'react-cookie';
+import { useDispatch } from 'react-redux';
 
 export const AppContainer = ({
   forGuest = false,
@@ -15,6 +16,7 @@ export const AppContainer = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cookies] = useCookies();
   const { getUser } = useAuth(cookies.userToken);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -23,7 +25,8 @@ export const AppContainer = ({
         await getUser().then((res) => {
           setGetFinished(true);
           setIsLoggedIn(res?.id !== undefined);
-          setUserData(res);
+          console.log('data: ', res);
+          dispatch(setUserData(res));
         });
       }
       setLoading(false);
@@ -32,7 +35,7 @@ export const AppContainer = ({
     fetchUserData();
 
     return () => {};
-  }, [forGuest, getFinished, getUser, needAuth, setUserData]);
+  }, [dispatch, getFinished, getUser, setUserData]);
 
   if (loading) {
     return <>loading...</>;

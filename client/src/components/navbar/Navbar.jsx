@@ -30,9 +30,19 @@ export const Navbar = ({ userData = undefined }) => {
         <div className='gap-2 lg:gap-4 w-1/2 lg:w-1/3 flex justify-end items-center'>
           <Menu>
             <MenuButton>
-              <Avatar name={userData?.firstName} />
+              <div className='flex items-center gap-2'>
+                <Avatar name={userData?.firstName} />
+                <div>sal</div>
+              </div>
             </MenuButton>
             <MenuList>
+              <MenuItem
+                onClick={() => {
+                  navigate('/profile');
+                }}
+              >
+                Profil
+              </MenuItem>
               <MenuItem
                 onClick={() => {
                   setCookie('userToken', '');
