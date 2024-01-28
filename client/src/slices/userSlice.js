@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  data: undefined
+  data: null
 };
 
 export const userSlice = createSlice({
@@ -12,7 +12,7 @@ export const userSlice = createSlice({
       state.data = payload;
     },
     resetUserData: (state) => {
-      state.data = undefined;
+      state.data = null;
     }
   }
 });

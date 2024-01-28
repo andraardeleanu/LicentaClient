@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
+import { setUserData } from '../slices/userSlice';
+import MoonLoader from 'react-spinners/MoonLoader';
+import { LOADER_COLOR } from '../utils/constants';
+import { Footer } from './Footer';
 
 export const AppContainer = ({
   forGuest = false,
   needAuth = false,
-  children,
-  setUserData = null
+  children
 }) => {
   const navigate = useNavigate();
   const [getFinished, setGetFinished] = useState(false);
@@ -23,10 +26,12 @@ export const AppContainer = ({
       if (!getFinished) {
         setLoading(true);
         await getUser().then((res) => {
+          console.log('data: ', res);
           setGetFinished(true);
           setIsLoggedIn(res?.id !== undefined);
-          console.log('data: ', res);
-          dispatch(setUserData(res));
+          if (res?.id) {
+            dispatch(setUserData(res));
+          }
         });
       }
       setLoading(false);
@@ -35,15 +40,30 @@ export const AppContainer = ({
     fetchUserData();
 
     return () => {};
-  }, [dispatch, getFinished, getUser, setUserData]);
+  }, [dispatch, getFinished, getUser]);
 
   if (loading) {
-    return <>loading...</>;
+    return (
+      <div className='h-[100vh] flex items-center justify-center'>
+        <MoonLoader color={LOADER_COLOR} />
+      </div>
+    );
   } else if (forGuest && isLoggedIn) navigate(-1);
   else if (needAuth) {
-    if (isLoggedIn) return <>{children}</>;
+    if (isLoggedIn)
+      return (
+        <div className='flex flex-col min-h-screen'>
+          <div className='flex-grow'>{children}</div>
+          <Footer />
+        </div>
+      );
     else navigate(-1);
   } else {
-    return <>{children}</>;
+    return (
+      <div className='flex flex-col min-h-screen'>
+        <div className='flex-grow'>{children}</div>
+        <Footer />
+      </div>
+    );
   }
 };

@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const LoginFragment = () => {
   const [cookies, setCookie] = useCookies(['userToken']);
-  const { getUser, login } = useAuth(cookies.userToken);
+  const { login } = useAuth(cookies.userToken);
   const [userError, setUserError] = useState('');
   const navigate = useNavigate();
   return (
@@ -92,13 +92,6 @@ export const LoginFragment = () => {
               }}
             >
               Inregistreaza-te
-            </Button>
-            <Button
-              onClick={async () => {
-                await getUser();
-              }}
-            >
-              click me
             </Button>
           </Stack>
         </Form>

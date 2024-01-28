@@ -11,10 +11,12 @@ import { AppLogo } from '../AppLogo';
 import { NavDrawer } from './NavDrawer';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useSelector } from 'react-redux';
 
-export const Navbar = ({ userData = undefined }) => {
+export const Navbar = () => {
   // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie] = useCookies(['userToken']);
+  const { data } = useSelector((state) => state.user);
   const buttonSize = useBreakpointValue({ base: 'sm', lg: 'md' });
   const navigate = useNavigate();
   return (
@@ -26,12 +28,12 @@ export const Navbar = ({ userData = undefined }) => {
         <AppLogo />
       </div>
       <div className='hidden lg:block lg:w-1/3'>{/* empty */}</div>
-      {userData?.id ? (
+      {data?.id ? (
         <div className='gap-2 lg:gap-4 w-1/2 lg:w-1/3 flex justify-end items-center'>
           <Menu>
             <MenuButton>
               <div className='flex items-center gap-2'>
-                <Avatar name={userData?.firstName} />
+                <Avatar name={data?.firstName} />
                 <div>sal</div>
               </div>
             </MenuButton>

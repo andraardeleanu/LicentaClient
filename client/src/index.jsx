@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -6,6 +6,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { CookiesProvider } from 'react-cookie';
 import { Provider } from 'react-redux';
 import { store } from './utils/store';
+import './utils/i18n.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,7 +14,9 @@ root.render(
     <CookiesProvider>
       <ChakraProvider>
         <Provider store={store}>
-          <App />
+          <Suspense fallback={'loading'}>
+            <App />
+          </Suspense>
         </Provider>
       </ChakraProvider>
     </CookiesProvider>
