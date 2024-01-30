@@ -16,7 +16,6 @@ export const CompaniesFragment = () => {
         if (needCompaniesCall) {
           setCompaniesLoading(true);
           await getCompanies(cookies.userToken).then((res) => {
-            console.log('res: ', res);
             setCompaniesLoading(false);
             setCompanies(res);
           });

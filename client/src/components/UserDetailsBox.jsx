@@ -10,7 +10,6 @@ import moment from 'moment';
 export const UserDetailsBox = () => {
   const { data, companyData } = useSelector((state) => state.user);
   const rankIcon = data?.roles[0] === ADMIN_RANK ? AdminIcon : ManagerIcon;
-  console.log('companyData: ', companyData);
   return (
     <>
       <Box
