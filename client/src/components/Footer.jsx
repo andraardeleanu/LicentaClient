@@ -1,5 +1,4 @@
 import { AppLogo } from './AppLogo';
-import { LanguageSelector } from './LanguageSelector';
 
 export const Footer = () => {
   return (
@@ -7,9 +6,7 @@ export const Footer = () => {
       <div>
         <AppLogo />
       </div>
-      <div>
-        <LanguageSelector />
-      </div>
+      <div></div>
     </footer>
   );
 };

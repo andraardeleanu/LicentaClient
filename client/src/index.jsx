@@ -6,9 +6,11 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { CookiesProvider } from 'react-cookie';
 import { Provider } from 'react-redux';
 import { store } from './utils/store';
-import './utils/i18n.js';
+import moment from 'moment';
+import 'moment/locale/ro';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+moment.locale('ro');
 root.render(
   <React.StrictMode>
     <CookiesProvider>

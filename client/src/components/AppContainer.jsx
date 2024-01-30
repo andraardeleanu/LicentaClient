@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '../slices/userSlice';
+import { setUserCompanyData, setUserData } from '../slices/userSlice';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { LOADER_COLOR } from '../utils/constants';
 import { Footer } from './Footer';
+import { axiosAuthorizedGet } from '../utils/axiosFunctions';
 
 export const AppContainer = ({
   forGuest = false,
@@ -25,12 +26,17 @@ export const AppContainer = ({
     const fetchUserData = async () => {
       if (!getFinished) {
         setLoading(true);
-        await getUser().then((res) => {
-          console.log('data: ', res);
+        await getUser().then(async (res) => {
           setGetFinished(true);
           setIsLoggedIn(res?.id !== undefined);
           if (res?.id) {
             dispatch(setUserData(res));
+            const companyRes = await axiosAuthorizedGet(
+              `/getCompanyById/${res?.companyId}`,
+              cookies.userToken
+            );
+
+            dispatch(setUserCompanyData(companyRes));
           }
         });
       }
@@ -40,7 +46,7 @@ export const AppContainer = ({
     fetchUserData();
 
     return () => {};
-  }, [dispatch, getFinished, getUser]);
+  }, [cookies.userToken, dispatch, getFinished, getUser]);
 
   if (loading) {
     return (

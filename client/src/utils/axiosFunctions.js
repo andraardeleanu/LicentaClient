@@ -29,7 +29,7 @@ export const axiosGet = async (url, config) => {
 };
 
 export const axiosAuthorizedGet = async (url, token) => {
-  await axiosGet(url, {
+  return await axiosGet(url, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: '*/*',

@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const LoginFragment = () => {
   const [cookies, setCookie] = useCookies(['userToken']);
+  const [loginLoading, setLoginLoading] = useState(false);
   const { login } = useAuth(cookies.userToken);
   const [userError, setUserError] = useState('');
   const navigate = useNavigate();
@@ -26,11 +27,13 @@ export const LoginFragment = () => {
         rememberMe: true
       }}
       onSubmit={async (values) => {
+        setLoginLoading(true);
         const response = await login(
           values.username,
           values.password,
           values.rememberMe
         );
+        setLoginLoading(false);
         if (response.errorMessage) {
           setUserError(response.errorMessage);
         } else {
@@ -83,6 +86,7 @@ export const LoginFragment = () => {
             <Button
               colorScheme='blue'
               onClick={handleSubmit}
+              isLoading={loginLoading}
             >
               Conecteaza-te
             </Button>
