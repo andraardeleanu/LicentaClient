@@ -37,3 +37,13 @@ export const axiosAuthorizedGet = async (url, token) => {
     }
   });
 };
+
+export const axiosAuthorizedPost = async (url, data, token) => {
+  return await axiosPost(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: '*/*',
+      'Content-Type': 'application/json'
+    }
+  });
+};

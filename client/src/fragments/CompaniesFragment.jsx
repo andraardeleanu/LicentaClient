@@ -1,9 +1,19 @@
-import { Divider, Heading, Wrap, WrapItem } from '@chakra-ui/react';
+import {
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Icon,
+  Wrap,
+  WrapItem
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { getCompanies } from '../utils/apiCalls';
 import { ResultsLoading } from '../components/ResultsLoading';
 import { CompanyBox } from '../components/CompanyBox';
+import { FaPlusCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export const CompaniesFragment = () => {
   const [cookies] = useCookies();
@@ -28,14 +38,25 @@ export const CompaniesFragment = () => {
   }, [companies, cookies.userToken, needCompaniesCall]);
   return (
     <>
-      <Heading size={'lg'}>Companii</Heading>
+      <Flex justify={'space-between'}>
+        <Heading size={'lg'}>Companii</Heading>
+        <Link to='/addCompany'>
+          <Button
+            leftIcon={<Icon as={FaPlusCircle} />}
+            colorScheme='blue'
+          >
+            Creeaza companie
+          </Button>
+        </Link>
+      </Flex>
+
       <Divider my={4} />
       {companiesLoading && <ResultsLoading />}
-      <Wrap>
+      <Wrap spacing={0}>
         {companies.length > 0 ? (
           companies.map((company, index) => (
             <WrapItem
-              className='w-1/3'
+              className='w-full md:w-1/3'
               key={index}
             >
               <CompanyBox
@@ -47,7 +68,7 @@ export const CompaniesFragment = () => {
             </WrapItem>
           ))
         ) : (
-          <>no companies</>
+          <>Nu s-au gasit companii.</>
         )}
       </Wrap>
     </>

@@ -1,20 +1,23 @@
-import { AppContainer } from '../components/AppContainer';
-import { Container } from '../components/Container';
-import { Navbar } from '../components/navbar/Navbar';
 import {
-  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Heading,
   Icon
 } from '@chakra-ui/react';
-import { UserDetailsBox } from '../components/UserDetailsBox';
+import { AppContainer } from '../components/AppContainer';
+import { Container } from '../components/Container';
+import { Navbar } from '../components/navbar/Navbar';
+import { ADMIN_RANK } from '../utils/constants';
+import { AddCompanyFragment } from '../fragments/AddCompanyFragment';
 import { FaHome } from 'react-icons/fa';
 
-export const UserProfilePage = () => {
+export const AddCompanyPage = () => {
   return (
-    <AppContainer needAuth>
+    <AppContainer
+      needAuth
+      needRank={ADMIN_RANK}
+    >
       <>
         <Navbar />
         <Container size={75}>
@@ -33,14 +36,12 @@ export const UserProfilePage = () => {
                 className='flex items-center gap-2'
                 href='#'
               >
-                <span>Profil</span>
+                <span>Adauga companie</span>
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Box>
-            <Heading mb={4}>Profil</Heading>
-            <UserDetailsBox />
-          </Box>
+          <Heading mb={4}>Adauga companie</Heading>
+          <AddCompanyFragment />
         </Container>
       </>
     </AppContainer>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useCookies } from 'react-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserCompanyData, setUserData } from '../slices/userSlice';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { LOADER_COLOR } from '../utils/constants';
@@ -12,9 +12,11 @@ import { axiosAuthorizedGet } from '../utils/axiosFunctions';
 export const AppContainer = ({
   forGuest = false,
   needAuth = false,
+  needRank,
   children
 }) => {
   const navigate = useNavigate();
+  const { data } = useSelector((state) => state.user);
   const [getFinished, setGetFinished] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,14 +58,27 @@ export const AppContainer = ({
     );
   } else if (forGuest && isLoggedIn) navigate(-1);
   else if (needAuth) {
-    if (isLoggedIn)
-      return (
-        <div className='flex flex-col min-h-screen'>
-          <div className='flex-grow'>{children}</div>
-          <Footer />
-        </div>
-      );
-    else navigate(-1);
+    if (isLoggedIn) {
+      if (needRank) {
+        if (needRank === data.roles[0]) {
+          return (
+            <div className='flex flex-col min-h-screen'>
+              <div className='flex-grow'>{children}</div>
+              <Footer />
+            </div>
+          );
+        } else {
+          navigate(-1);
+        }
+      } else {
+        return (
+          <div className='flex flex-col min-h-screen'>
+            <div className='flex-grow'>{children}</div>
+            <Footer />
+          </div>
+        );
+      }
+    } else navigate(-1);
   } else {
     return (
       <div className='flex flex-col min-h-screen'>

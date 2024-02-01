@@ -1,14 +1,13 @@
-import { Avatar, Box, Heading, Icon } from '@chakra-ui/react';
+import { Avatar, Box, Card, Heading, Icon } from '@chakra-ui/react';
 import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
 import { HiMiniBuildingOffice } from 'react-icons/hi2';
 
 export const CompanyBox = ({ name, cui, author, dateUpdated }) => {
   return (
-    <Box
-      borderWidth='1px'
+    <Card
       borderRadius='lg'
-      className='p-4 w-full'
+      className='p-4 w-full m-2'
     >
       <div className='w-full flex items-center flex-col'>
         <Avatar icon={<HiMiniBuildingOffice />} />
@@ -31,6 +30,6 @@ export const CompanyBox = ({ name, cui, author, dateUpdated }) => {
           </span>
         </div>
       </div>
-    </Box>
+    </Card>
   );
 };
