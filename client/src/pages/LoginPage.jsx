@@ -9,7 +9,7 @@ export const LoginPage = () => {
     <AppContainer forGuest>
       <Navbar />
       <Container size={33}>
-        <Heading>Conecteaza-te</Heading>
+        <Heading mb={4}>Conecteaza-te</Heading>
         <LoginFragment />
       </Container>
     </AppContainer>
