@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, Heading, Icon } from '@chakra-ui/react';
+import { Avatar, Card, Heading, Icon } from '@chakra-ui/react';
 import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
 import { HiMiniBuildingOffice } from 'react-icons/hi2';

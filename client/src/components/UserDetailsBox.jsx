@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Heading, Icon } from '@chakra-ui/react';
+import { Avatar, Card, Divider, Heading, Icon } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import AdminIcon from '../images/admin_rank.png';
 import ManagerIcon from '../images/manager_rank.png';
@@ -12,8 +12,7 @@ export const UserDetailsBox = () => {
   const rankIcon = data?.roles[0] === ADMIN_RANK ? AdminIcon : ManagerIcon;
   return (
     <>
-      <Box
-        borderWidth='1px'
+      <Card
         borderRadius='lg'
         className='p-4'
       >
@@ -31,10 +30,9 @@ export const UserDetailsBox = () => {
             </span>
           </div>
         </div>
-      </Box>
+      </Card>
       <Divider my={4} />
-      <Box
-        borderWidth='1px'
+      <Card
         borderRadius='lg'
         className='p-4'
       >
@@ -59,7 +57,7 @@ export const UserDetailsBox = () => {
             </span>
           </div>
         </div>
-      </Box>
+      </Card>
     </>
   );
 };
