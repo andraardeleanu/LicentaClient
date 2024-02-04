@@ -5,6 +5,7 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { UserProfilePage } from './pages/UserProfilePage';
 import { AddCompanyPage } from './pages/AddCompanyPage';
+import { AddWorkPointPage } from './pages/AddWorkPointPage';
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
         <Route
           path='/addCompany'
           element={<AddCompanyPage />}
+        />
+        <Route
+          path='/addWorkPoint'
+          element={<AddWorkPointPage />}
         />
       </Routes>
     </BrowserRouter>

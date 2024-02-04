@@ -41,7 +41,7 @@ export const AppContainer = ({
             dispatch(setUserCompanyData(companyRes));
           }
         });
-      }
+  }
       setLoading(false);
     };
 

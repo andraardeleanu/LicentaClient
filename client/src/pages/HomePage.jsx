@@ -14,6 +14,7 @@ import { NotLoggedInFragment } from '../fragments/NotLoggedInFragment';
 import { WorkPointsFragment } from '../fragments/WorkPointsFragment';
 import { ADMIN_RANK, MANAGER_RANK } from '../utils/constants';
 import { FaHome } from 'react-icons/fa';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
 export const HomePage = () => {
   const { data } = useSelector((store) => store.user);

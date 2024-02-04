@@ -3,19 +3,20 @@ import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
 import { DragHandleIcon } from '@chakra-ui/icons'
 
-export const CompanyBox = ({ name, cui, author, dateUpdated }) => {
+export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
   return (
     <Card
       borderRadius='30px'
       className='p-6 w-100 m-4'
-    >
+    >      
       <CardBody>
-        <IconButton
-          colorScheme='gray'
-          icon={<DragHandleIcon />}
-        />
+      <IconButton
+            colorScheme='gray'
+            icon={<DragHandleIcon />}
+          />
+
         <Stack spacing={6} direction='column' align='center'>
-          <Image boxSize='100px' src={require('../images/company.png')} />
+          <Image  boxSize='200px' src={require('../images/workpoint.png')}/>         
           <Heading size='md'>
             <div className='w-full flex flex-col'>
               <Text>{name}</Text>

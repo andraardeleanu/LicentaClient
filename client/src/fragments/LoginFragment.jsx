@@ -92,7 +92,7 @@ export const LoginFragment = () => {
               >
                 Conecteaza-te
               </Button>
-              <Button
+              <Button              
                 onClick={() => {
                   setCookie('userToken', '');
                 }}

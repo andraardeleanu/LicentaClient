@@ -22,7 +22,8 @@ export const AddCompanyFragment = () => {
   const toast = useToast();
 
   return (
-    <Card className='p-4'>
+    <Card borderRadius='lg'
+      className='p-4 w-full m-2'>
       <Formik
         initialValues={{
           name: '',
