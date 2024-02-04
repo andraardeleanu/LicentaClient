@@ -28,13 +28,14 @@ export const axiosGet = async (url, config) => {
   );
 };
 
-export const axiosAuthorizedGet = async (url, token) => {
+export const axiosAuthorizedGet = async (url, token, data = null) => {
   return await axiosGet(url, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: '*/*',
       'Content-Type': 'application/json'
-    }
+    },
+    params: data
   });
 };
 

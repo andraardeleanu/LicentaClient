@@ -39,7 +39,7 @@ export const HomePage = () => {
           </Heading>
           {!data && <NotLoggedInFragment />}
           {data?.roles[0] === ADMIN_RANK && <CompaniesFragment />}
-          {data?.roles[0] === MANAGER_RANK && <WorkPointsFragment />}
+          <WorkPointsFragment />
         </Container>
       </>
     </AppContainer>
