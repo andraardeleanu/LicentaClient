@@ -12,11 +12,8 @@ import { Form, Formik } from 'formik';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { addWorkPoint } from '../utils/apiCalls';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import useAuth from '../hooks/useAuth';
-import { setUserCompanyData, setUserData } from '../slices/userSlice';
-import { axiosAuthorizedGet } from '../utils/axiosFunctions';
+import { useState } from 'react';
+import {  useSelector } from 'react-redux';
 
 export const AddWorkPointFragment = () => {
     const [loading, setLoading] = useState(false);
@@ -25,35 +22,6 @@ export const AddWorkPointFragment = () => {
     const [cookies] = useCookies();
     const toast = useToast();
     const { data } = useSelector((state) => state.user);
-    const [getFinished, setGetFinished] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { getUser } = useAuth(cookies.userToken);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            if (!getFinished) {
-                setLoading(true);
-                await getUser().then(async (res) => {
-                    setGetFinished(true);
-                    setIsLoggedIn(res?.id !== undefined);
-                    if (res?.id) {
-                        dispatch(setUserData(res));
-                        const companyRes = await axiosAuthorizedGet(
-                            `/getCompanyById/${res?.companyId}`,
-                            cookies.userToken
-                        );
-
-                        dispatch(setUserCompanyData(companyRes));
-                    }
-                });
-            }
-            setLoading(false);
-        };
-
-        fetchUserData();
-        return () => { };
-    }, [cookies.userToken, dispatch, getFinished, getUser]);
 
     return (
         <Card className='p-4'>
@@ -61,7 +29,7 @@ export const AddWorkPointFragment = () => {
                 initialValues={{
                     name: '',
                     address: '',
-                    companyId: getUser.companyId
+                    companyId: data.companyId
                 }}
                 onSubmit={async (values) => {
                     setLoading(true);

@@ -14,6 +14,7 @@ import { WorkPointBox } from '../components/WorkPointBox';
 import { FaPlusCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { ProductsPage } from '../pages/ProductsPage';
 
 export const WorkPointsFragment = () => {
   const [cookies] = useCookies();
@@ -86,11 +87,12 @@ export const WorkPointsFragment = () => {
               )}
             </Wrap>
           </TabPanel>
-          <TabPanel>
-            <p>Yeah yeah. What's up?</p>
+          <TabPanel>         
           </TabPanel>
+         
           <TabPanel>
-            <p>Oh, hello there.</p>
+          <ProductsPage>            
+          </ProductsPage>
           </TabPanel>
         </TabPanels>
       </Tabs>

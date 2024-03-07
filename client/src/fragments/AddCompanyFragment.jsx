@@ -37,7 +37,7 @@ export const AddCompanyFragment = () => {
             setUserError(response.errorMessage);
           } else {
             toast({
-              title: 'Compania a fost adaugata.',
+              title: 'Compania a fost creata cu succes!',
               status: 'success',
               duration: 5000,
               isClosable: true,

@@ -1,22 +1,31 @@
 import { Card, Heading, Icon, CardBody, Image, Stack, Text, IconButton } from '@chakra-ui/react';
 import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
-import { DragHandleIcon } from '@chakra-ui/icons'
+import { DragHandleIcon, DeleteIcon } from '@chakra-ui/icons'
+import { Button, Spacer, Tooltip } from '@chakra-ui/react'
 
 export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
   return (
     <Card
       borderRadius='30px'
       className='p-6 w-100 m-4'
-    >      
+    >
       <CardBody>
-      <IconButton
+        <Stack direction='row' spacing={4}>
+          <IconButton
             colorScheme='gray'
             icon={<DragHandleIcon />}
           />
+          <Spacer />
+          <Tooltip label='Sterge punct de lucru' bg='gray.300' color='black' fontSize={'md'}>
+            <IconButton
+              rightIcon={<DeleteIcon />}
+              colorScheme='gray' variant='ghost' />
+          </Tooltip>
+        </Stack>
 
         <Stack spacing={6} direction='column' align='center'>
-          <Image  boxSize='200px' src={require('../images/workpoint.png')}/>         
+          <Image boxSize='200px' src={require('../images/workpoint.png')} />
           <Heading size='md'>
             <div className='w-full flex flex-col'>
               <Text>{name}</Text>

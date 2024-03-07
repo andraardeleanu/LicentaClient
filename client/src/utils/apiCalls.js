@@ -15,3 +15,7 @@ export const getWorkPoints = async (token) => {
 export const addWorkPoint = async (data, token) => {
   return await axiosAuthorizedPost('/addWorkpoint', data, token);
 };
+
+export const getProducts = async (token) => {
+  return await axiosAuthorizedPost('/getProducts', token);
+};

@@ -68,13 +68,13 @@ export const Navbar = () => {
               navigate('/login');
             }}
           >
-            Conecteaza-te
+            Conectare
           </Button>
           <Button
             size={buttonSize}
             colorScheme='blue'
           >
-            Inregistreaza-te
+            Inregistrare
           </Button>
         </div>
       )}
