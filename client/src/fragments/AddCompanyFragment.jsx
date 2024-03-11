@@ -3,7 +3,6 @@ import {
   AlertIcon,
   AlertTitle,
   Button,
-  Card,
   Input,
   Stack,
   useToast
@@ -14,7 +13,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { addCompany } from '../utils/apiCalls';
 
-export const AddCompanyFragment = () => {
+export const AddCompanyFragment = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [userError, setUserError] = useState('');
@@ -22,81 +21,76 @@ export const AddCompanyFragment = () => {
   const toast = useToast();
 
   return (
-    <Card borderRadius='lg'
-      className='p-4 w-full m-2'>
-      <Formik
-        initialValues={{
-          name: '',
-          cui: ''
-        }}
-        onSubmit={async (values) => {
-          setLoading(true);
-          const response = await addCompany(values, cookies.userToken);
-          setLoading(false);
-          if (response.errorMessage) {
-            setUserError(response.errorMessage);
-          } else {
-            toast({
-              title: 'Compania a fost creata cu succes!',
-              status: 'success',
-              duration: 5000,
-              isClosable: true,
-              position: 'top'
-            });
-            navigate('/');
-          }
-        }}
-      >
-        {({ handleSubmit, handleChange, values }) => (
-          <Form
-            onSubmit={handleSubmit}
-            onChange={() => {
-              setUserError('');
-            }}
+    <Formik
+      initialValues={{
+        name: '',
+        cui: ''
+      }}
+      onSubmit={async (values) => {
+        setLoading(true);
+        const response = await addCompany(values, cookies.userToken);
+        setLoading(false);
+        if (response.errorMessage) {
+          setUserError(response.errorMessage);
+        } else {
+          toast({
+            title: 'Compania a fost creata cu succes!',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top'
+          });
+          navigate('/');
+        }
+      }}
+    >
+      {({ handleSubmit, handleChange, values }) => (
+        <Form
+          onSubmit={handleSubmit}
+          onChange={() => {
+            setUserError('');
+          }}
+        >
+          <Stack
+            spacing={4}
+            className='mt-6'
           >
-            <Stack
-              spacing={4}
-              className='mt-6'
+            <Input
+              id='name'
+              name='name'
+              placeholder='Numele companiei'
+              onChange={handleChange}
+              value={values.name}
+            />
+            <Input
+              id='cui'
+              name='cui'
+              placeholder='CUI'
+              onChange={handleChange}
+              value={values.cui}
+            />
+            {userError && (
+              <Alert status='error'>
+                <AlertIcon />
+                <AlertTitle>{userError}</AlertTitle>
+              </Alert>
+            )}
+            <Button
+              colorScheme='blue'
+              onClick={handleSubmit}
+              isLoading={loading}
             >
-              <Input
-                id='name'
-                name='name'
-                placeholder='Numele companiei'
-                onChange={handleChange}
-                value={values.name}
-              />
-              <Input
-                id='cui'
-                name='cui'
-                placeholder='CUI'
-                onChange={handleChange}
-                value={values.cui}
-              />
-              {userError && (
-                <Alert status='error'>
-                  <AlertIcon />
-                  <AlertTitle>{userError}</AlertTitle>
-                </Alert>
-              )}
-              <Button
-                colorScheme='blue'
-                onClick={handleSubmit}
-                isLoading={loading}
-              >
-                Adauga
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate(-1);
-                }}
-                disabled={loading}
-              >
-                Renunta
-              </Button>
-            </Stack>
-          </Form>
-        )}
-      </Formik>
-    </Card>
+              Adauga
+            </Button>
+            <Button
+              onClick={onClose}
+              disabled={loading}
+            >
+              Renunta
+            </Button>
+          </Stack>
+        </Form>
+      )}
+    </Formik>
   );
 };

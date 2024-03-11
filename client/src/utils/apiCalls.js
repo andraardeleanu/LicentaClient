@@ -12,6 +12,13 @@ export const getWorkPoints = async (token) => {
   return await axiosAuthorizedGet('/getWorkpoints', token);
 };
 
+export const getWorkPointsByCompanyId = async (token, companyId) => {
+  return await axiosAuthorizedGet(
+    `/getWorkpointsFromCompany/${companyId}`,
+    token
+  );
+};
+
 export const addWorkPoint = async (data, token) => {
   return await axiosAuthorizedPost('/addWorkpoint', data, token);
 };

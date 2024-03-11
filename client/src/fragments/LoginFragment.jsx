@@ -89,15 +89,9 @@ export const LoginFragment = () => {
                 colorScheme='blue'
                 onClick={handleSubmit}
                 isLoading={loginLoading}
+                type='submit'
               >
                 Conecteaza-te
-              </Button>
-              <Button              
-                onClick={() => {
-                  setCookie('userToken', '');
-                }}
-              >
-                Inregistreaza-te
               </Button>
             </Stack>
           </Form>

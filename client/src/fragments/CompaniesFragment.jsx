@@ -4,7 +4,8 @@ import {
   Flex,
   Icon,
   Wrap,
-  WrapItem
+  WrapItem,
+  useDisclosure
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -12,8 +13,9 @@ import { getCompanies } from '../utils/apiCalls';
 import { ResultsLoading } from '../components/ResultsLoading';
 import { CompanyBox } from '../components/CompanyBox';
 import { FaPlusCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { AddCompanyModal } from './AddCompanyModal';
+import { CompanyWorkpointsModal } from './CompanyWorkpointsModal';
 
 export const CompaniesFragment = () => {
   const [cookies] = useCookies();
@@ -21,6 +23,21 @@ export const CompaniesFragment = () => {
   const [companiesLoading, setCompaniesLoading] = useState(false);
   const [companies, setCompanies] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
+
+  const [selectedCompanyId, setSelectedCompanyId] = useState();
+  const [selectedCompanyName, setSelectedCompanyName] = useState();
+
+  const {
+    isOpen: isAddCompanyModalOpen,
+    onOpen: onAddCompanyModalOpen,
+    onClose: onAddCompanyModalClose
+  } = useDisclosure();
+
+  const {
+    isOpen: isCompanyWorkpointsModalOpen,
+    onOpen: onCompanyWorkpointsModalOpen,
+    onClose: onCompanyWorkpointsModalClose
+  } = useDisclosure();
 
   useEffect(() => {
     (async () => {
@@ -40,12 +57,15 @@ export const CompaniesFragment = () => {
   }, [companies, cookies.userToken, needCompaniesCall]);
 
   const handleTabsChange = (index) => {
-    setTabIndex(index)
-  }
+    setTabIndex(index);
+  };
 
   return (
     <>
-      <Tabs index={tabIndex} onChange={handleTabsChange}>
+      <Tabs
+        index={tabIndex}
+        onChange={handleTabsChange}
+      >
         <TabList>
           <Tab>Companii</Tab>
           <Tab>Comenzi</Tab>
@@ -55,16 +75,14 @@ export const CompaniesFragment = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Flex justify={'space-between'}>
-            </Flex>
-            <Link to='/addCompany'>
-              <Button
-                leftIcon={<Icon as={FaPlusCircle} />}
-                colorScheme='blue'
-              >
-                Creeaza companie
-              </Button>
-            </Link>
+            <Flex justify={'space-between'}></Flex>
+            <Button
+              leftIcon={<Icon as={FaPlusCircle} />}
+              colorScheme='blue'
+              onClick={onAddCompanyModalOpen}
+            >
+              Adauga companie
+            </Button>
             <Divider my={4} />
             {companiesLoading && <ResultsLoading />}
             <Wrap spacing={0}>
@@ -79,6 +97,11 @@ export const CompaniesFragment = () => {
                       cui={company?.cui}
                       author={company?.author}
                       dateUpdated={company?.dateUpdated}
+                      onOptionsClick={() => {
+                        setSelectedCompanyId(company?.id);
+                        setSelectedCompanyName(company?.name);
+                        onCompanyWorkpointsModalOpen();
+                      }}
                     />
                   </WrapItem>
                 ))
@@ -95,6 +118,17 @@ export const CompaniesFragment = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+
+      <AddCompanyModal
+        isOpen={isAddCompanyModalOpen}
+        onClose={onAddCompanyModalClose}
+      />
+      <CompanyWorkpointsModal
+        isOpen={isCompanyWorkpointsModalOpen}
+        onClose={onCompanyWorkpointsModalClose}
+        companyId={selectedCompanyId}
+        companyName={selectedCompanyName}
+      />
     </>
   );
 };

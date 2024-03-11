@@ -1,9 +1,24 @@
-import { Card, Heading, Icon, CardBody, Image, Stack, Text, IconButton } from '@chakra-ui/react';
+import {
+  Card,
+  Heading,
+  Icon,
+  CardBody,
+  Image,
+  Stack,
+  Text,
+  IconButton
+} from '@chakra-ui/react';
 import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
-import { DragHandleIcon } from '@chakra-ui/icons'
+import { MdSettings } from 'react-icons/md';
 
-export const CompanyBox = ({ name, cui, author, dateUpdated }) => {
+export const CompanyBox = ({
+  name,
+  cui,
+  author,
+  dateUpdated,
+  onOptionsClick
+}) => {
   return (
     <Card
       borderRadius='30px'
@@ -12,10 +27,18 @@ export const CompanyBox = ({ name, cui, author, dateUpdated }) => {
       <CardBody>
         <IconButton
           colorScheme='gray'
-          icon={<DragHandleIcon />}
+          icon={<MdSettings />}
+          onClick={onOptionsClick}
         />
-        <Stack spacing={6} direction='column' align='center'>
-          <Image boxSize='100px' src={require('../images/company.png')} />
+        <Stack
+          spacing={6}
+          direction='column'
+          align='center'
+        >
+          <Image
+            boxSize='100px'
+            src={require('../images/company.png')}
+          />
           <Heading size='md'>
             <div className='w-full flex flex-col'>
               <Text>{name}</Text>
@@ -38,6 +61,6 @@ export const CompanyBox = ({ name, cui, author, dateUpdated }) => {
           </div>
         </Stack>
       </CardBody>
-    </Card >
+    </Card>
   );
 };

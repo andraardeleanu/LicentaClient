@@ -1,19 +1,19 @@
+import { DeleteIcon, DragHandleIcon } from '@chakra-ui/icons';
 import {
   Card,
+  CardBody,
   Heading,
   Icon,
-  CardBody,
+  IconButton,
   Image,
+  Spacer,
   Stack,
   Text,
-  IconButton
+  Tooltip
 } from '@chakra-ui/react';
-import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
-import { DragHandleIcon, DeleteIcon } from '@chakra-ui/icons';
-import { Spacer, Tooltip } from '@chakra-ui/react';
 
-export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
+export const ProductBox = ({ name }) => {
   return (
     <Card
       borderRadius='30px'
@@ -30,7 +30,7 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
           />
           <Spacer />
           <Tooltip
-            label='Sterge punct de lucru'
+            label='Sterge produs'
             bg='gray.300'
             color='black'
             fontSize={'md'}
@@ -50,7 +50,7 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
         >
           <Image
             boxSize='200px'
-            src={require('../images/workpoint.png')}
+            src={require('../images/product.png')}
           />
           <Heading size='md'>
             <div className='w-full flex flex-col'>
@@ -61,14 +61,12 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
             <span className='flex gap-2 items-center'>
               <Icon as={FaClock} />
               <span>Ultima modificare:</span>
-              <span className='font-bold'>
-                {moment(dateUpdated).fromNow().toString()}
-              </span>
+              <span className='font-bold'>nothing yet</span>
             </span>
             <div>
               <span className='flex gap-2 items-center'>
                 <Icon as={FaStar} /> <span>Creat de:</span>
-                <span className='font-bold'>{author}</span>
+                <span className='font-bold'>Autorrr</span>
               </span>
             </div>
           </div>

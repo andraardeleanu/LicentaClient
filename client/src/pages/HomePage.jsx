@@ -14,7 +14,7 @@ import { NotLoggedInFragment } from '../fragments/NotLoggedInFragment';
 import { WorkPointsFragment } from '../fragments/WorkPointsFragment';
 import { ADMIN_RANK, MANAGER_RANK } from '../utils/constants';
 import { FaHome } from 'react-icons/fa';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { HomepageTabsFragment } from '../fragments/HomepageTabsFragment';
 
 export const HomePage = () => {
   const { data } = useSelector((store) => store.user);
@@ -36,11 +36,11 @@ export const HomePage = () => {
           </Breadcrumb>
 
           <Heading mb={4}>
-            Bun venit{data ? ' ' + data?.firstName : ''}!
+            Bun venit{data ? ', ' + data?.firstName : ''}!
           </Heading>
-          {!data && <NotLoggedInFragment />}
-          {data?.roles[0] === ADMIN_RANK && <CompaniesFragment />}
-          {data?.roles[0] === MANAGER_RANK && <WorkPointsFragment />}
+          {!data ? <NotLoggedInFragment /> : <HomepageTabsFragment />}
+          {/* {data?.roles[0] === ADMIN_RANK && <CompaniesFragment />}
+          {data?.roles[0] === MANAGER_RANK && <WorkPointsFragment />} */}
         </Container>
       </>
     </AppContainer>

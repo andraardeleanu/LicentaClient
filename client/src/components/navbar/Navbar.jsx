@@ -63,18 +63,13 @@ export const Navbar = () => {
       ) : (
         <div className='gap-2 lg:gap-4 w-1/2 lg:w-1/3 flex justify-end items-center'>
           <Button
+            colorScheme='blue'
             size={buttonSize}
             onClick={() => {
               navigate('/login');
             }}
           >
-            Conectare
-          </Button>
-          <Button
-            size={buttonSize}
-            colorScheme='blue'
-          >
-            Inregistrare
+            Conecteaza-te
           </Button>
         </div>
       )}
