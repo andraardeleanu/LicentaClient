@@ -1,77 +1,62 @@
-import { DeleteIcon, DragHandleIcon } from '@chakra-ui/icons';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { getProducts } from '../utils/apiCalls';
 import {
-  Card,
-  CardBody,
-  Heading,
-  Icon,
-  IconButton,
-  Image,
-  Spacer,
-  Stack,
-  Text,
-  Tooltip
-} from '@chakra-ui/react';
-import { FaClock, FaStar } from 'react-icons/fa';
+  Table,
+} from '@chakra-ui/react'
 
-export const ProductBox = ({ name }) => {
+export const ProductBox = () => {
+  const [loading, setLoading] = useState(false);
+  const [productsData, setProductsData] = useState([]);
+  const [setUserError] = useState('');
+  const [cookies] = useCookies();
+
+  useEffect(() => {
+    getProducts(cookies.userToken);
+  }, []);
+
+  const getProducts = async () => {
+    setLoading(true);
+    const response = await getProducts(cookies.userToken);
+    setLoading(false);
+    if (response.errorMessage) {
+      setUserError(response.errorMessage);
+    }
+    setProductsData(response.map(row => ({ Id: row.id, Name: row.name, Price: row.price, DateCrated: row.dateCreated })));
+    setLoading(false);
+  }
+
+  const columns = [
+    {
+      title: 'Id',
+      dataIndex: 'Id',
+      key: 'id',
+    },
+    {
+      title: 'Nume',
+      dataIndex: 'Name',
+      key: 'name',
+    },
+    {
+      title: 'Pret',
+      dataIndex: 'Price',
+      key: 'price',
+    },
+    {
+      title: 'Data creare',
+      dataIndex: 'DateCreated',
+      key: 'dateCreated',
+    },
+  ];
+
   return (
-    <Card
-      borderRadius='30px'
-      className='p-6 w-100 m-4'
-    >
-      <CardBody>
-        <Stack
-          direction='row'
-          spacing={4}
-        >
-          <IconButton
-            colorScheme='gray'
-            icon={<DragHandleIcon />}
-          />
-          <Spacer />
-          <Tooltip
-            label='Sterge produs'
-            bg='gray.300'
-            color='black'
-            fontSize={'md'}
-          >
-            <IconButton
-              rightIcon={<DeleteIcon />}
-              colorScheme='gray'
-              variant='ghost'
-            />
-          </Tooltip>
-        </Stack>
-
-        <Stack
-          spacing={6}
-          direction='column'
-          align='center'
-        >
-          <Image
-            boxSize='200px'
-            src={require('../images/product.png')}
-          />
-          <Heading size='md'>
-            <div className='w-full flex flex-col'>
-              <Text>{name}</Text>
-            </div>
-          </Heading>
-          <div>
-            <span className='flex gap-2 items-center'>
-              <Icon as={FaClock} />
-              <span>Ultima modificare:</span>
-              <span className='font-bold'>nothing yet</span>
-            </span>
-            <div>
-              <span className='flex gap-2 items-center'>
-                <Icon as={FaStar} /> <span>Creat de:</span>
-                <span className='font-bold'>Autorrr</span>
-              </span>
-            </div>
-          </div>
-        </Stack>
-      </CardBody>
-    </Card>
+    <>
+      <Table
+        columns={columns}
+        pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '20'] }}
+        dataSource={productsData}
+        loading={loading}
+      />
+    </>
   );
 };

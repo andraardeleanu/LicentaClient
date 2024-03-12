@@ -75,7 +75,8 @@ export const CompaniesFragment = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Flex justify={'space-between'}></Flex>
+            <Flex justify={'space-between'}></Flex>   
+            <Divider my={4} />        
             <Button
               leftIcon={<Icon as={FaPlusCircle} />}
               colorScheme='blue'
