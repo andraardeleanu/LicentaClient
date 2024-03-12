@@ -7,18 +7,18 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
-import { ResultsLoading } from '../components/ResultsLoading';
+import { ResultsLoading } from '../../components/ResultsLoading';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
-import { CompanyBox } from '../components/CompanyBox';
-import { getCompanies } from '../utils/apiCalls';
-import { AddCompanyModal } from './AddCompanyModal';
-import { CompanyWorkpointsModal } from './CompanyWorkpointsModal';
+import { CompanyBox } from '../../components/CompanyBox';
+import { getProducts } from '../../utils/apiCalls';
+import { AddCompanyModal } from '../CompanyFragments/AddCompanyModal';
+import { CompanyWorkpointsModal } from '../CompanyFragments/CompanyWorkpointsModal';
 
-export const CompaniesTabContent = () => {
+export const ProductsTabContent = () => {
   const [cookies] = useCookies();
-  const [needCompaniesCall, setNeedCompaniesCall] = useState(true);
-  const [companiesLoading, setCompaniesLoading] = useState(false);
+  const [needProductsCall, setNeedProductsCall] = useState(true);
+  const [productsLoading, setProductsLoading] = useState(false);
   const {
     isOpen: isAddCompanyModalOpen,
     onOpen: onAddCompanyModalOpen,
@@ -38,19 +38,20 @@ export const CompaniesTabContent = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (needCompaniesCall) {
-          setCompaniesLoading(true);
-          await getCompanies(cookies.userToken).then((res) => {
-            setCompaniesLoading(false);
+        if (needProductsCall) {
+          setProductsLoading(true);
+          await getProducts(cookies.userToken).then((res) => {
+            console.log('res: ', res);
+            setProductsLoading(false);
             setCompanies(res);
           });
-          setNeedCompaniesCall(false);
+          setNeedProductsCall(false);
         }
       } catch (err) {
         return err;
       }
     })();
-  }, [companies, cookies.userToken, needCompaniesCall]);
+  }, [cookies.userToken, needProductsCall]);
 
   return (
     <>
@@ -59,10 +60,10 @@ export const CompaniesTabContent = () => {
         colorScheme='blue'
         onClick={onAddCompanyModalOpen}
       >
-        Adauga companie
+        Adauga produs
       </Button>
       <Divider my={4} />
-      {companiesLoading && <ResultsLoading />}
+      {productsLoading && <ResultsLoading />}
       <Wrap spacing={0}>
         {companies.length > 0 ? (
           companies.map((company, index) => (
@@ -84,7 +85,7 @@ export const CompaniesTabContent = () => {
             </WrapItem>
           ))
         ) : (
-          <>Nu s-au gasit companii.</>
+          <>Nu s-au gasit produse.</>
         )}
       </Wrap>
 

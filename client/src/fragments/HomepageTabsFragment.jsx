@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useState } from 'react';
-import { CompaniesTabContent } from './CompaniesTabContent';
-import { ProductsTabContent } from './ProductsTabContent';
+import { CompaniesTabContent } from '././CompanyFragments/CompaniesTabContent';
+import { ProductsTabContent } from '././ProductFragments/ProductsTabContent';
 
 export const HomepageTabsFragment = () => {
   const [tabIndex, setTabIndex] = useState(0);

@@ -9,7 +9,7 @@ import { AppContainer } from '../components/AppContainer';
 import { Container } from '../components/Container';
 import { Navbar } from '../components/navbar/Navbar';
 import { MANAGER_RANK } from '../utils/constants';
-import { AddWorkPointFragment } from '../fragments/AddWorkPointFragment';
+import { AddWorkPointFragment } from '../fragments/WorkpointFragments/AddWorkPointFragment';
 import { FaHome } from 'react-icons/fa';
 
 export const AddWorkPointPage = () => {

@@ -2,7 +2,7 @@ import { Heading } from '@chakra-ui/react';
 import { AppContainer } from '../components/AppContainer';
 import { Container } from '../components/Container';
 import { Navbar } from '../components/navbar/Navbar';
-import { LoginFragment } from '../fragments/LoginFragment';
+import { LoginFragment } from '../fragments/LoginFragments/LoginFragment';
 
 export const LoginPage = () => {
   return (

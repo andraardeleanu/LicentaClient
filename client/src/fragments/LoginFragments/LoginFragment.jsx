@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useCookies } from 'react-cookie';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

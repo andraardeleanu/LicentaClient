@@ -7,18 +7,18 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
-import { ResultsLoading } from '../components/ResultsLoading';
+import { ResultsLoading } from '../../components/ResultsLoading';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
-import { CompanyBox } from '../components/CompanyBox';
-import { getProducts } from '../utils/apiCalls';
+import { CompanyBox } from '../../components/CompanyBox';
+import { getCompanies } from '../../utils/apiCalls';
 import { AddCompanyModal } from './AddCompanyModal';
 import { CompanyWorkpointsModal } from './CompanyWorkpointsModal';
 
-export const ProductsTabContent = () => {
+export const CompaniesTabContent = () => {
   const [cookies] = useCookies();
-  const [needProductsCall, setNeedProductsCall] = useState(true);
-  const [productsLoading, setProductsLoading] = useState(false);
+  const [needCompaniesCall, setNeedCompaniesCall] = useState(true);
+  const [companiesLoading, setCompaniesLoading] = useState(false);
   const {
     isOpen: isAddCompanyModalOpen,
     onOpen: onAddCompanyModalOpen,
@@ -38,20 +38,19 @@ export const ProductsTabContent = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (needProductsCall) {
-          setProductsLoading(true);
-          await getProducts(cookies.userToken).then((res) => {
-            console.log('res: ', res);
-            setProductsLoading(false);
+        if (needCompaniesCall) {
+          setCompaniesLoading(true);
+          await getCompanies(cookies.userToken).then((res) => {
+            setCompaniesLoading(false);
             setCompanies(res);
           });
-          setNeedProductsCall(false);
+          setNeedCompaniesCall(false);
         }
       } catch (err) {
         return err;
       }
     })();
-  }, [cookies.userToken, needProductsCall]);
+  }, [companies, cookies.userToken, needCompaniesCall]);
 
   return (
     <>
@@ -60,10 +59,10 @@ export const ProductsTabContent = () => {
         colorScheme='blue'
         onClick={onAddCompanyModalOpen}
       >
-        Adauga produs
+        Adauga companie
       </Button>
       <Divider my={4} />
-      {productsLoading && <ResultsLoading />}
+      {companiesLoading && <ResultsLoading />}
       <Wrap spacing={0}>
         {companies.length > 0 ? (
           companies.map((company, index) => (
@@ -85,7 +84,7 @@ export const ProductsTabContent = () => {
             </WrapItem>
           ))
         ) : (
-          <>Nu s-au gasit produse.</>
+          <>Nu s-au gasit companii.</>
         )}
       </Wrap>
 

@@ -9,9 +9,9 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { getCompanies } from '../utils/apiCalls';
-import { ResultsLoading } from '../components/ResultsLoading';
-import { CompanyBox } from '../components/CompanyBox';
+import { getCompanies } from '../../utils/apiCalls';
+import { ResultsLoading } from '../../components/ResultsLoading';
+import { CompanyBox } from '../../components/CompanyBox';
 import { FaPlusCircle } from 'react-icons/fa';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { AddCompanyModal } from './AddCompanyModal';

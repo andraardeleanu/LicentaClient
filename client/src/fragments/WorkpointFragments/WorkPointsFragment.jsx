@@ -8,13 +8,13 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { getWorkPoints } from '../utils/apiCalls';
-import { ResultsLoading } from '../components/ResultsLoading';
-import { WorkPointBox } from '../components/WorkPointBox';
+import { getWorkPoints } from '../../utils/apiCalls';
+import { ResultsLoading } from '../../components/ResultsLoading';
+import { WorkPointBox } from '../../components/WorkPointBox';
 import { FaPlusCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import { ProductsPage } from '../pages/ProductsPage';
+import { ProductsPage } from '../../pages/ProductsPage';
 
 export const WorkPointsFragment = () => {
   const [cookies] = useCookies();
