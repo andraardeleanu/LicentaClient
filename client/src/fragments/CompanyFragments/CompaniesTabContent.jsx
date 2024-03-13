@@ -54,6 +54,7 @@ export const CompaniesTabContent = () => {
 
   return (
     <>
+      <Divider my={4} />
       <Button
         leftIcon={<Icon as={FaPlusCircle} />}
         colorScheme='blue'

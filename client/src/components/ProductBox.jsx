@@ -12,10 +12,10 @@ export const ProductBox = () => {
   const [cookies] = useCookies();
 
   useEffect(() => {
-    getProducts(cookies.userToken);
+    getProductsAsync(cookies.userToken);
   }, []);
 
-  const getProducts = async () => {
+  const getProductsAsync = async () => {
     setLoading(true);
     const response = await getProducts(cookies.userToken);
     setLoading(false);

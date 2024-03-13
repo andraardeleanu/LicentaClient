@@ -11,9 +11,8 @@ import {
   import { useState } from 'react';
   import { useCookies } from 'react-cookie';
   import { useNavigate } from 'react-router-dom';
-  import { addOrder } from '../../utils/apiCalls';
   
-  export const ManualOrderFragment = ({ onClose }) => {
+  export const AddOrderModal = ({ onClose }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [userError, setUserError] = useState('');
@@ -22,7 +21,6 @@ import {
   
     return (
       <>
-      //De creatfragmentu de modal pentru creare comanda manuala
       </>
     );
   };

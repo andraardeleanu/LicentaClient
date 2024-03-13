@@ -46,7 +46,10 @@ export const AddCompanyFragment = ({ onClose }) => {
     >
       {({ handleSubmit, handleChange, values }) => (
         <Form
-          onSubmit={handleSubmit}
+          onSubmit={
+            handleSubmit
+            
+          }
           onChange={() => {
             setUserError('');
           }}
@@ -77,7 +80,10 @@ export const AddCompanyFragment = ({ onClose }) => {
             )}
             <Button
               colorScheme='blue'
-              onClick={handleSubmit}
+              onClick={() => {
+                handleSubmit()
+                onClose()
+              }}
               isLoading={loading}
             >
               Adauga

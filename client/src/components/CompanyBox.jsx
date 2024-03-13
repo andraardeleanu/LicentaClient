@@ -23,6 +23,7 @@ export const CompanyBox = ({
     <Card
       borderRadius='30px'
       className='p-6 w-100 m-4'
+      size={'xs'}
     >
       <CardBody>
         <IconButton
@@ -31,7 +32,7 @@ export const CompanyBox = ({
           onClick={onOptionsClick}
         />
         <Stack
-          spacing={6}
+          spacing={3}
           direction='column'
           align='center'
         >

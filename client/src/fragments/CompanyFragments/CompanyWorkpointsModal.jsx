@@ -53,13 +53,13 @@ export const CompanyWorkpointsModal = ({
         isOpen={isOpen}
         onClose={onClose}
         isCentered
-        size={'xl'}
+        size={'3xl'}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Puncte de lucru - {companyName}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={12}>
             {workpointsLoading ? (
               <ResultsLoading />
             ) : workpoints.length > 0 ? (

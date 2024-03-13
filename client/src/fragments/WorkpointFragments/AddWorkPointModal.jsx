@@ -6,9 +6,9 @@ import {
     ModalHeader,
     ModalOverlay
   } from '@chakra-ui/react';
-  import { ManualOrderFragment } from './ManualOrderFragment';
+  import { AddWorkPointFragment } from './AddWorkPointFragment';
   
-  export const ManualOrderModal = ({ isOpen, onClose }) => {
+  export const AddWorkPointModal = ({ isOpen, onClose }) => {
     return (
       <>
         <Modal
@@ -20,10 +20,10 @@ import {
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Creeaza comanda</ModalHeader>
+            <ModalHeader>Adauga punct de lucru</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <ManualOrderFragment onClose={onClose} />
+              <AddWorkPointFragment onClose={onClose} />
             </ModalBody>
           </ModalContent>
         </Modal>

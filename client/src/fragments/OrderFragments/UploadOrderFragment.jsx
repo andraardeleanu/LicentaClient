@@ -18,45 +18,44 @@ import { MdSettings } from 'react-icons/md';
 export const UploadOrderFragment = () => {
     return (
         <>
-        <Divider my={4} />
-        <Flex justify={'space-between'}></Flex>
+            <Divider my={4} />
+            <Flex justify={'space-between'}></Flex>
             <Button
-              leftIcon={<Icon as={FaPlusCircle} />}
-              colorScheme='blue'
-              //onClick={onAddCompanyModalOpen}
+                leftIcon={<Icon as={FaPlusCircle} />}
+                colorScheme='blue'
+            //onClick={onAddOrderModalOpen}
             >
-              Creaza comanda manual
+                Creaza comanda manual
             </Button>
             <Divider my={4} />
             <Card
-            borderRadius='30px'    
-            direction={{ base: 'column', sm: 'row'}}
-            overflow='hidden'
-            variant='outline'                      
-        >
-            <Image
-                objectFit='cover'
-                maxW={{ base: '100%', sm: '200px' }}
-                src={require('../../images/upload-file.png')}
-            />
+                borderRadius='30px'
+                direction={{ base: 'column', sm: 'row' }}
+                overflow='hidden'
+            >
+                <Image
+                    objectFit='cover'
+                    maxW={{ base: '100%', sm: '200px' }}
+                    src={require('../../images/upload-file2.png')}
+                />
 
-            <Stack>
-                <CardBody>
-                    <Heading size='md'>Incarca fisier</Heading>
+                <Stack>
+                    <CardBody >
+                        <Heading size='md'>Incarca fisier</Heading>
 
-                    <Text py='2' color={'grey'} >
-                        
-                        Adauga fisierul din computerul tau ce contine noua comanda.
-                    </Text>
-                </CardBody>
+                        <Text py='2' color={'grey'} >
 
-                <CardFooter>
-                    <Button variant='solid' colorScheme='blue'>
-                        Incarca
-                    </Button>
-                </CardFooter>
-            </Stack>
-        </Card>
-        </>        
+                            Adauga fisierul din computerul tau ce contine noua comanda.
+                        </Text>
+                    </CardBody>
+
+                    <CardFooter>
+                        <Button variant='solid' colorScheme='blue'>
+                            Incarca
+                        </Button>
+                    </CardFooter>
+                </Stack>
+            </Card>
+        </>
     );
 };

@@ -18,6 +18,7 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
     <Card
       borderRadius='30px'
       className='p-6 w-100 m-4'
+      size={'xs'}
     >
       <CardBody>
         <Stack

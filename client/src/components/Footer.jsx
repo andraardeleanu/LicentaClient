@@ -3,7 +3,7 @@ import { AppLogo } from './AppLogo';
 
 export const Footer = () => {
   return (
-    <Card className='w-full h-36 p-6'>
+    <Card className='w-full h-18 p-6'>
       <div>
         <AppLogo />
       </div>

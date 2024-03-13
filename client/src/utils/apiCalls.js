@@ -24,9 +24,21 @@ export const addWorkPoint = async (data, token) => {
 };
 
 export const getProducts = async (token) => {
-  return await axiosAuthorizedPost('/getProducts', token);
+  return await axiosAuthorizedGet('/getProducts', token);
 };
 
 export const addProduct = async (data, token) => {
   return await axiosAuthorizedPost('/addProduct', data, token);
+};
+
+export const getUsers = async (token) => {
+  return await axiosAuthorizedPost('/getUsers', token);
+};
+
+export const addUser = async (data, token) => {
+  return await axiosAuthorizedPost('/addUser', data, token);
+};
+
+export const getOrders = async (token) => {
+  return await axiosAuthorizedGet('/getOrders', token);
 };
