@@ -2,7 +2,6 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useState } from 'react';
 import { CompaniesTabContent } from '././CompanyFragments/CompaniesTabContent';
 import { ProductsTabContent } from '././ProductFragments/ProductsTabContent';
-import { UploadOrderFragment } from '././OrderFragments/UploadOrderFragment';
 import { ADMIN_RANK, MANAGER_RANK } from '../utils/constants';
 import { useSelector } from 'react-redux';
 import { WorkPointsTabContent } from './WorkpointFragments/WorkPointsTabContent';
@@ -12,12 +11,11 @@ import { OrdersTabContent } from './OrderFragments/OrdersTabContent';
 import { OrdersView } from './OrderFragments/OrdersView';
 
 export const HomepageTabsFragment = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(1);
   const handleTabsChange = (index) => {
     setTabIndex(index);
   };
   const { data } = useSelector((store) => store.user);
-
   return (
     <Tabs
       index={tabIndex}
@@ -41,7 +39,7 @@ export const HomepageTabsFragment = () => {
         </TabPanel>
         <TabPanel>
           {data?.roles[0] === ADMIN_RANK && <OrdersView />}
-          {data?.roles[0] === MANAGER_RANK && (<OrdersTabContent />)}
+          {data?.roles[0] === MANAGER_RANK && <OrdersTabContent />}
         </TabPanel>
         <TabPanel>
           {data?.roles[0] === ADMIN_RANK && <ProductsTabContent />}
@@ -49,7 +47,9 @@ export const HomepageTabsFragment = () => {
         </TabPanel>
         <TabPanel></TabPanel>
         <TabPanel></TabPanel>
-        <TabPanel>{data?.roles[0] === ADMIN_RANK && <UsersTabContent />}</TabPanel>
+        <TabPanel>
+          {data?.roles[0] === ADMIN_RANK && <UsersTabContent />}
+        </TabPanel>
       </TabPanels>
     </Tabs>
   );

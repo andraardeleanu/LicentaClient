@@ -1,27 +1,38 @@
 import {
-    Alert,
-    AlertIcon,
-    AlertTitle,
-    Button,
-    Input,
-    Stack,
-    useToast
-  } from '@chakra-ui/react';
-  import { Form, Formik } from 'formik';
-  import { useState } from 'react';
-  import { useCookies } from 'react-cookie';
-  import { useNavigate } from 'react-router-dom';
-  
-  export const AddOrderModal = ({ onClose }) => {
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-    const [userError, setUserError] = useState('');
-    const [cookies] = useCookies();
-    const toast = useToast();
-  
-    return (
-      <>
-      </>
-    );
-  };
-  
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay
+} from '@chakra-ui/react';
+import { CreateOrderFragment } from './CreateOrderFragment';
+import { useSelector } from 'react-redux';
+
+export const AddOrderModal = ({ isOpen, onClose }) => {
+  const { data } = useSelector((store) => store.user);
+
+  return (
+    <>
+      <Modal
+        closeOnOverlayClick={false}
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        size={'xl'}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Creaza comanda manual</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <CreateOrderFragment
+              onClose={onClose}
+              companyId={data?.companyId}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};

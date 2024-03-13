@@ -38,7 +38,7 @@ export const ProductsTabContent = () => {
         onClose={onAddProductModalClose}
       />
 
-      <ProductsView></ProductsView>
+      <ProductsView />
     </>
   );
 };

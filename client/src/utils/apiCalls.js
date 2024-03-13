@@ -31,6 +31,10 @@ export const addProduct = async (data, token) => {
   return await axiosAuthorizedPost('/addProduct', data, token);
 };
 
+export const createOrder = async (data, token) => {
+  return await axiosAuthorizedPost('/addOrder', data, token);
+};
+
 export const getUsers = async (token) => {
   return await axiosAuthorizedPost('/getUsers', token);
 };
@@ -44,8 +48,5 @@ export const getOrders = async (token) => {
 };
 
 export const getOrderDetails = async (token, orderId) => {
-  return await axiosAuthorizedGet(
-    `/getOrderDetails/${orderId}`,
-    token
-  );
+  return await axiosAuthorizedGet(`/getOrderDetails/${orderId}`, token);
 };

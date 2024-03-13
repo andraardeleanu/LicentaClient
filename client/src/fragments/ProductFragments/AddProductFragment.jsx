@@ -46,9 +46,7 @@ export const AddProductFragment = ({ onClose }) => {
     >
       {({ handleSubmit, handleChange, values }) => (
         <Form
-        onSubmit={
-          handleSubmit          
-        }
+          onSubmit={handleSubmit}
           onChange={() => {
             setUserError('');
           }}
@@ -80,8 +78,8 @@ export const AddProductFragment = ({ onClose }) => {
             <Button
               colorScheme='blue'
               onClick={() => {
-                handleSubmit()
-                onClose()
+                handleSubmit();
+                onClose();
               }}
               isLoading={loading}
             >

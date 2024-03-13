@@ -10,7 +10,6 @@ import { Navbar } from '../components/navbar/Navbar';
 import { useSelector } from 'react-redux';
 import { Container } from '../components/Container';
 import { NotLoggedInFragment } from '../fragments/LoginFragments/NotLoggedInFragment';
-import { ADMIN_RANK, MANAGER_RANK } from '../utils/constants';
 import { FaHome } from 'react-icons/fa';
 import { HomepageTabsFragment } from '../fragments/HomepageTabsFragment';
 

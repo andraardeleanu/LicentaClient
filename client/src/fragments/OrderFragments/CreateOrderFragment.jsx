@@ -1,0 +1,229 @@
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Button,
+  Heading,
+  Input,
+  Select,
+  Stack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  useToast
+} from '@chakra-ui/react';
+import { Form, Formik } from 'formik';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import {
+  createOrder,
+  getProducts,
+  getWorkPointsByCompanyId
+} from '../../utils/apiCalls';
+import { findProductIndexById } from '../../utils/other';
+import { useSelector } from 'react-redux';
+
+export const CreateOrderFragment = ({ onClose, companyId }) => {
+  const { data } = useSelector((store) => store.user);
+
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [userError, setUserError] = useState('');
+  const [cookies] = useCookies();
+  const toast = useToast();
+  const [needWorkpointsCall, setNeedWorkpointsCall] = useState(false);
+  const [needProductsCall, setNeedProductsCall] = useState(false);
+  const [workpointsLoading, setWorkpointsLoading] = useState(false);
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [workpoints, setWorkpoints] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
+  const updateSelectedProducts = (id, qty) => {
+    let bufferList = selectedProducts;
+    const index = findProductIndexById(bufferList, id);
+    if (index !== -1) {
+      bufferList.splice(index, 1);
+      setSelectedProducts(bufferList);
+    }
+
+    if (qty && qty !== 0) {
+      bufferList.push({
+        productId: id,
+        quantity: qty
+      });
+    }
+    setSelectedProducts(bufferList);
+  };
+
+  useEffect(() => {
+    setNeedWorkpointsCall(true);
+  }, [companyId]);
+
+  useEffect(() => {
+    setNeedProductsCall(true);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (needWorkpointsCall) {
+          setWorkpointsLoading(true);
+          await getWorkPointsByCompanyId(cookies.userToken, companyId).then(
+            (res) => {
+              setWorkpointsLoading(false);
+              setWorkpoints(res);
+            }
+          );
+          setNeedWorkpointsCall(false);
+        }
+      } catch (err) {
+        return err;
+      }
+    })();
+  }, [workpoints, cookies.userToken, needWorkpointsCall, companyId]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (needProductsCall) {
+          setProductsLoading(true);
+          await getProducts(cookies.userToken).then((res) => {
+            setProductsLoading(false);
+            setProducts(res);
+          });
+          setNeedProductsCall(false);
+        }
+      } catch (err) {
+        return err;
+      }
+    })();
+  });
+
+  return (
+    <Formik
+      initialValues={{
+        workpointId: 0
+      }}
+      onSubmit={async (values) => {
+        setLoading(true);
+        const response = await createOrder(
+          {
+            author: data?.username,
+            createdBy: 0,
+            workpointId: values.workpointId,
+            fileType: 1,
+            products: selectedProducts
+          },
+          cookies.userToken
+        );
+        setLoading(false);
+        if (response.errorMessage) {
+          setUserError(response.errorMessage);
+        } else {
+          toast({
+            title: 'Comanda a fost creata cu succes!',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top'
+          });
+          navigate('/');
+        }
+      }}
+    >
+      {({ handleSubmit, handleChange, values }) => (
+        <Form
+          onSubmit={handleSubmit}
+          onChange={() => {
+            setUserError('');
+          }}
+        >
+          <Stack
+            spacing={4}
+            className='mt-6'
+          >
+            <Select
+              id='workpointId'
+              name='workpointId'
+              placeholder='Selecteaza punct de lucru...'
+              onChange={handleChange}
+              isDisabled={workpointsLoading}
+            >
+              {workpoints.map((wp) => (
+                <option value={wp?.id}>{wp?.name}</option>
+              ))}
+            </Select>
+            {!productsLoading && (
+              <TableContainer>
+                <Heading
+                  size={'sm'}
+                  mb={2}
+                >
+                  Produse
+                </Heading>
+                <Table size='sm'>
+                  <Thead>
+                    <Tr>
+                      <Th>Nume</Th>
+                      <Th>Pret</Th>
+                      <Th>Cantitate</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {products.map((prod) => (
+                      <Tr>
+                        <Td>{prod?.name}</Td>
+                        <Td>{prod?.price}</Td>
+                        <Td>
+                          <Input
+                            className='max-w-[100px]'
+                            id='quantity'
+                            name='quantity'
+                            placeholder='0'
+                            type='number'
+                            defaultValue={0}
+                            onChange={(e) => {
+                              updateSelectedProducts(prod?.id, e.target.value);
+                            }}
+                          />
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            )}
+            {userError && (
+              <Alert status='error'>
+                <AlertIcon />
+                <AlertTitle>{userError}</AlertTitle>
+              </Alert>
+            )}
+            <Button
+              colorScheme='blue'
+              onClick={() => {
+                handleSubmit();
+                onClose();
+              }}
+              isLoading={loading}
+            >
+              Creeaza
+            </Button>
+            <Button
+              onClick={onClose}
+              disabled={loading}
+            >
+              Renunta
+            </Button>
+          </Stack>
+        </Form>
+      )}
+    </Formik>
+  );
+};

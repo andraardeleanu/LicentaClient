@@ -32,7 +32,6 @@ export const UsersTabContent = () => {
         if (needUsersCall) {
           setUsersLoading(true);
           await getUsers(cookies.userToken).then((res) => {
-            console.log('res: ', res);
             setUsersLoading(false);
             setUsers(res);
           });
