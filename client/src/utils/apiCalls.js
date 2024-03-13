@@ -42,3 +42,10 @@ export const addUser = async (data, token) => {
 export const getOrders = async (token) => {
   return await axiosAuthorizedGet('/getOrders', token);
 };
+
+export const getOrderDetails = async (token, orderId) => {
+  return await axiosAuthorizedGet(
+    `/getOrderDetails/${orderId}`,
+    token
+  );
+};

@@ -6,28 +6,19 @@ import {
     Heading,
     useDisclosure
 } from '@chakra-ui/react';
-import { FaPlusCircle } from 'react-icons/fa';
-import { ResultsLoading } from '../../components/ResultsLoading';
-import { useCookies } from 'react-cookie';
-import { useEffect, useState } from 'react';
-import { AddOrderModal } from './AddOrderModal';
 import { OrdersView } from './OrdersView';
 import { UploadOrderFragment } from './UploadOrderFragment';
 
 export const OrdersTabContent = () => {
-    const {
-        isOpen: isAddOrderModalOpen,
-        onOpen: onAddOrderModalOpen,
-        onClose: onAddOrderModalClose
-    } = useDisclosure();
-
+    
     return (
         <>
             <UploadOrderFragment></UploadOrderFragment>
+            <Divider my={4} />
             <Heading>
                 Comenzile mele
             </Heading>
-            <OrdersView></OrdersView>
+            <OrdersView></OrdersView>           
         </>
     );
 };

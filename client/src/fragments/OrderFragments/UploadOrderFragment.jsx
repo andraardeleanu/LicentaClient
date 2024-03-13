@@ -11,9 +11,7 @@ import {
     Icon,
     Divider
 } from '@chakra-ui/react';
-import moment from 'moment';
-import { FaClock, FaStar, FaPlusCircle } from 'react-icons/fa';
-import { MdSettings } from 'react-icons/md';
+import { FaPlusCircle } from 'react-icons/fa';
 
 export const UploadOrderFragment = () => {
     return (
@@ -22,8 +20,7 @@ export const UploadOrderFragment = () => {
             <Flex justify={'space-between'}></Flex>
             <Button
                 leftIcon={<Icon as={FaPlusCircle} />}
-                colorScheme='blue'
-            //onClick={onAddOrderModalOpen}
+                colorScheme='blue'           
             >
                 Creaza comanda manual
             </Button>

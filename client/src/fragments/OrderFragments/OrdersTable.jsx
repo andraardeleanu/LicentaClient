@@ -9,12 +9,26 @@ import {
     Th,
     Thead,
     Tr,
+    useDisclosure,
 } from '@chakra-ui/react';
 import moment from 'moment';
+import { OrderDetailsModal } from './OrderDetailsModal';
+import { useState } from 'react';
 
 export const OrdersTable = ({ orders, onClose }) => {
+
+    const {
+        isOpen: isOrderDetailsModalOpen,
+        onOpen: onOrderDetailsModalOpen,
+        onClose: onOrderDetailsModalClose
+    } = useDisclosure();
+
+    const [selectedOrderId, setSelectedOrderId] = useState();
+    const [selectedOrderNo, setSelectedOrderNo] = useState();
+
+
     return (
-        <>  
+        <>
             <Divider my={6} />
             <TableContainer>
                 <Table variant='striped' colorScheme='blackAlpha'>
@@ -29,15 +43,20 @@ export const OrdersTable = ({ orders, onClose }) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {orders.map((wp) => (
+                        {orders?.map((order) => (
                             <Tr>
-                                <Td>{wp.orderNo}</Td>
-                                <Td>{wp.author}</Td>
-                                <Td>{moment(wp.dateCreated).format('DD.MM.yyyy HH:mm:ss')}</Td>
-                                <Td>{wp.status}</Td>
-                                <Td>{wp.workpointId}</Td>
+                                <Td>{order.orderNo}</Td>
+                                <Td>{order.author}</Td>
+                                <Td>{moment(order.dateCreated).format('DD.MM.yyyy HH:mm:ss')}</Td>
+                                <Td>{order.status}</Td>
+                                <Td>{order.workpointId}</Td>
                                 <Td>
-                                    <Button colorScheme='teal' variant='ghost' size='sm'>
+                                    <Button colorScheme='teal' variant='ghost' size='sm'
+                                        onOptionsClick={() => {
+                                            setSelectedOrderId(order?.id);
+                                            setSelectedOrderNo(order?.orderNo);
+                                            onOrderDetailsModalOpen();
+                                        }}>
                                         Detalii
                                     </Button>
                                 </Td>
@@ -46,6 +65,13 @@ export const OrdersTable = ({ orders, onClose }) => {
                     </Tbody>
                 </Table>
             </TableContainer>
+
+            <OrderDetailsModal
+                isOpen={isOrderDetailsModalOpen}
+                onClose={onOrderDetailsModalClose}
+                orderId={selectedOrderId}
+                orderNo={selectedOrderNo}
+            />
         </>
 
     );
