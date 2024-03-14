@@ -21,8 +21,7 @@ export const CompaniesTabContent = () => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
   const needCompaniesCall = useSelector (state => state.user.needCompaniesCall);
-  debugger
- const [companiesLoading, setCompaniesLoading] = useState(false);
+  const [companiesLoading, setCompaniesLoading] = useState(false);
   const {
     isOpen: isAddCompanyModalOpen,
     onOpen: onAddCompanyModalOpen,

@@ -13,15 +13,17 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { addWorkPoint } from '../../utils/apiCalls';
 import { useState } from 'react';
-import {  useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setNeedWorkPointsCall } from '../../slices/userSlice';
 
-export const AddWorkPointFragment = () => {
+export const AddWorkPointFragment = ({ onClose }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [userError, setUserError] = useState('');
     const [cookies] = useCookies();
     const toast = useToast();
     const { data } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     return (
         <Card className='p-4'>
@@ -45,7 +47,9 @@ export const AddWorkPointFragment = () => {
                             isClosable: true,
                             position: 'top'
                         });
+                        dispatch(setNeedWorkPointsCall(true));   
                         navigate('/');
+                        onClose()
                     }
                 }}
             >
@@ -88,9 +92,7 @@ export const AddWorkPointFragment = () => {
                                 Adauga
                             </Button>
                             <Button
-                                onClick={() => {
-                                    navigate(-1);
-                                }}
+                                onClick={onClose}
                                 disabled={loading}
                             >
                                 Renunta

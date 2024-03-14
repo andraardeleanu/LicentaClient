@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { addProduct } from '../../utils/apiCalls';
+import { useDispatch } from 'react-redux';
+import { setNeedProductsCall } from '../../slices/userSlice';
 
 export const AddProductFragment = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +21,7 @@ export const AddProductFragment = ({ onClose }) => {
   const [userError, setUserError] = useState('');
   const [cookies] = useCookies();
   const toast = useToast();
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -40,7 +43,9 @@ export const AddProductFragment = ({ onClose }) => {
             isClosable: true,
             position: 'top'
           });
+          dispatch(setNeedProductsCall(true));
           navigate('/');
+          onClose()
         }
       }}
     >
