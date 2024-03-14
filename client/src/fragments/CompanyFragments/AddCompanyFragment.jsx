@@ -8,10 +8,12 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { addCompany } from '../../utils/apiCalls';
+import { useDispatch } from 'react-redux';
+import { setNeedCompaniesCall } from '../../slices/userSlice';
 
 export const AddCompanyFragment = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +21,7 @@ export const AddCompanyFragment = ({ onClose }) => {
   const [userError, setUserError] = useState('');
   const [cookies] = useCookies();
   const toast = useToast();
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -40,7 +43,9 @@ export const AddCompanyFragment = ({ onClose }) => {
             isClosable: true,
             position: 'top'
           });
+          dispatch(setNeedCompaniesCall(true));          
           navigate('/');
+          onClose()
         }
       }}
     >
@@ -48,7 +53,6 @@ export const AddCompanyFragment = ({ onClose }) => {
         <Form
           onSubmit={
             handleSubmit
-            
           }
           onChange={() => {
             setUserError('');
@@ -82,7 +86,6 @@ export const AddCompanyFragment = ({ onClose }) => {
               colorScheme='blue'
               onClick={() => {
                 handleSubmit()
-                onClose()
               }}
               isLoading={loading}
             >

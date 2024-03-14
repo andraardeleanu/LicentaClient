@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   data: null,
-  companyData: null
+  companyData: null,
+  needCompaniesCall: true
 };
 
 export const userSlice = createSlice({
@@ -20,6 +21,9 @@ export const userSlice = createSlice({
     },
     resetUserCompanyData: (state) => {
       state.companyData = null;
+    },
+    setNeedCompaniesCall: (state, { payload }) => {
+      state.needCompaniesCall = payload;
     }
   }
 });
@@ -28,7 +32,8 @@ export const {
   setUserData,
   resetUserData,
   setUserCompanyData,
-  resetUserCompanyData
+  resetUserCompanyData,
+  setNeedCompaniesCall
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -69,7 +69,7 @@ export const Navbar = () => {
               navigate('/login');
             }}
           >
-            Conecteaza-te
+            Intra in cont
           </Button>
         </div>
       )}

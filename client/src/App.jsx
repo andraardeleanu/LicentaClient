@@ -5,7 +5,6 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { UserProfilePage } from './pages/UserProfilePage';
 import { AddWorkPointPage } from './pages/AddWorkPointPage';
-import { ProductsPage } from './pages/ProductsPage';
 
 function App() {
   return (
@@ -26,10 +25,6 @@ function App() {
         <Route
           path='/addWorkPoint'
           element={<AddWorkPointPage />}
-        />
-        <Route
-          path='/getProducts'
-          element={<ProductsPage />}
         />
       </Routes>
     </BrowserRouter>

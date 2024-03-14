@@ -14,11 +14,15 @@ import { CompanyBox } from '../../components/CompanyBox';
 import { getCompanies } from '../../utils/apiCalls';
 import { AddCompanyModal } from './AddCompanyModal';
 import { CompanyWorkpointsModal } from './CompanyWorkpointsModal';
+import { setNeedCompaniesCall } from '../../slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const CompaniesTabContent = () => {
   const [cookies] = useCookies();
-  const [needCompaniesCall, setNeedCompaniesCall] = useState(true);
-  const [companiesLoading, setCompaniesLoading] = useState(false);
+  const dispatch = useDispatch();
+  const needCompaniesCall = useSelector (state => state.user.needCompaniesCall);
+  debugger
+ const [companiesLoading, setCompaniesLoading] = useState(false);
   const {
     isOpen: isAddCompanyModalOpen,
     onOpen: onAddCompanyModalOpen,
@@ -38,13 +42,14 @@ export const CompaniesTabContent = () => {
   useEffect(() => {
     (async () => {
       try {
+        debugger
         if (needCompaniesCall) {
           setCompaniesLoading(true);
           await getCompanies(cookies.userToken).then((res) => {
             setCompaniesLoading(false);
-            setCompanies(res);
+            setCompanies(res);            
           });
-          setNeedCompaniesCall(false);
+          dispatch(setNeedCompaniesCall(false));
         }
       } catch (err) {
         return err;

@@ -11,7 +11,7 @@ import { OrdersTabContent } from './OrderFragments/OrdersTabContent';
 import { OrdersView } from './OrderFragments/OrdersView';
 
 export const HomepageTabsFragment = () => {
-  const [tabIndex, setTabIndex] = useState(1);
+  const [tabIndex, setTabIndex] = useState(0);
   const handleTabsChange = (index) => {
     setTabIndex(index);
   };
