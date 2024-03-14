@@ -17,27 +17,27 @@ import moment from 'moment';
 export const ProductsTable = ({ products }) => {
 
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(25);
+  const [pageSize, setPageSize] = useState(10);
 
   return (
     <>
       <TableContainer>
-        <Table variant='simple'>
+        <Table variant='simple' size='sm'> 
           <Thead>
             <Tr>
-              <Th>Nume</Th>
+              <Th>Nume produs</Th>
               <Th>Pret</Th>
               <Th>Creat la</Th>
               <Th>Optiuni</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {products.map((wp) => {
+            {products.map((pd) => {
               return (
-                <Tr key={wp.id}>
-                  <Td>{wp.name}</Td>
-                  <Td>{wp.price}</Td>
-                  <Td>{moment(wp.dateCreated).format('DD.MM.yyyy HH:mm:ss')}</Td>
+                <Tr key={pd.id}>
+                  <Td>{pd.name}</Td>
+                  <Td>{pd.price}</Td>
+                  <Td>{moment(pd.dateCreated).format('DD.MM.yyyy HH:mm:ss')}</Td>
                   <Td>
                     <Button colorScheme='teal' variant='outline' size='sm'>
                       Vezi stoc

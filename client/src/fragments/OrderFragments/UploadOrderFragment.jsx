@@ -33,7 +33,7 @@ export const UploadOrderFragment = () => {
           onCreateOrderModalOpen();
         }}
       >
-        Creaza comanda manual
+        Creeaza comanda manual
       </Button>
       <Divider my={4} />
       <Card

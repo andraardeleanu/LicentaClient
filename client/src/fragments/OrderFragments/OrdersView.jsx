@@ -3,18 +3,17 @@ import { useCookies } from 'react-cookie';
 import { getOrders } from '../../utils/apiCalls';
 import { ResultsLoading } from '../../components/ResultsLoading';
 import { OrdersTable } from './OrdersTable';
+import { setNeedOrdersCall } from '../../slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const OrdersView = ({
     
 }) => {
     const [cookies] = useCookies();
-    const [needOrdersCall, setNeedOrdersCall] = useState(true);
+    const dispatch = useDispatch();
+    const needOrdersCall = useSelector (state => state.user.needOrdersCall);
     const [ordersLoading, setOrdersLoading] = useState(false);
     const [orders, setOrders] = useState([]);
-
-    useEffect(() => {
-        setNeedOrdersCall(true);
-    });
 
     useEffect(() => {
         (async () => {
@@ -27,7 +26,7 @@ export const OrdersView = ({
                             setOrders(res);
                         }
                     );
-                    setNeedOrdersCall(false);
+                    dispatch(setNeedOrdersCall(false));
                 }
             } catch (err) {
                 return err;

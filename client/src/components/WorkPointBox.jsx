@@ -45,12 +45,12 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
         </Stack>
 
         <Stack
-          spacing={6}
+          spacing={5}
           direction='column'
           align='center'
         >
           <Image
-            boxSize='200px'
+            boxSize='100px'
             src={require('../images/workpoint.png')}
           />
           <Heading size='md'>

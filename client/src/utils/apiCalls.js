@@ -4,6 +4,13 @@ export const getCompanies = async (token) => {
   return await axiosAuthorizedGet('/getCompanies', token);
 };
 
+export const getCompanyById = async (token, companyId) => {
+  return await axiosAuthorizedGet(
+    `/getCompanyById/${companyId}`,
+    token
+  );
+};
+
 export const addCompany = async (data, token) => {
   return await axiosAuthorizedPost('/addCompany', data, token);
 };

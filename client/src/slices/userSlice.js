@@ -5,7 +5,8 @@ const initialState = {
   companyData: null,
   needCompaniesCall: true,
   needWorkPointsCall: true,
-  needProductsCall: true
+  needProductsCall: true,
+  needOrdersCall:true
 };
 
 export const userSlice = createSlice({
@@ -32,6 +33,9 @@ export const userSlice = createSlice({
     },    
     setNeedProductsCall: (state, { payload }) => {
       state.needProductsCall = payload;
+    },
+    setNeedOrdersCall: (state, { payload }) => {
+      state.needOrdersCall = payload;
     }
   }
 });
@@ -43,7 +47,8 @@ export const {
   resetUserCompanyData,
   setNeedCompaniesCall,
   setNeedWorkPointsCall,
-  setNeedProductsCall
+  setNeedProductsCall,
+  setNeedOrdersCall
 } = userSlice.actions;
 
 export default userSlice.reducer;

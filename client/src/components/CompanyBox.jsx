@@ -6,11 +6,14 @@ import {
   Image,
   Stack,
   Text,
-  IconButton
+  IconButton,
+  Button,
+  Tooltip
 } from '@chakra-ui/react';
 import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
 import { MdSettings } from 'react-icons/md';
+import { ViewIcon, EditIcon } from '@chakra-ui/icons'
 
 export const CompanyBox = ({
   name,
@@ -21,18 +24,44 @@ export const CompanyBox = ({
 }) => {
   return (
     <Card
-      borderRadius='30px'
+      borderRadius='20px'
       className='p-6 w-100 m-4'
       size={'xs'}
     >
       <CardBody>
-        <IconButton
-          colorScheme='gray'
-          icon={<MdSettings />}
-          onClick={onOptionsClick}
-        />
         <Stack
-          spacing={3}
+          direction='row'
+          spacing={44}
+        >
+          <Tooltip
+            placement='top'
+            label='Modifica companie'
+            bg='white.100'
+            color='black'
+            fontSize={'md'}
+          >
+            <IconButton
+              leftIcon={<EditIcon />}
+              colorScheme='gray'
+              variant='ghost'
+            />
+          </Tooltip>
+          <Tooltip
+            placement='top'
+            label='Vezi puncte de lucru'
+            bg='white.100'
+            color='black'
+            fontSize={'md'}
+          >
+            <IconButton
+              rightIcon={<ViewIcon />}
+              variant='ghost'
+              onClick={onOptionsClick}
+            />
+          </Tooltip>
+        </Stack>
+        <Stack
+          spacing={5}
           direction='column'
           align='center'
         >
@@ -49,7 +78,7 @@ export const CompanyBox = ({
             <span className='flex gap-2 items-center'>
               <Icon as={FaClock} />
               <span>Ultima modificare:</span>
-              <span className='font-bold'>
+              <span className='font-bold' >
                 {moment(dateUpdated).fromNow().toString()}
               </span>
             </span>
@@ -62,6 +91,6 @@ export const CompanyBox = ({
           </div>
         </Stack>
       </CardBody>
-    </Card>
+    </Card >
   );
 };

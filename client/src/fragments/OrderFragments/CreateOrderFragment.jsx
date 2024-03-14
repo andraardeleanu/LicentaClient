@@ -27,10 +27,12 @@ import {
 } from '../../utils/apiCalls';
 import { findProductIndexById } from '../../utils/other';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setNeedOrdersCall } from '../../slices/userSlice';
 
 export const CreateOrderFragment = ({ onClose, companyId }) => {
   const { data } = useSelector((store) => store.user);
-
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [userError, setUserError] = useState('');
@@ -133,7 +135,9 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
             isClosable: true,
             position: 'top'
           });
+          dispatch(setNeedOrdersCall(true));
           navigate('/');
+          onClose()
         }
       }}
     >

@@ -8,7 +8,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { addCompany } from '../../utils/apiCalls';
