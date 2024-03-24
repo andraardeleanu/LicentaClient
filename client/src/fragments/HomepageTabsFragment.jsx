@@ -5,10 +5,11 @@ import { ProductsTabContent } from '././ProductFragments/ProductsTabContent';
 import { ADMIN_RANK, MANAGER_RANK } from '../utils/constants';
 import { useSelector } from 'react-redux';
 import { WorkPointsTabContent } from './WorkpointFragments/WorkPointsTabContent';
-import { UsersTabContent } from './UsersFragments/UsersTabContent';
 import { ProductsView } from './ProductFragments/ProductsView';
 import { OrdersTabContent } from './OrderFragments/OrdersTabContent';
 import { OrdersView } from './OrderFragments/OrdersView';
+import { CustomersTabContent } from './CustomerFragments/CustomersTabContent';
+import { CustomersView } from './CustomerFragments/CustomersView';
 
 export const HomepageTabsFragment = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -48,7 +49,7 @@ export const HomepageTabsFragment = () => {
         <TabPanel></TabPanel>
         <TabPanel></TabPanel>
         <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <UsersTabContent />}
+          {data?.roles[0] === ADMIN_RANK && <CustomersTabContent />}
         </TabPanel>
       </TabPanels>
     </Tabs>

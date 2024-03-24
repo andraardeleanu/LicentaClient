@@ -14,11 +14,7 @@ export const ProductsView = ({
     const needProductsCall = useSelector (state => state.user.needProductsCall);
     const [productsLoading, setProductsLoading] = useState(false);
     const [products, setProducts] = useState([]);
-/*
-    useEffect(() => {
-        setNeedProductsCall(true);
-    });
-*/
+    
     useEffect(() => {
         (async () => {
             try {

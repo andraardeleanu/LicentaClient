@@ -43,11 +43,11 @@ export const createOrder = async (data, token) => {
 };
 
 export const getUsers = async (token) => {
-  return await axiosAuthorizedPost('/getUsers', token);
+  return await axiosAuthorizedGet('/getUsers', token);
 };
 
-export const addUser = async (data, token) => {
-  return await axiosAuthorizedPost('/addUser', data, token);
+export const register = async (data, token) => {
+  return await axiosAuthorizedPost('/register', data, token);
 };
 
 export const getOrders = async (token) => {

@@ -6,9 +6,9 @@ import {
     ModalHeader,
     ModalOverlay
   } from '@chakra-ui/react';
-  import { AddUserFragment } from './AddUserFragment';
+  import { AddCustomerFragment } from './AddCustomerFragment';
   
-  export const AddUserModal = ({ isOpen, onClose }) => {
+  export const AddCustomerModal = ({ isOpen, onClose }) => {
     return (
       <>
         <Modal
@@ -20,10 +20,10 @@ import {
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Adauga client</ModalHeader>
+            <ModalHeader>Adauga client nou</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <AddUserFragment onClose={onClose} />
+              <AddCustomerFragment onClose={onClose} />
             </ModalBody>
           </ModalContent>
         </Modal>

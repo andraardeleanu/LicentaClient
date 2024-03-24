@@ -17,7 +17,7 @@ import moment from 'moment';
 export const ProductsTable = ({ products }) => {
 
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(25);
 
   return (
     <>
