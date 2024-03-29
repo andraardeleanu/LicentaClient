@@ -6,7 +6,8 @@ import {
   Td,
   Th,
   Thead,
-  Tr
+  Tr,
+  Divider
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
@@ -61,6 +62,7 @@ export const ProductsTable = ({ products }) => {
             })}
           </Tbody>
         </Table>
+        <Divider my={6} />
         <ReactPaginate
           breakLabel='...'
           nextLabel='>'
@@ -69,10 +71,7 @@ export const ProductsTable = ({ products }) => {
           pageCount={pageCount}
           previousLabel='<'
           renderOnZeroPageCount={null}
-          className='flex items-center gap-4 justify-center'
-          pageClassName='border border-green-100 p-4 rounded-md border border-sky-500 hover:bg-sky-100'
-          nextClassName='border border-green-100 p-4 rounded-md border border-sky-500 hover:bg-sky-100'
-          previousClassName='border border-green-100 p-4 rounded-md border border-sky-500 hover:bg-sky-100'
+          className='flex items-center gap-4 justify-center'          
         />
       </TableContainer>
     </>

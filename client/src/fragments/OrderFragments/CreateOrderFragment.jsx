@@ -14,7 +14,8 @@ import {
   Th,
   Thead,
   Tr,
-  useToast
+  useToast,
+  Divider
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -29,6 +30,7 @@ import { findProductIndexById } from '../../utils/other';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setNeedOrdersCall } from '../../slices/userSlice';
+import ReactPaginate from 'react-paginate';
 
 export const CreateOrderFragment = ({ onClose, companyId }) => {
   const { data } = useSelector((store) => store.user);
@@ -45,6 +47,16 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
   const [workpoints, setWorkpoints] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [itemOffset, setItemOffset] = useState(0);
+  const endOffset = itemOffset + 10;
+  const currentItems = products.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(products.length / 10);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 10) % products.length;
+    setItemOffset(newOffset);
+  };
+
 
   const updateSelectedProducts = (id, qty) => {
     let bufferList = selectedProducts;
@@ -117,7 +129,7 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
         const response = await createOrder(
           {
             author: data?.username,
-            createdBy: 0,
+            createdBy: data?.id,
             workpointId: values.workpointId,
             fileType: 1,
             products: selectedProducts
@@ -180,7 +192,7 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {products.map((prod) => (
+                    {currentItems.map((prod) => (
                       <Tr>
                         <Td>{prod?.name}</Td>
                         <Td>{prod?.price}</Td>
@@ -201,6 +213,17 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
                     ))}
                   </Tbody>
                 </Table>
+                <Divider my={6} />
+                <ReactPaginate
+                  breakLabel='...'
+                  nextLabel='>'
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={5}
+                  pageCount={pageCount}
+                  previousLabel='<'
+                  renderOnZeroPageCount={null}
+                  className='flex items-center gap-4 justify-center'
+                />
               </TableContainer>
             )}
             {userError && (

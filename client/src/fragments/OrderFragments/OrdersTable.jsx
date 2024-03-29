@@ -11,6 +11,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import moment from 'moment';
+import ReactPaginate from 'react-paginate';
 import { OrderDetailsModal } from './OrderDetailsModal';
 import { useState } from 'react';
 
@@ -23,6 +24,15 @@ export const OrdersTable = ({ orders, onClose }) => {
 
   const [selectedOrderId, setSelectedOrderId] = useState();
   const [selectedOrderNo, setSelectedOrderNo] = useState();
+  const [itemOffset, setItemOffset] = useState(0);
+  const endOffset = itemOffset + 10;
+  const currentItems = orders.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(orders.length / 10);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 10) % orders.length;
+    setItemOffset(newOffset);
+  };
 
   return (
     <>
@@ -43,7 +53,7 @@ export const OrdersTable = ({ orders, onClose }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {orders?.map((order) => (
+            {currentItems.map((order) => (
               <Tr>
                 <Td>{order.orderNo}</Td>
                 <Td>{order.author}</Td>
@@ -71,6 +81,17 @@ export const OrdersTable = ({ orders, onClose }) => {
           </Tbody>
         </Table>
       </TableContainer>
+      <Divider my={6} />
+      <ReactPaginate
+        breakLabel='...'
+        nextLabel='>'
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel='<'
+        renderOnZeroPageCount={null}
+        className='flex items-center gap-4 justify-center'
+      />
 
       <OrderDetailsModal
         isOpen={isOrderDetailsModalOpen}

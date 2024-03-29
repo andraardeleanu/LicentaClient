@@ -6,7 +6,7 @@ import {
     Heading,
     useDisclosure
 } from '@chakra-ui/react';
-import { OrdersView } from './OrdersView';
+import { UserOrdersView } from './UserOrdersView';
 import { UploadOrderFragment } from './UploadOrderFragment';
 
 export const OrdersTabContent = () => {
@@ -18,7 +18,7 @@ export const OrdersTabContent = () => {
             <Heading>
                 Comenzile mele
             </Heading>
-            <OrdersView></OrdersView>           
+            <UserOrdersView></UserOrdersView>           
         </>
     );
 };

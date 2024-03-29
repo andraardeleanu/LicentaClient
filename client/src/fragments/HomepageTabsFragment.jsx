@@ -9,7 +9,7 @@ import { ProductsView } from './ProductFragments/ProductsView';
 import { OrdersTabContent } from './OrderFragments/OrdersTabContent';
 import { OrdersView } from './OrderFragments/OrdersView';
 import { CustomersTabContent } from './CustomerFragments/CustomersTabContent';
-import { CustomersView } from './CustomerFragments/CustomersView';
+import { StocksView } from './StockFragments/StocksView';
 
 export const HomepageTabsFragment = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -46,7 +46,10 @@ export const HomepageTabsFragment = () => {
           {data?.roles[0] === ADMIN_RANK && <ProductsTabContent />}
           {data?.roles[0] === MANAGER_RANK && <ProductsView />}
         </TabPanel>
-        <TabPanel></TabPanel>
+        <TabPanel>
+        {data?.roles[0] === ADMIN_RANK && <StocksView />}
+          {data?.roles[0] === MANAGER_RANK && <StocksView />}
+        </TabPanel>
         <TabPanel></TabPanel>
         <TabPanel>
           {data?.roles[0] === ADMIN_RANK && <CustomersTabContent />}

@@ -11,7 +11,7 @@ import { ResultsLoading } from '../../components/ResultsLoading';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 import { WorkPointBox } from '../../components/WorkPointBox';
-import { getWorkPoints } from '../../utils/apiCalls';
+import { getWorkPointsByUserId } from '../../utils/apiCalls';
 import { AddWorkPointModal } from './AddWorkPointModal';
 import { setNeedWorkPointsCall } from '../../slices/userSlice'
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,13 +27,14 @@ export const WorkPointsTabContent = () => {
     onClose: onAddWorkPointModalClose
   } = useDisclosure();
   const [workpoints, setWorkPoints] = useState([]);
-
+  const { data } = useSelector((store) => store.user);
+console.log(data);
   useEffect(() => {
     (async () => {
       try {
         if (needWorkPointsCall) {
           setWorkPointsLoading(true);
-          await getWorkPoints(cookies.userToken).then((res) => {
+          await getWorkPointsByUserId(data.id, cookies.userToken).then((res) => {
             setWorkPointsLoading(false);
             setWorkPoints(res);
           });
