@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { AddOrderModal } from './AddOrderModal';
+import { useDropzone } from 'react-dropzone';
 
 export const UploadOrderFragment = () => {
   const {
@@ -21,6 +22,15 @@ export const UploadOrderFragment = () => {
     onOpen: onCreateOrderModalOpen,
     onClose: onCreateOrderModalClose
   } = useDisclosure();
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const files = acceptedFiles.map((file) => (
+    <li
+      className='p-2 mb-4 last:mb-0 bg-sky-50 border border-sky-500'
+      key={file.path}
+    >
+      {file.path}
+    </li>
+  ));
 
   return (
     <>
@@ -50,23 +60,33 @@ export const UploadOrderFragment = () => {
         <Stack>
           <CardBody>
             <Heading size='md'>Incarca fisier</Heading>
-
-            <Text
-              py='2'
-              color={'grey'}
-            >
-              Adauga fisierul din computerul tau ce contine noua comanda.
-            </Text>
+            <section className='container'>
+              <div
+                {...getRootProps({ className: 'dropzone' })}
+                className='border-4 border-dotted p-2 mt-2 cursor-pointer'
+              >
+                <input {...getInputProps()} />
+                <Text
+                  py='2'
+                  color={'grey'}
+                >
+                  Click aici pentru a adauga fisierul ce contine noua comanda
+                  din computerul tau.
+                </Text>
+              </div>
+              <aside>
+                <h4 className='font-semibold mt-2'>Incarcari</h4>
+                <ul>{files}</ul>
+              </aside>
+            </section>
           </CardBody>
 
-          <CardFooter>       
-            
-            
+          <CardFooter>
             <Button
               variant='solid'
               colorScheme='blue'
             >
-              Incarca
+              Creeaza comanda automat
             </Button>
           </CardFooter>
         </Stack>
