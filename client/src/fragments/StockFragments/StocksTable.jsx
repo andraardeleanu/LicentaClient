@@ -43,8 +43,8 @@ export const StocksTable = ({ stocks }) => {
                     <Tbody>
                         {currentItems.map((st) => {
                             return (
-                                <Tr key={st.id}>
-                                    <Td>{st.name}</Td>
+                                <Tr key={st.id}>                                    
+                                    <Td>{st.productName}</Td>
                                     <Td>{st.availableStock}</Td>
                                     <Td>{st.pendingStock}</Td>
                                     <Td>

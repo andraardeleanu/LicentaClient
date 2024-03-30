@@ -193,7 +193,7 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
                   </Thead>
                   <Tbody>
                     {currentItems.map((prod) => (
-                      <Tr>
+                      <Tr key={prod?.id}>                        
                         <Td>{prod?.name}</Td>
                         <Td>{prod?.price}</Td>
                         <Td>
