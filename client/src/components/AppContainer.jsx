@@ -34,14 +34,14 @@ export const AppContainer = ({
           if (res?.id) {
             dispatch(setUserData(res));
             const companyRes = await axiosAuthorizedGet(
-              `/getCompanyById/${res?.companyId}`,
+              `/getCompanyById/${res?.companies[0]?.id}`,
               cookies.userToken
             );
 
             dispatch(setUserCompanyData(companyRes));
           }
         });
-  }
+      }
       setLoading(false);
     };
 

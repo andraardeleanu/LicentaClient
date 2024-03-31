@@ -20,7 +20,9 @@ import { useDispatch, useSelector } from 'react-redux';
 export const CompaniesTabContent = () => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
-  const needCompaniesCall = useSelector(state => state.user.needCompaniesCall);
+  const needCompaniesCall = useSelector(
+    (state) => state.user.needCompaniesCall
+  );
   const [companiesLoading, setCompaniesLoading] = useState(false);
   const {
     isOpen: isAddCompanyModalOpen,
@@ -41,7 +43,6 @@ export const CompaniesTabContent = () => {
   useEffect(() => {
     (async () => {
       try {
-        debugger
         if (needCompaniesCall) {
           setCompaniesLoading(true);
           await getCompanies(cookies.userToken).then((res) => {

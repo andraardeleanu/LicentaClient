@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 
 export const AddOrderModal = ({ isOpen, onClose }) => {
   const { data } = useSelector((store) => store.user);
-
   return (
     <>
       <Modal
@@ -28,7 +27,7 @@ export const AddOrderModal = ({ isOpen, onClose }) => {
           <ModalBody pb={6}>
             <CreateOrderFragment
               onClose={onClose}
-              companyId={data?.companyId}
+              companyId={data?.companies[0]?.id}
             />
           </ModalBody>
         </ModalContent>

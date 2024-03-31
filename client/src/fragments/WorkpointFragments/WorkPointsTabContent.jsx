@@ -13,13 +13,15 @@ import { useEffect, useState } from 'react';
 import { WorkPointBox } from '../../components/WorkPointBox';
 import { getWorkPointsByUserId } from '../../utils/apiCalls';
 import { AddWorkPointModal } from './AddWorkPointModal';
-import { setNeedWorkPointsCall } from '../../slices/userSlice'
+import { setNeedWorkPointsCall } from '../../slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const WorkPointsTabContent = () => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
-  const needWorkPointsCall = useSelector (state => state.user.needWorkPointsCall);
+  const needWorkPointsCall = useSelector(
+    (state) => state.user.needWorkPointsCall
+  );
   const [workPointsLoading, setWorkPointsLoading] = useState(false);
   const {
     isOpen: isAddWorkPointModalOpen,
@@ -28,16 +30,17 @@ export const WorkPointsTabContent = () => {
   } = useDisclosure();
   const [workpoints, setWorkPoints] = useState([]);
   const { data } = useSelector((store) => store.user);
-console.log(data);
   useEffect(() => {
     (async () => {
       try {
         if (needWorkPointsCall) {
           setWorkPointsLoading(true);
-          await getWorkPointsByUserId(data.id, cookies.userToken).then((res) => {
-            setWorkPointsLoading(false);
-            setWorkPoints(res);
-          });
+          await getWorkPointsByUserId(data.id, cookies.userToken).then(
+            (res) => {
+              setWorkPointsLoading(false);
+              setWorkPoints(res);
+            }
+          );
           dispatch(setNeedWorkPointsCall(false));
         }
       } catch (err) {

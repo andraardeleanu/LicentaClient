@@ -1,6 +1,16 @@
 import {
   Button,
   Divider,
+  Input,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
   Table,
   TableContainer,
   Tbody,
@@ -44,7 +54,37 @@ export const OrdersTable = ({ orders, onClose }) => {
         >
           <Thead>
             <Tr>
-              <Th>Numar comanda</Th>
+              <Th className='flex items-center justify-between'>
+                <span>Numar comanda</span>
+                <span>
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button>Filtreaza</Button>
+                    </PopoverTrigger>
+                    <Portal>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverBody className='mt-6 flex flex-col gap-4'>
+                          <Input
+                            placeholder='Numar comanda'
+                            name='orderNrFilter'
+                          />
+                          <div className='flex gap-4'>
+                            <Button
+                              width={'50%'}
+                              colorScheme='blue'
+                            >
+                              Filtreaza
+                            </Button>
+                            <Button width={'50%'}>Renunta</Button>
+                          </div>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Portal>
+                  </Popover>
+                </span>
+              </Th>
               <Th>User creare</Th>
               <Th>Data creare</Th>
               <Th>Status</Th>
@@ -54,7 +94,7 @@ export const OrdersTable = ({ orders, onClose }) => {
           </Thead>
           <Tbody>
             {currentItems.map((order) => (
-              <Tr>
+              <Tr key={order.orderNo}>
                 <Td>{order.orderNo}</Td>
                 <Td>{order.author}</Td>
                 <Td>
