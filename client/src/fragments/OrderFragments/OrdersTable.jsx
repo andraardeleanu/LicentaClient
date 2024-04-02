@@ -112,7 +112,7 @@ export const OrdersTable = ({
                       colorScheme='red'
                       icon={<FaPlus className='rotate-45' />}
                       onClick={() => {
-                        setOrderNoFilter(undefined);
+                        setOrderNoFilter('');
                       }}
                     />
                   )}
