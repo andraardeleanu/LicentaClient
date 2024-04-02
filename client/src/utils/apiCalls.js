@@ -53,7 +53,7 @@ export const register = async (data, token) => {
 
 export const getOrders = async (token, filters = null) => {
   return await axiosAuthorizedGet(
-    `/getOrders?OrderNo=${filters.orderNo}`,
+    `/getOrders?${filters?.orderNo && `OrderNo=${filters?.orderNo}`}`,
     token
   );
 };

@@ -6,7 +6,7 @@ import { OrdersTable } from './OrdersTable';
 import { setNeedOrdersCall } from '../../slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-export const OrdersView = ({}) => {
+export const OrdersView = () => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
   const needOrdersCall = useSelector((state) => state.user.needOrdersCall);

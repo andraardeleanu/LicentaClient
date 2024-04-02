@@ -1,6 +1,7 @@
 import {
   Button,
   Divider,
+  IconButton,
   Input,
   Popover,
   PopoverArrow,
@@ -24,6 +25,7 @@ import { OrderDetailsModal } from './OrderDetailsModal';
 import { useEffect, useState } from 'react';
 import { getOrders } from '../../utils/apiCalls';
 import { useCookies } from 'react-cookie';
+import { FaFilter, FaPlus } from 'react-icons/fa';
 
 export const OrdersTable = ({
   orders,
@@ -53,16 +55,13 @@ export const OrdersTable = ({
 
   useEffect(() => {
     (async () => {
-      console.log('called... ', orderNoFilter);
       try {
         await getOrders(cookies.userToken, { orderNo: orderNoFilter }).then(
           (res) => {
-            console.log('res: ', res);
             setOrders(res);
           }
         );
       } catch (err) {
-        console.log('err: ', err);
         return err;
       }
     })();
@@ -81,10 +80,14 @@ export const OrdersTable = ({
             <Tr>
               <Th className='flex items-center justify-between'>
                 <span>Numar comanda</span>
-                <span>
+                <span className='flex gap-2'>
                   <Popover>
                     <PopoverTrigger>
-                      <Button>Filtreaza</Button>
+                      <IconButton
+                        size={'sm'}
+                        colorScheme='blue'
+                        icon={<FaFilter />}
+                      />
                     </PopoverTrigger>
                     <Portal>
                       <PopoverContent>
@@ -99,19 +102,20 @@ export const OrdersTable = ({
                               setOrderNoFilter(e.target.value);
                             }}
                           />
-                          <div className='flex gap-4'>
-                            <Button
-                              width={'50%'}
-                              colorScheme='blue'
-                            >
-                              Filtreaza
-                            </Button>
-                            <Button width={'50%'}>Renunta</Button>
-                          </div>
                         </PopoverBody>
                       </PopoverContent>
                     </Portal>
                   </Popover>
+                  {orderNoFilter && (
+                    <IconButton
+                      size={'sm'}
+                      colorScheme='red'
+                      icon={<FaPlus className='rotate-45' />}
+                      onClick={() => {
+                        setOrderNoFilter(undefined);
+                      }}
+                    />
+                  )}
                 </span>
               </Th>
               <Th>User creare</Th>
