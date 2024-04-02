@@ -36,7 +36,11 @@ export const UserOrdersView = () => {
       {ordersLoading ? (
         <ResultsLoading />
       ) : orders.length > 0 ? (
-        <OrdersTable orders={orders} />
+        <OrdersTable
+          orders={orders}
+          setOrders={setOrders}
+          setOrdersLoading={setOrdersLoading}
+        />
       ) : (
         <>Nu se gasesc comenzi.</>
       )}

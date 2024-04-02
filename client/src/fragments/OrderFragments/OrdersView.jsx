@@ -28,14 +28,18 @@ export const OrdersView = ({}) => {
         return err;
       }
     })();
-  }, [orders, cookies.userToken, setNeedOrdersCall]);
+  }, [orders, cookies.userToken, needOrdersCall, dispatch]);
 
   return (
     <>
       {ordersLoading ? (
         <ResultsLoading />
       ) : orders.length > 0 ? (
-        <OrdersTable orders={orders} />
+        <OrdersTable
+          orders={orders}
+          setOrders={setOrders}
+          setOrdersLoading={setOrdersLoading}
+        />
       ) : (
         <>Nu se gasesc comenzi.</>
       )}

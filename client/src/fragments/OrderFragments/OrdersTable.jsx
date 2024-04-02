@@ -7,8 +7,6 @@ import {
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
   PopoverTrigger,
   Portal,
   Table,
@@ -23,9 +21,17 @@ import {
 import moment from 'moment';
 import ReactPaginate from 'react-paginate';
 import { OrderDetailsModal } from './OrderDetailsModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getOrders } from '../../utils/apiCalls';
+import { useCookies } from 'react-cookie';
 
-export const OrdersTable = ({ orders, onClose }) => {
+export const OrdersTable = ({
+  orders,
+  setOrders,
+  setOrdersLoading,
+  onClose
+}) => {
+  const [cookies] = useCookies();
   const {
     isOpen: isOrderDetailsModalOpen,
     onOpen: onOrderDetailsModalOpen,
@@ -34,6 +40,7 @@ export const OrdersTable = ({ orders, onClose }) => {
 
   const [selectedOrderId, setSelectedOrderId] = useState();
   const [selectedOrderNo, setSelectedOrderNo] = useState();
+  const [orderNoFilter, setOrderNoFilter] = useState();
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
   const currentItems = orders.slice(itemOffset, endOffset);
@@ -43,6 +50,24 @@ export const OrdersTable = ({ orders, onClose }) => {
     const newOffset = (event.selected * 10) % orders.length;
     setItemOffset(newOffset);
   };
+
+  useEffect(() => {
+    (async () => {
+      console.log('called... ', orderNoFilter);
+      try {
+        await getOrders(cookies.userToken, { orderNo: orderNoFilter }).then(
+          (res) => {
+            console.log('res: ', res);
+            setOrders(res);
+          }
+        );
+      } catch (err) {
+        console.log('err: ', err);
+        return err;
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderNoFilter]);
 
   return (
     <>
@@ -69,6 +94,10 @@ export const OrdersTable = ({ orders, onClose }) => {
                           <Input
                             placeholder='Numar comanda'
                             name='orderNrFilter'
+                            value={orderNoFilter}
+                            onChange={(e) => {
+                              setOrderNoFilter(e.target.value);
+                            }}
                           />
                           <div className='flex gap-4'>
                             <Button

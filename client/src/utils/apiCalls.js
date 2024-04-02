@@ -5,10 +5,7 @@ export const getCompanies = async (token) => {
 };
 
 export const getCompanyById = async (token, companyId) => {
-  return await axiosAuthorizedGet(
-    `/getCompanyById/${companyId}`,
-    token
-  );
+  return await axiosAuthorizedGet(`/getCompanyById/${companyId}`, token);
 };
 
 export const addCompany = async (data, token) => {
@@ -27,10 +24,7 @@ export const getWorkPointsByCompanyId = async (token, companyId) => {
 };
 
 export const getWorkPointsByUserId = async (userId, token) => {
-  return await axiosAuthorizedGet(
-    `/getWorkpointsByUserId/${userId}`,
-    token
-  );
+  return await axiosAuthorizedGet(`/getWorkpointsByUserId/${userId}`, token);
 };
 
 export const addWorkPoint = async (data, token) => {
@@ -57,20 +51,19 @@ export const register = async (data, token) => {
   return await axiosAuthorizedPost('/register', data, token);
 };
 
-export const getOrders = async (token) => {
-  return await axiosAuthorizedGet('/getOrders', token);
+export const getOrders = async (token, filters = null) => {
+  return await axiosAuthorizedGet(
+    `/getOrders?OrderNo=${filters.orderNo}`,
+    token
+  );
 };
 
 export const getStocks = async (token) => {
   return await axiosAuthorizedGet('/getStocks', token);
 };
 
-
 export const getOrdersByUserId = async (userId, token) => {
-  return await axiosAuthorizedGet(
-    `/getOrdersByUserId/${userId}`,
-    token
-  );
+  return await axiosAuthorizedGet(`/getOrdersByUserId/${userId}`, token);
 };
 export const getOrderDetails = async (token, orderId) => {
   return await axiosAuthorizedGet(`/getOrderDetails/${orderId}`, token);
