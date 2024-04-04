@@ -34,14 +34,12 @@ export const OrdersView = () => {
     <>
       {ordersLoading ? (
         <ResultsLoading />
-      ) : orders.length > 0 ? (
+      ) : (
         <OrdersTable
           orders={orders}
           setOrders={setOrders}
           setOrdersLoading={setOrdersLoading}
         />
-      ) : (
-        <>Nu se gasesc comenzi.</>
       )}
     </>
   );
