@@ -36,11 +36,14 @@ export const UserOrdersView = () => {
       {ordersLoading ? (
         <ResultsLoading />
       ) : (
-        <OrdersTable
-          orders={orders}
-          setOrders={setOrders}
-          setOrdersLoading={setOrdersLoading}
-        />
+        <>
+          <OrdersTable
+            orders={orders}
+            setOrders={setOrders}
+            setOrdersLoading={setOrdersLoading}
+          />
+          {orders?.length === 0 && <>Nu s-au gasit rezultate.</>}
+        </>
       )}
     </>
   );

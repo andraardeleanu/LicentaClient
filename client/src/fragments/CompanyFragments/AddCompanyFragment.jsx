@@ -32,6 +32,7 @@ export const AddCompanyFragment = ({ onClose }) => {
       onSubmit={async (values) => {
         setLoading(true);
         const response = await addCompany(values, cookies.userToken);
+        console.log('response: ', response);
         setLoading(false);
         if (response.errorMessage) {
           setUserError(response.errorMessage);
@@ -43,17 +44,15 @@ export const AddCompanyFragment = ({ onClose }) => {
             isClosable: true,
             position: 'top'
           });
-          dispatch(setNeedCompaniesCall(true));          
+          dispatch(setNeedCompaniesCall(true));
           navigate('/');
-          onClose()
+          onClose();
         }
       }}
     >
       {({ handleSubmit, handleChange, values }) => (
         <Form
-          onSubmit={
-            handleSubmit
-          }
+          onSubmit={handleSubmit}
           onChange={() => {
             setUserError('');
           }}
@@ -85,7 +84,7 @@ export const AddCompanyFragment = ({ onClose }) => {
             <Button
               colorScheme='blue'
               onClick={() => {
-                handleSubmit()
+                handleSubmit();
               }}
               isLoading={loading}
             >
