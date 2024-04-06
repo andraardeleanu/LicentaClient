@@ -44,7 +44,6 @@ export const StocksTable = ({ stocks }) => {
                         {currentItems.map((st) => {
                             return (
                                 <Tr key={st.id}>                                    
-                                    <Td>{st.productName}</Td>
                                     <Td>{st.availableStock}</Td>
                                     <Td>{st.pendingStock}</Td>
                                     <Td>
@@ -52,11 +51,10 @@ export const StocksTable = ({ stocks }) => {
                                     </Td>
                                     <Td>
                                         <Button
-                                            colorScheme='teal'
-                                            variant='outline'
+                                            colorScheme='teal'                                            
                                             size='sm'
                                         >
-                                            Vezi stoc
+                                            Actualizeaza
                                         </Button>
                                     </Td>
                                 </Tr>

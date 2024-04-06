@@ -7,22 +7,30 @@ import {
   Th,
   Thead,
   Tr,
-  Divider
+  Divider,
+  useDisclosure
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
+import { useCookies } from 'react-cookie';
+import { StockDetailsModal } from './StockDetailsModal';
 
 export const ProductsTable = ({ products }) => {
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
   const currentItems = products.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(products.length / 10);
-
+  const [selectedProductId, setSelectedProductId] = useState();
   const handlePageClick = (event) => {
     const newOffset = (event.selected * 10) % products.length;
     setItemOffset(newOffset);
   };
+  const {
+    isOpen: isStockDetailsModalOpen,
+    onOpen: onStockDetailsModalOpen,
+    onClose: onStockDetailsModalClose
+  } = useDisclosure();
 
   return (
     <>
@@ -51,8 +59,12 @@ export const ProductsTable = ({ products }) => {
                   <Td>
                     <Button
                       colorScheme='teal'
-                      variant='outline'
+                      variant='ghost'
                       size='sm'
+                      onClick={() => {
+                        setSelectedProductId(pd?.id);
+                        onStockDetailsModalOpen();
+                      }}
                     >
                       Vezi stoc
                     </Button>
@@ -74,6 +86,12 @@ export const ProductsTable = ({ products }) => {
           className='flex items-center gap-4 justify-center'          
         />
       </TableContainer>
+
+      <StockDetailsModal
+        isOpen={isStockDetailsModalOpen}
+        onClose={onStockDetailsModalClose}
+        productId={selectedProductId}
+      />
     </>
   );
 };

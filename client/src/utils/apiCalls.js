@@ -27,6 +27,10 @@ export const getWorkPointsByUserId = async (userId, token) => {
   return await axiosAuthorizedGet(`/getWorkpointsByUserId/${userId}`, token);
 };
 
+export const getStockByProductId = async (productId, token) => {
+  return await axiosAuthorizedGet(`/getStockByProductId/${productId}`, token);
+};
+
 export const addWorkPoint = async (data, token) => {
   return await axiosAuthorizedPost('/addWorkpoint', data, token);
 };
@@ -67,4 +71,8 @@ export const getOrdersByUserId = async (userId, token) => {
 };
 export const getOrderDetails = async (token, orderId) => {
   return await axiosAuthorizedGet(`/getOrderDetails/${orderId}`, token);
+};
+
+export const updateStock = async (token, stockId, availableStock) => {
+  return await axiosAuthorizedGet(`/updateStock/?${stockId} && ${availableStock}`, token);
 };

@@ -29,9 +29,7 @@ import { FaFilter, FaPlus } from 'react-icons/fa';
 
 export const OrdersTable = ({
   orders,
-  setOrders,
-  setOrdersLoading,
-  onClose
+  setOrders
 }) => {
   const [cookies] = useCookies();
   const {
