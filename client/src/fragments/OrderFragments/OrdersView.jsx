@@ -34,14 +34,17 @@ export const OrdersView = () => {
     <>
       {ordersLoading ? (
         <ResultsLoading />
-      ) : orders.length > 0 ? (
-        <OrdersTable
-          orders={orders}
-          setOrders={setOrders}
-          setOrdersLoading={setOrdersLoading}
-        />
       ) : (
-        <>Nu se gasesc comenzi.</>
+        <>
+          <OrdersTable
+            orders={orders}
+            setOrders={setOrders}
+            setOrdersLoading={setOrdersLoading}
+          />
+          {orders?.length === 0 && (
+            <div className='flex justify-center'>Nu s-au gasit rezultate.</div>
+          )}
+        </>
       )}
     </>
   );

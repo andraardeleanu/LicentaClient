@@ -12,6 +12,16 @@ const returnData = ({ data, status, ...others }) => {
   return data;
 };
 
+export const axiosAuthorizedFormPost = async (url, data, token) => {
+  return await axiosPost(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: '*/*',
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
+
 export const axiosPost = async (url, data, config) => {
   return returnData(
     await api.post(url, data, config).catch((res) => {

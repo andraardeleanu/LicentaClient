@@ -14,13 +14,17 @@ import {
   Select,
   Alert,
   AlertIcon,
-  AlertTitle
+  AlertTitle,
+  Input,
+  useToast
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { AddOrderModal } from './AddOrderModal';
-import { useDropzone } from 'react-dropzone';
-import { useCallback, useEffect, useState } from 'react';
-import { getWorkPointsByCompanyId } from '../../utils/apiCalls';
+import { useEffect, useState } from 'react';
+import {
+  addOrdersFromFile,
+  getWorkPointsByCompanyId
+} from '../../utils/apiCalls';
 import { useCookies } from 'react-cookie';
 import { Form, Formik } from 'formik';
 import { useSelector } from 'react-redux';
@@ -37,23 +41,8 @@ export const UploadOrderFragment = () => {
   const [workpoints, setWorkpoints] = useState([]);
   const [cookies] = useCookies();
   const [userError, setUserError] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-
-  const onDrop = useCallback((acceptedFiles) => {
-    setUploadedFiles(acceptedFiles);
-  }, []);
-
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    onDrop
-  });
-  const files = acceptedFiles.map((file) => (
-    <li
-      className='p-2 mb-4 last:mb-0 bg-sky-50 border border-sky-500'
-      key={file.path}
-    >
-      {file.path}
-    </li>
-  ));
+  const [uploadedFile, setUploadedFile] = useState([]);
+  const toast = useToast();
 
   useEffect(() => {
     setNeedWorkpointsCall(true);
@@ -96,17 +85,29 @@ export const UploadOrderFragment = () => {
       <Divider my={4} />
       <Formik
         initialValues={{
-          uploadedFile: undefined,
           workpointId: 0
         }}
-        onSubmit={async (values) => {}}
+        onSubmit={async (values) => {
+          const response = await addOrdersFromFile({
+            workPointId: values.workpointId,
+            file: uploadedFile
+          });
+          toast({
+            title: response,
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top'
+          });
+        }}
       >
-        {({ handleSubmit, handleChange, values }) => (
+        {({ handleSubmit, handleChange }) => (
           <Form
             onSubmit={handleSubmit}
             onChange={() => {
               setUserError('');
             }}
+            encType='multipart/form-data'
           >
             <Card
               borderRadius='30px'
@@ -123,11 +124,17 @@ export const UploadOrderFragment = () => {
                 <CardBody>
                   <Heading size='md'>Incarca fisier</Heading>
                   <section className='container'>
-                    <div
-                      {...getRootProps({ className: 'dropzone' })}
-                      className='border-4 border-dotted p-2 mt-2 cursor-pointer'
-                    >
-                      <input {...getInputProps()} />
+                    <div className='border-4 border-dotted p-2 mt-2 cursor-pointer'>
+                      <Input
+                        type='file'
+                        name='uploadedFile'
+                        id='uploadedFile'
+                        multiple={false}
+                        accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+                        onChange={(e) => {
+                          setUploadedFile(e.target.files[0]);
+                        }}
+                      />
                       <Text
                         py='2'
                         color={'grey'}
@@ -136,11 +143,8 @@ export const UploadOrderFragment = () => {
                         comanda din computerul tau.
                       </Text>
                     </div>
-                    <aside>
-                      <h4 className='font-semibold mt-2'>Incarcari</h4>
-                      <ul>{files}</ul>
-                    </aside>
                   </section>
+                  <br />
                   <Select
                     isDisabled={workpointsLoading}
                     onChange={handleChange}
