@@ -32,7 +32,7 @@ import { useDispatch } from 'react-redux';
 import { setNeedOrdersCall } from '../../slices/userSlice';
 import ReactPaginate from 'react-paginate';
 
-export const CreateOrderFragment = ({ onClose, companyId }) => {
+export const CreateManualOrderFragment = ({ onClose, companyId }) => {
   const { data } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -147,8 +147,8 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
             cookies.userToken
           );
           setLoading(false);
-          if (response.errorMessage) {
-            setUserError(response.errorMessage);
+          if (response.status === 1) {
+            setUserError(response.message);
           } else {
             toast({
               title: 'Comanda a fost creata cu succes!',
@@ -171,7 +171,7 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
             }}
           >
             <Stack
-              spacing={4}
+              spacing={2}
               className='mt-6'
             >
               <Select
@@ -192,12 +192,6 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
               </Select>
               {!productsLoading && (
                 <TableContainer>
-                  <Heading
-                    size={'sm'}
-                    mb={2}
-                  >
-                    Produse
-                  </Heading>
                   <Table size='sm'>
                     <Thead>
                       <Tr>
@@ -213,6 +207,7 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
                           <Td>{prod?.price}</Td>
                           <Td>
                             <Input
+                              size='xs'
                               className='max-w-[100px]'
                               id='quantity'
                               name='quantity'
@@ -261,19 +256,18 @@ export const CreateOrderFragment = ({ onClose, companyId }) => {
               )}
               <div className='w-full'>
                 <Heading
-                  size={'md'}
+                  size={'s'}
                   mb={2}
                   className='flex items-center justify-between'
                 >
                   <span>Pret total:</span>
-                  <span className='text-4xl'>{totalPrice}</span>
+                  <span className='text-4xl'>{totalPrice.toFixed(2)} RON</span>
                 </Heading>
               </div>
               <Button
                 colorScheme='blue'
                 onClick={() => {
-                  handleSubmit();
-                  onClose();
+                  handleSubmit();                  
                 }}
                 isLoading={loading}
               >

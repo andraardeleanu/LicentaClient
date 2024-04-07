@@ -1,71 +1,92 @@
 import {
-    Alert,
-    AlertIcon,
-    AlertTitle,
-    Button,
-    Input,
-    Stack,
-    useToast
-  } from '@chakra-ui/react';
-  import { Form, Formik } from 'formik';
-  import { useState } from 'react';
-  import { useCookies } from 'react-cookie';
-  import { useNavigate } from 'react-router-dom';
-  import { register } from '../../utils/apiCalls';
-  import { useDispatch } from 'react-redux';
-  import { setNeedCustomersCall } from '../../slices/userSlice';
-  
-  export const AddCustomerFragment = ({ onClose }) => {
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-    const [userError, setUserError] = useState('');
-    const [cookies] = useCookies();
-    const toast = useToast();
-    const dispatch = useDispatch();
-  
-    return (
-      <Formik
-        initialValues={{
-          firstname: '',
-          lastname: '',
-          companyId: '',
-          username: '',
-          password: '',
-          email: ''
-        }}
-        onSubmit={async (values) => {
-          setLoading(true);
-          const response = await register(values, cookies.userToken);
-          setLoading(false);
-          if (response.errorMessage) {
-            setUserError(response.errorMessage);
-          } else {
-            toast({
-              title: 'Noul client a fost adaugat cu succes!',
-              status: 'success',
-              duration: 5000,
-              isClosable: true,
-              position: 'top'
-            });
-            dispatch(setNeedCustomersCall(true));          
-            navigate('/');
-            onClose()
-          }
-        }}
-      >
-        {({ handleSubmit, handleChange, values }) => (
-          <Form
-            onSubmit={
-              handleSubmit
-            }
-            onChange={() => {
-              setUserError('');
-            }}
-          >
-            <Stack
-              spacing={4}
-              className='mt-6'
-            >
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Button,
+  Input,
+  Stack,
+  useToast,
+  Select,
+  InputGroup,
+  InputRightElement,
+  FormControl,
+  FormLabel
+} from '@chakra-ui/react';
+import { Form, Formik } from 'formik';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import { register, getCompanies } from '../../utils/apiCalls';
+import { useDispatch } from 'react-redux';
+import { setNeedCustomersCall } from '../../slices/userSlice';
+
+export const AddCustomerFragment = ({ onClose, companyId }) => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [userError, setUserError] = useState('');
+  const [cookies] = useCookies();
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const [needCompanyCall, setNeedCompanyCall] = useState(false);
+  const [companyLoading, setCompanyLoading] = useState(false);
+  const [company, setCompany] = useState([]);
+  const [showPassword, setShowPassword] = useState(false); // Definirea variabilei showPassword și a funcției setShowPassword pentru afișarea sau ascunderea parolei
+
+  useEffect(() => {
+    setNeedCompanyCall(true);
+  }, [companyId]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (needCompanyCall) {
+          setCompanyLoading(true);
+          const res = await getCompanies(cookies.userToken);
+          setCompany(res);
+          setCompanyLoading(false);
+          dispatch(setNeedCompanyCall(false));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [cookies.userToken, dispatch, needCompanyCall]);
+
+  return (
+    <Formik
+      initialValues={{
+        firstname: '',
+        lastname: '',
+        companyId: 0,
+        username: '',
+        password: '',
+        email: ''
+      }}
+      onSubmit={async (values) => {
+        setLoading(true);
+        const response = await register(values, cookies.userToken);
+        setLoading(false);
+        if (response.status === 1) {
+          setUserError(response.message);
+        } else {
+          toast({
+            title: 'Noul client a fost adaugat cu succes!',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top'
+          });
+          dispatch(setNeedCustomersCall(true));
+          navigate('/');
+          onClose();
+        }
+      }}
+    >
+      {({ handleSubmit, handleChange, values }) => (
+        <Form onSubmit={handleSubmit}>
+          <Stack spacing={4} className='mt-6'>
+            <FormControl isRequired>
+              <FormLabel>Prenume</FormLabel>
               <Input
                 id='firstname'
                 name='firstname'
@@ -73,6 +94,9 @@ import {
                 onChange={handleChange}
                 value={values.firstname}
               />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Nume</FormLabel>
               <Input
                 id='lastname'
                 name='lastname'
@@ -80,13 +104,25 @@ import {
                 onChange={handleChange}
                 value={values.lastname}
               />
-              <Input
-                id='companyId'
-                name='companyId'
-                placeholder='Companie'
-                onChange={handleChange}
-                value={values.companyId}
-              />
+            </FormControl>
+            <Select
+              id='companyId'
+              name='companyId'
+              placeholder='Selecteaza compania'
+              onChange={handleChange}
+              isDisabled={companyLoading}
+            >
+              {company.map((cp) => (
+                <option
+                  key={cp?.id}
+                  companyId={cp?.id}
+                >
+                  {cp?.name}
+                </option>
+              ))}
+            </Select>
+            <FormControl isRequired>
+              <FormLabel>Username</FormLabel>
               <Input
                 id='username'
                 name='username'
@@ -94,13 +130,32 @@ import {
                 onChange={handleChange}
                 value={values.username}
               />
-              <Input
-                id='password'
-                name='password'
-                placeholder='Parola'
-                onChange={handleChange}
-                value={values.lastname}
-              />              
+            </FormControl>
+            <FormControl isRequired>
+            <FormLabel>Parola</FormLabel>
+              <InputGroup size='md'>
+                <Input
+                  id='password'
+                  name='password'
+                  pr='4.5rem'
+                  type={showPassword ? 'text' : 'password'} // Utilizarea variabilei showPassword pentru a decide tipul de input
+                  placeholder='Parola'
+                  onChange={handleChange}
+                  value={values.password}
+                />
+                <InputRightElement width='4.5rem'>
+                  <Button
+                    h='1.75rem'
+                    size='sm'
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? 'Ascunde' : 'Arata'}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
               <Input
                 id='email'
                 name='email'
@@ -108,31 +163,31 @@ import {
                 onChange={handleChange}
                 value={values.email}
               />
-              {userError && (
-                <Alert status='error'>
-                  <AlertIcon />
-                  <AlertTitle>{userError}</AlertTitle>
-                </Alert>
-              )}
-              <Button
-                colorScheme='blue'
-                onClick={() => {
-                  handleSubmit()
-                }}
-                isLoading={loading}
-              >
-                Adauga client
-              </Button>
-              <Button
-                onClick={onClose}
-                disabled={loading}
-              >
-                Renunta
-              </Button>
-            </Stack>
-          </Form>
-        )}
-      </Formik>
-    );
-  };
-  
+            </FormControl>
+            {userError && (
+              <Alert status='error'>
+                <AlertIcon />
+                <AlertTitle>{userError}</AlertTitle>
+              </Alert>
+            )}
+            <Button
+              colorScheme='blue'
+              onClick={() => {
+                handleSubmit()
+              }}
+              isLoading={loading}
+            >
+              Adauga client
+            </Button>
+            <Button
+              onClick={onClose}
+              disabled={loading}
+            >
+              Renunta
+            </Button>
+          </Stack>
+        </Form>
+      )}
+    </Formik>
+  );
+};

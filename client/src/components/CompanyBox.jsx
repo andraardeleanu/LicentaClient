@@ -7,21 +7,22 @@ import {
   Stack,
   Text,
   IconButton,
-  Button,
-  Tooltip
+  Tooltip,
+  useDisclosure
 } from '@chakra-ui/react';
 import moment from 'moment';
+import { useState } from 'react';
 import { FaClock, FaStar } from 'react-icons/fa';
-import { MdSettings } from 'react-icons/md';
 import { ViewIcon, EditIcon } from '@chakra-ui/icons'
 
 export const CompanyBox = ({
   name,
-  cui,
   author,
   dateUpdated,
-  onOptionsClick
+  onOptionsClick,
+  onUpdateClick
 }) => {
+
   return (
     <Card
       borderRadius='20px'
@@ -44,6 +45,7 @@ export const CompanyBox = ({
               leftIcon={<EditIcon />}
               colorScheme='gray'
               variant='ghost'
+              onClick={onUpdateClick}
             />
           </Tooltip>
           <Tooltip

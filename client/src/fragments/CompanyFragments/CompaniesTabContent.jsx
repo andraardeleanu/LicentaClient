@@ -14,6 +14,7 @@ import { CompanyBox } from '../../components/CompanyBox';
 import { getCompanies } from '../../utils/apiCalls';
 import { AddCompanyModal } from './AddCompanyModal';
 import { CompanyWorkpointsModal } from './CompanyWorkpointsModal';
+import { UpdateCompanyModal } from './UpdateCompanyModal';
 import { setNeedCompaniesCall } from '../../slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -34,6 +35,12 @@ export const CompaniesTabContent = () => {
     isOpen: isCompanyWorkpointsModalOpen,
     onOpen: onCompanyWorkpointsModalOpen,
     onClose: onCompanyWorkpointsModalClose
+  } = useDisclosure();
+
+  const {
+    isOpen: isUpdateCompanyModalOpen,
+    onOpen: onUpdateCompanyModalOpen,
+    onClose: onUpdateCompanyModalClose
   } = useDisclosure();
 
   const [companies, setCompanies] = useState([]);
@@ -84,7 +91,11 @@ export const CompaniesTabContent = () => {
                 onOptionsClick={() => {
                   setSelectedCompanyId(company?.id);
                   setSelectedCompanyName(company?.name);
-                  onCompanyWorkpointsModalOpen();
+                  onCompanyWorkpointsModalOpen();                 
+                }}
+                onUpdateClick={() => {
+                  setSelectedCompanyId(company?.id);
+                  onUpdateCompanyModalOpen();                
                 }}
               />
             </WrapItem>
@@ -103,6 +114,11 @@ export const CompaniesTabContent = () => {
         onClose={onCompanyWorkpointsModalClose}
         companyId={selectedCompanyId}
         companyName={selectedCompanyName}
+      />
+      <UpdateCompanyModal
+        isOpen={isUpdateCompanyModalOpen}
+        onClose={onUpdateCompanyModalClose}
+        companyId={selectedCompanyId}
       />
     </>
   );

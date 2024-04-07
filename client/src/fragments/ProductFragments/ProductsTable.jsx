@@ -3,20 +3,35 @@ import {
   Table,
   TableContainer,
   Tbody,
+  Input,
   Td,
   Th,
   Thead,
   Tr,
   Divider,
-  useDisclosure
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
+  useDisclosure,
+  IconButton,
+  Select
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
-import { useCookies } from 'react-cookie';
 import { StockDetailsModal } from './StockDetailsModal';
+import { getProducts } from '../../utils/apiCalls';
+import { useCookies } from 'react-cookie';
+import { FaFilter, FaPlus } from 'react-icons/fa';
 
-export const ProductsTable = ({ products }) => {
+export const ProductsTable = ({
+  products,
+  setProducts
+}) => {
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
   const currentItems = products.slice(itemOffset, endOffset);
@@ -26,23 +41,105 @@ export const ProductsTable = ({ products }) => {
     const newOffset = (event.selected * 10) % products.length;
     setItemOffset(newOffset);
   };
+  const [cookies] = useCookies();
   const {
     isOpen: isStockDetailsModalOpen,
     onOpen: onStockDetailsModalOpen,
     onClose: onStockDetailsModalClose
   } = useDisclosure();
 
+  const [productNameFilter, setProductNameFilter] = useState();
+  const [sortByPrice, setSortByPrice] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await getProducts(cookies.userToken, { name: productNameFilter }).then(
+          (res) => {
+            const sortedProducts = sortProductsByPrice(res, sortByPrice);
+            setProducts(sortedProducts);
+          }
+        );
+      } catch (err) {
+        return err;
+      }
+    })();
+  }, [productNameFilter, sortByPrice]);
+
+  const sortProductsByPrice = (products, sortByPrice) => {
+    if (sortByPrice === 'asc') {
+      return [...products].sort((a, b) => a.price - b.price);
+    } else if (sortByPrice === 'desc') {
+      return [...products].sort((a, b) => b.price - a.price);
+    } else {
+      return products;
+    }
+  };
+
   return (
     <>
       <TableContainer>
         <Table
-          variant='simple'
-          size='sm'
+          variant='striped'
+          colorScheme='blackAlpha'
         >
           <Thead>
             <Tr>
-              <Th>Nume produs</Th>
-              <Th>Pret</Th>
+              <Th className='flex items-center justify-between'>
+                <span>Nume produs</span>
+                <span className='flex gap-2'>
+                  <Popover>
+                    <PopoverTrigger>
+                      <IconButton
+                        size={'xs'}
+                        colorScheme='blue'
+                        icon={<FaFilter />}
+                      />
+                    </PopoverTrigger>
+                    <Portal>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverBody className='mt-6 flex flex-col gap-4'>
+                          <Input
+                            placeholder='Nume produs'
+                            name='productNameFilter'
+                            value={productNameFilter}
+                            onChange={(e) => {
+                              setProductNameFilter(e.target.value);
+                            }}
+                          />
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Portal>
+                  </Popover>
+                  {productNameFilter && (
+                    <IconButton
+                      size={'xs'}
+                      colorScheme='red'
+                      icon={<FaPlus className='rotate-45' />}
+                      onClick={() => {
+                        setProductNameFilter('');
+                      }}
+                    />
+                  )}
+                </span>
+              </Th>
+              <Th>
+                <span className='flex items-center justify-between'>
+                  Pret
+                  <Select
+                    value={sortByPrice}
+                    onChange={(e) => setSortByPrice(e.target.value)}
+                    placeholder='Sortare'
+                    size='sm'
+                    width='130px'                    
+                  >
+                    <option value='asc'>Crescator</option>
+                    <option value='desc'>Descrescator</option>
+                  </Select>
+                </span>
+              </Th>
               <Th>Creat la</Th>
               <Th>Optiuni</Th>
             </Tr>
@@ -52,9 +149,9 @@ export const ProductsTable = ({ products }) => {
               return (
                 <Tr key={pd.id}>
                   <Td>{pd.name}</Td>
-                  <Td>{pd.price}</Td>
+                  <Td>{pd.price} RON</Td>
                   <Td>
-                    {moment(pd.dateCreated).format('DD.MM.yyyy HH:mm:ss')}
+                    {moment(pd.dateUpdated).format('DD.MM.yyyy HH:mm:ss')}
                   </Td>
                   <Td>
                     <Button
@@ -83,7 +180,7 @@ export const ProductsTable = ({ products }) => {
           pageCount={pageCount}
           previousLabel='<'
           renderOnZeroPageCount={null}
-          className='flex items-center gap-4 justify-center'          
+          className='flex items-center gap-4 justify-center'
         />
       </TableContainer>
 

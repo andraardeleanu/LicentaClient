@@ -19,7 +19,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
-import { AddOrderModal } from './AddOrderModal';
+import { CreateManualOrderModal } from './CreateManualOrderModal';
 import { useEffect, useState } from 'react';
 import {
   addOrdersFromFile,
@@ -46,7 +46,6 @@ export const UploadOrderFragment = () => {
 
   useEffect(() => {
     setNeedWorkpointsCall(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.companies[0]?.id]);
 
   useEffect(() => {
@@ -113,10 +112,12 @@ export const UploadOrderFragment = () => {
               borderRadius='30px'
               direction={{ base: 'column', sm: 'row' }}
               overflow='hidden'
+              bg='rgba(255, 255, 255, 0.5)'
             >
               <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
+                boxSize='90px' // Setează dimensiunea imaginii la 50x50 pixeli
                 src={require('../../images/upload-file2.png')}
               />
 
@@ -139,8 +140,7 @@ export const UploadOrderFragment = () => {
                         py='2'
                         color={'grey'}
                       >
-                        Click aici pentru a adauga fisierul ce contine noua
-                        comanda din computerul tau.
+                        Incarca fisierul din computerul tau.
                       </Text>
                     </div>
                   </section>
@@ -182,7 +182,7 @@ export const UploadOrderFragment = () => {
           </Form>
         )}
       </Formik>
-      <AddOrderModal
+      <CreateManualOrderModal
         isOpen={isCreateOrderModalOpen}
         onClose={onCreateOrderModalClose}
       />

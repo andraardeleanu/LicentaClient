@@ -6,10 +6,10 @@ import {
   ModalHeader,
   ModalOverlay
 } from '@chakra-ui/react';
-import { CreateOrderFragment } from './CreateOrderFragment';
+import { CreateManualOrderFragment } from './CreateManualOrderFragment';
 import { useSelector } from 'react-redux';
 
-export const AddOrderModal = ({ isOpen, onClose }) => {
+export const CreateManualOrderModal = ({ isOpen, onClose }) => {
   const { data } = useSelector((store) => store.user);
   return (
     <>
@@ -24,8 +24,8 @@ export const AddOrderModal = ({ isOpen, onClose }) => {
         <ModalContent>
           <ModalHeader>Creaza comanda manual</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
-            <CreateOrderFragment
+          <ModalBody pb={4}>
+            <CreateManualOrderFragment
               onClose={onClose}
               companyId={data?.companies[0]?.id}
             />

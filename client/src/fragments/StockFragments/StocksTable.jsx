@@ -7,34 +7,42 @@ import {
     Th,
     Thead,
     Tr,
-    Divider
+    Divider,
+    useDisclosure
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import moment from 'moment';
+import { UpdateStockModal } from './UpdateStockModal';
 
 export const StocksTable = ({ stocks }) => {
     const [itemOffset, setItemOffset] = useState(0);
     const endOffset = itemOffset + 10;
     const currentItems = stocks.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(stocks.length / 10);
+    const [selectedStockId, setSelectedStockId] = useState();
+    const [selectedAvailableStock, setSelectedAvailableStock] = useState();
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * 10) % stocks.length;
         setItemOffset(newOffset);
     };
+    const {
+        isOpen: isStockModalOpen,
+        onOpen: onStockModalOpen,
+        onClose: onStockModalClose
+    } = useDisclosure();
 
     return (
         <>
             <Divider my={4} />
             <TableContainer>
                 <Table
-                    variant='simple'
-                    size='sm'
+                    variant='striped'
+                    colorScheme='blackAlpha'
                 >
                     <Thead>
                         <Tr>
-                            <Th>Nume produs</Th>
+                            <Th>Produs</Th>
                             <Th>Stoc disponibil</Th>
                             <Th>Stoc in asteptare</Th>
                             <Th>Optiuni</Th>
@@ -43,16 +51,21 @@ export const StocksTable = ({ stocks }) => {
                     <Tbody>
                         {currentItems.map((st) => {
                             return (
-                                <Tr key={st.id}>                                    
-                                    <Td>{st.availableStock}</Td>
-                                    <Td>{st.pendingStock}</Td>
-                                    <Td>
-                                        {moment(st.dateCreated).format('DD.MM.yyyy HH:mm:ss')}
-                                    </Td>
+                                <Tr key={st.id}>
+                                    <Td>{st.productName}</Td>
+                                    <Td>{st.availableStock} buc.</Td>
+                                    <Td>{st.pendingStock} buc.</Td>
+                                    
                                     <Td>
                                         <Button
-                                            colorScheme='teal'                                            
+                                            colorScheme='teal'
+                                            variant='ghost'
                                             size='sm'
+                                            onClick={() => {
+                                                setSelectedStockId(st?.id);
+                                                setSelectedAvailableStock(st?.availableStock);
+                                                onStockModalOpen();
+                                            }}                                            
                                         >
                                             Actualizeaza
                                         </Button>
@@ -73,7 +86,13 @@ export const StocksTable = ({ stocks }) => {
                     renderOnZeroPageCount={null}
                     className='flex items-center gap-4 justify-center'
                 />
-            </TableContainer>
-        </>
+            </TableContainer>            
+            <UpdateStockModal
+                isOpen={isStockModalOpen}
+                onClose={onStockModalClose}
+                stockId={selectedStockId}
+                availableStock={selectedAvailableStock}
+            />
+        </>    
     );
 };

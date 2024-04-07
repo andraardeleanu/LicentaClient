@@ -34,7 +34,7 @@ export const CustomersTable = ({ customers }) => {
               <Th>Prenume</Th>
               <Th>Nume</Th>
               <Th>Username</Th>
-              <Th>Companii</Th>
+              <Th>Companie</Th>
               <Th>Optiuni</Th>
             </Tr>
           </Thead>

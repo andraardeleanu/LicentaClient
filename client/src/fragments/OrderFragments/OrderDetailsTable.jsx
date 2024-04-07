@@ -15,7 +15,7 @@ export const OrderDetailsTable = ({ orders, onClose }) => {
     <>
       <Divider my={6} />
       <TableContainer>
-        <Table variant='striped'>
+        <Table>
           <Thead>
             <Tr>
               <Th>Nume produs</Th>
@@ -27,8 +27,8 @@ export const OrderDetailsTable = ({ orders, onClose }) => {
             {orders.map((or) => (
               <Tr>
                 <Td>{or.name}</Td>
-                <Td>{or.price}</Td>
-                <Td>{or.quantity}</Td>
+                <Td>{or.price} RON</Td>
+                <Td>{or.quantity} buc.</Td>
               </Tr>
             ))}
           </Tbody>

@@ -5,7 +5,9 @@ import {
   Button,
   Input,
   Stack,
-  useToast
+  useToast,
+  FormControl,
+  FormLabel
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
@@ -32,10 +34,9 @@ export const AddCompanyFragment = ({ onClose }) => {
       onSubmit={async (values) => {
         setLoading(true);
         const response = await addCompany(values, cookies.userToken);
-        console.log('response: ', response);
         setLoading(false);
-        if (response.errorMessage) {
-          setUserError(response.errorMessage);
+        if (response.status === 1) {
+          setUserError(response.message);
         } else {
           toast({
             title: 'Compania a fost creata cu succes!',
@@ -61,20 +62,26 @@ export const AddCompanyFragment = ({ onClose }) => {
             spacing={4}
             className='mt-6'
           >
-            <Input
-              id='name'
-              name='name'
-              placeholder='Numele companiei'
-              onChange={handleChange}
-              value={values.name}
-            />
-            <Input
-              id='cui'
-              name='cui'
-              placeholder='CUI'
-              onChange={handleChange}
-              value={values.cui}
-            />
+            <FormControl isRequired>
+              <FormLabel>Nume companie</FormLabel>
+              <Input
+                id='name'
+                name='name'
+                placeholder='Numele companiei'
+                onChange={handleChange}
+                value={values.name}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>CUI</FormLabel>
+              <Input
+                id='cui'
+                name='cui'
+                placeholder='CUI'
+                onChange={handleChange}
+                value={values.cui}
+              />
+            </FormControl>
             {userError && (
               <Alert status='error'>
                 <AlertIcon />

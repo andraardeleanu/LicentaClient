@@ -28,7 +28,7 @@ export const HomepageTabsFragment = () => {
         {data?.roles[0] === ADMIN_RANK && <Tab>Comenzi</Tab>}
         {data?.roles[0] === MANAGER_RANK && <Tab>Comenzile mele</Tab>}
         <Tab>Produse</Tab>
-        <Tab>Stoc</Tab>
+        {data?.roles[0] === ADMIN_RANK && <Tab>Stoc</Tab>}
         {data?.roles[0] === ADMIN_RANK && <Tab>Facturi</Tab>}
         {data?.roles[0] === MANAGER_RANK && <Tab>Facturile mele</Tab>}
         {data?.roles[0] === ADMIN_RANK && <Tab>Clienti</Tab>}
@@ -47,8 +47,7 @@ export const HomepageTabsFragment = () => {
           {data?.roles[0] === MANAGER_RANK && <ProductsView />}
         </TabPanel>
         <TabPanel>
-        {data?.roles[0] === ADMIN_RANK && <StocksView />}
-          {data?.roles[0] === MANAGER_RANK && <StocksView />}
+        {data?.roles[0] === ADMIN_RANK && <StocksView />}        
         </TabPanel>
         <TabPanel></TabPanel>
         <TabPanel>

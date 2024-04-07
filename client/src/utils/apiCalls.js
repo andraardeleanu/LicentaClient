@@ -12,6 +12,10 @@ export const getCompanyById = async (token, companyId) => {
   return await axiosAuthorizedGet(`/getCompanyById/${companyId}`, token);
 };
 
+export const getWorkpointById = async (token, workpointId) => {
+  return await axiosAuthorizedGet(`/getWorkpointById/${workpointId}`, token);
+};
+
 export const addCompany = async (data, token) => {
   return await axiosAuthorizedPost('/addCompany', data, token);
 };
@@ -35,12 +39,13 @@ export const getStockByProductId = async (productId, token) => {
   return await axiosAuthorizedGet(`/getStockByProductId/${productId}`, token);
 };
 
-export const addWorkPoint = async (data, token) => {
-  return await axiosAuthorizedPost('/addWorkpoint', data, token);
+export const getStockById = async (id, token) => {
+  return await axiosAuthorizedGet(`/getStockById/${id}`, token);
 };
 
-export const getProducts = async (token) => {
-  return await axiosAuthorizedGet('/getProducts', token);
+
+export const addWorkPoint = async (data, token) => {
+  return await axiosAuthorizedPost('/addWorkpoint', data, token);
 };
 
 export const addProduct = async (data, token) => {
@@ -60,8 +65,23 @@ export const register = async (data, token) => {
 };
 
 export const getOrders = async (token, filters = null) => {
+  let queryString = '';
+
+  if (filters && filters.orderNo) {
+    queryString += `OrderNo=${filters.orderNo}&`;
+  }
+
+  if (filters && filters.status) {
+    queryString += `Status=${filters.status}&`;
+  }
+  queryString = queryString.replace(/&$/, '');
+
+  return await axiosAuthorizedGet(`/getOrders?${queryString}`, token);
+};
+
+export const getProducts = async (token, filters = null) => {
   return await axiosAuthorizedGet(
-    `/getOrders?${filters?.orderNo && `OrderNo=${filters?.orderNo}`}`,
+    `/getProducts?${filters?.name && `Name=${filters?.name}`}`,
     token
   );
 };
@@ -81,6 +101,15 @@ export const addOrdersFromFile = async (data, token) => {
   return await axiosAuthorizedFormPost('/addOrdersFromFile', data, token);
 };
 
-export const updateStock = async (token, stockId, availableStock) => {
-  return await axiosAuthorizedGet(`/updateStock/?${stockId} && ${availableStock}`, token);
+export const updateStock = async (data, token) => {
+  return await axiosAuthorizedPost(`/updateStock`, data, token);
 };
+
+export const updateCompany = async (data, token) => {
+  return await axiosAuthorizedPost(`/updateCompany`, data, token);
+};
+
+export const updateOrderStatus = async (orderId, token) => {
+  return await axiosAuthorizedPost(`/updateOrderStatus/${orderId}`, token);
+};
+
