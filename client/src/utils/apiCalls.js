@@ -1,7 +1,7 @@
 import {
   axiosAuthorizedFormPost,
   axiosAuthorizedGet,
-  axiosAuthorizedPost
+  axiosAuthorizedPost,
 } from './axiosFunctions';
 
 export const getCompanies = async (token) => {
@@ -18,6 +18,10 @@ export const getWorkpointById = async (token, workpointId) => {
 
 export const addCompany = async (data, token) => {
   return await axiosAuthorizedPost('/addCompany', data, token);
+};
+
+export const addWorkPoint = async (data, token) => {
+  return await axiosAuthorizedPost('/addWorkpoint', data, token);
 };
 
 export const getWorkPoints = async (token) => {
@@ -41,11 +45,6 @@ export const getStockByProductId = async (productId, token) => {
 
 export const getStockById = async (id, token) => {
   return await axiosAuthorizedGet(`/getStockById/${id}`, token);
-};
-
-
-export const addWorkPoint = async (data, token) => {
-  return await axiosAuthorizedPost('/addWorkpoint', data, token);
 };
 
 export const addProduct = async (data, token) => {
@@ -113,3 +112,18 @@ export const updateOrderStatus = async (orderId, token) => {
   return await axiosAuthorizedPost(`/updateOrderStatus/${orderId}`, token);
 };
 
+export const updateWorkpoint = async (data, token) => {
+  return await axiosAuthorizedPost(`/updateWorkpoint`, data, token);
+};
+
+export const removeWorkpoint = async (data, token) => {
+  return await axiosAuthorizedPost(`/removeWorkpoint`, data, token);
+};
+
+export const updateCustomer = async (data, token) => {
+  return await axiosAuthorizedPost(`/updateCustomer`, data, token);
+};
+
+export const billGenerator = async (data, token) => {
+  return await axiosAuthorizedPost(`/billGenerator`, data, token);
+};

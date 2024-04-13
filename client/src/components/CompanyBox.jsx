@@ -8,7 +8,6 @@ import {
   Text,
   IconButton,
   Tooltip,
-  useDisclosure
 } from '@chakra-ui/react';
 import moment from 'moment';
 import { useState } from 'react';

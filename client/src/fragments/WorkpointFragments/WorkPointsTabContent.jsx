@@ -4,32 +4,51 @@ import {
   Icon,
   Wrap,
   WrapItem,
-  useDisclosure
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { ResultsLoading } from '../../components/ResultsLoading';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 import { WorkPointBox } from '../../components/WorkPointBox';
-import { getWorkPointsByUserId } from '../../utils/apiCalls';
+import { getWorkPointsByUserId, removeWorkpoint } from '../../utils/apiCalls';
 import { AddWorkPointModal } from './AddWorkPointModal';
 import { setNeedWorkPointsCall } from '../../slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { UpdateWorkpointModal } from './UpdateWorkpointModal';
+import { ConfirmationModal } from './ConfirmationModal';
 
 export const WorkPointsTabContent = () => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
+  const [workPointsLoading, setWorkPointsLoading] = useState(false);
+  const [workpoints, setWorkPoints] = useState([]);
+  const { data } = useSelector((store) => store.user);
+  const [selectedWorkpoint, setSelectedWorkpoint] = useState();
+  const [selectedWorkpointId, setSelectedWorkpointId] = useState();
   const needWorkPointsCall = useSelector(
     (state) => state.user.needWorkPointsCall
   );
-  const [workPointsLoading, setWorkPointsLoading] = useState(false);
+
   const {
     isOpen: isAddWorkPointModalOpen,
     onOpen: onAddWorkPointModalOpen,
     onClose: onAddWorkPointModalClose
   } = useDisclosure();
-  const [workpoints, setWorkPoints] = useState([]);
-  const { data } = useSelector((store) => store.user);
+
+  const {
+    isOpen: isUpdateWorkpointModalOpen,
+    onOpen: onUpdateWorkpointModalOpen,
+    onClose: onUpdateWorkpointModalClose
+  } = useDisclosure();
+
+  const {
+    isOpen: isConfirmationModalOpen,
+    onOpen: onConfirmationModalOpen,
+    onClose: onConfirmationModalClose
+  } = useDisclosure();
+  
   useEffect(() => {
     (async () => {
       try {
@@ -63,16 +82,24 @@ export const WorkPointsTabContent = () => {
       {workPointsLoading && <ResultsLoading />}
       <Wrap spacing={0}>
         {workpoints.length > 0 ? (
-          workpoints.map((workpoint, index) => (
+          workpoints.map((wp, index) => (
             <WrapItem
               className='w-full md:w-1/3'
               key={index}
             >
               <WorkPointBox
-                name={workpoint?.name}
-                address={workpoint?.address}
-                author={workpoint?.author}
-                dateUpdated={workpoint?.dateUpdated}
+                name={wp?.name}
+                address={wp?.address}
+                author={wp?.author}
+                dateUpdated={wp?.dateUpdated}
+                onUpdateClick={() => {
+                  setSelectedWorkpoint(wp);                  
+                  onUpdateWorkpointModalOpen();
+                }}
+                onDeleteClick={() => {
+                  setSelectedWorkpointId(wp.id);
+                  onConfirmationModalOpen();
+                }}
               />
             </WrapItem>
           ))
@@ -84,6 +111,16 @@ export const WorkPointsTabContent = () => {
       <AddWorkPointModal
         isOpen={isAddWorkPointModalOpen}
         onClose={onAddWorkPointModalClose}
+      />
+      <UpdateWorkpointModal
+        isOpen={isUpdateWorkpointModalOpen}
+        onClose={onUpdateWorkpointModalClose}
+        workpoint={selectedWorkpoint}
+      />
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onClose={onConfirmationModalClose}
+        workpoint={selectedWorkpointId}
       />
     </>
   );

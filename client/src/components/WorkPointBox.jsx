@@ -10,10 +10,17 @@ import {
 } from '@chakra-ui/react';
 import moment from 'moment';
 import { FaClock, FaStar } from 'react-icons/fa';
-import { DragHandleIcon, DeleteIcon } from '@chakra-ui/icons';
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import { Spacer, Tooltip } from '@chakra-ui/react';
 
-export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
+export const WorkPointBox = ({
+  name,
+  address,
+  author,
+  dateUpdated,
+  onUpdateClick,
+  onDeleteClick
+}) => {
   return (
     <Card
       borderRadius='30px'
@@ -25,10 +32,20 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
           direction='row'
           spacing={4}
         >
-          <IconButton
-            colorScheme='gray'
-            icon={<DragHandleIcon />}
-          />
+          <Tooltip
+            placement='top'
+            label='Modifica punct de lucru'
+            bg='white.100'
+            color='black'
+            fontSize={'md'}
+          >
+            <IconButton
+              leftIcon={<EditIcon />}
+              colorScheme='gray'
+              variant='ghost'
+              onClick={onUpdateClick}
+            />
+          </Tooltip>
           <Spacer />
           <Tooltip
             label='Sterge punct de lucru'
@@ -40,6 +57,7 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
               rightIcon={<DeleteIcon />}
               colorScheme='gray'
               variant='ghost'
+              onClick={onDeleteClick}
             />
           </Tooltip>
         </Stack>
@@ -58,6 +76,7 @@ export const WorkPointBox = ({ name, address, author, dateUpdated }) => {
               <Text>{name}</Text>
             </div>
           </Heading>
+          <Text fontStyle="italic" color="blue.700" fontWeight="bold" fontSize='xxs'>{address}</Text>
           <div>
             <span className='flex gap-2 items-center'>
               <Icon as={FaClock} />

@@ -2,14 +2,7 @@ import {
   Button,
   Divider,
   IconButton,
-  Input,
   Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
   Table,
   TableContainer,
   Tbody,
@@ -23,13 +16,13 @@ import {
 } from '@chakra-ui/react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { ADMIN_RANK } from '../../utils/constants';
+import { ADMIN_RANK, MANAGER_RANK } from '../../utils/constants';
 import ReactPaginate from 'react-paginate';
 import { OrderDetailsModal } from './OrderDetailsModal';
 import { useEffect, useState } from 'react';
-import { getOrders, updateOrderStatus } from '../../utils/apiCalls';
+import { getOrders, updateOrderStatus, billGenerator } from '../../utils/apiCalls';
 import { useCookies } from 'react-cookie';
-import { FaFilter, FaPlus } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setNeedOrdersCall } from '../../slices/userSlice';
@@ -66,6 +59,55 @@ export const OrdersTable = ({
     setItemOffset(newOffset);
   };
 
+  const downloadV2 = (response) => {
+    const blob = response.blob;
+    const url = window.URL.createObjectURL(new Blob([blob]));
+
+    // Creează un obiect de antete HTTP
+    const headers = new Headers();
+    headers.append(
+        'Accept', 'application/json',
+        'Content-Type', 'application/json'
+    );
+
+    // Creează un obiect de cerere cu URL-ul și antetele corespunzătoare
+    const request = new Request(url, {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors', // Poate fi necesar să modifici acest parametru în funcție de politica de securitate a browser-ului
+    });
+
+    // Fetch pentru descărcarea fișierului cu antetele corespunzătoare
+    fetch(request)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+
+        // Creează un link de descarcare
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', response.fileName);
+        document.body.appendChild(link);
+        link.click();
+
+        // Eliberează resursele URL-ului creat
+        window.URL.revokeObjectURL(url);
+
+        // Afisează mesaj de succes
+        toast({
+          title: 'Factură generată și descărcată cu succes.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'top'
+        });
+      })
+      .catch((error) => {
+        console.error('Eroare în timpul descărcării fișierului:', error);
+        // Tratează erorile de descărcare
+      });
+  }
+
   useEffect(() => {
     (async () => {
       try {
@@ -91,7 +133,7 @@ export const OrdersTable = ({
         duration: 5000,
         isClosable: true,
         position: 'top'
-      });    
+      });
     } else {
       toast({
         title: 'Status actualizat cu succes.',
@@ -100,6 +142,25 @@ export const OrdersTable = ({
         isClosable: true,
         position: 'top'
       });
+      dispatch(setNeedOrdersCall(true));
+    }
+  };
+
+  const handleBillGenerator = async (order) => {
+    setLoading(true);
+    const response = await billGenerator(order, cookies.userToken);
+    console.log('rrr', response);
+    setLoading(false);
+    if (response.status === 1) {
+      toast({
+        title: response.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top'
+      });
+    } else {
+      downloadV2(response.file);
       dispatch(setNeedOrdersCall(true));
     }
   };
@@ -114,56 +175,26 @@ export const OrdersTable = ({
         >
           <Thead>
             <Tr>
-              <Th className='flex items-center justify-between'>
+              <Th style={{ textAlign: 'center' }}>ID</Th>
+              <Th className='flex items-center justify-between' style={{ textAlign: 'center' }}>
                 <span>Numar comanda</span>
                 <span className='flex gap-2'>
                   <Popover>
-                    <PopoverTrigger>
-                      <IconButton
-                        size={'xs'}
-                        colorScheme='blue'
-                        icon={<FaFilter />}
-                      />
-                    </PopoverTrigger>
-                    <Portal>
-                      <PopoverContent>
-                        <PopoverBody className='mt-6 flex flex-col gap-4'>
-                          <Input
-                            placeholder='Numar comanda'
-                            name='orderNrFilter'
-                            value={orderNoFilter}
-                            onChange={(e) => {
-                              setOrderNoFilter(e.target.value);
-                            }}
-                          />
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Portal>
+                    {/* Restul codului */}
                   </Popover>
-                  {orderNoFilter && (
-                    <IconButton
-                      size={'sm'}
-                      colorScheme='red'
-                      icon={<FaPlus className='rotate-45' />}
-                      onClick={() => {
-                        setOrderNoFilter('');
-                      }}
-                    />
-                  )}
                 </span>
               </Th>
               <Th>Data creare</Th>
-              <Th className='flex items-center justify-between'>
-                <span>Status</span>
+              <Th style={{ textAlign: 'center', width: '180px' }} className='flex items-center justify-between'>
                 <span className='flex gap-2'>
                   <Select
-                    size='xs'
+                    size='sm'
                     placeholder='Alege status'
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                   >
-                    <option value="Procesata">Procesata</option>
-                    <option value="Initializata">Initializata</option>
+                    <option value="Processed">Procesata</option>
+                    <option value="Initialized">Initializata</option>
                   </Select>
                   {statusFilter && (
                     <IconButton
@@ -177,21 +208,22 @@ export const OrdersTable = ({
                   )}
                 </span>
               </Th>
-              <Th>Punct de lucru</Th>
-              <Th>Vezi detalii comanda</Th>
+              <Th style={{ textAlign: 'center' }}>Vezi detalii</Th>
+              <Th style={{ textAlign: 'center' }}>Actiuni</Th>
             </Tr>
           </Thead>
           <Tbody>
             {currentItems.map((order) => (
               <Tr key={order.orderNo}>
+                <Td>{order.id}</Td>
                 <Td>{order.orderNo}</Td>
                 <Td>
-                  {moment(order.dateCreated).format('DD.MM.yyyy HH:mm:ss')}
+                  {moment(order.dateCreated).format('DD.MM.yyyy')}
                 </Td>
                 <Td>{order.status}</Td>
-                <Td>{order.workPointId}</Td>
                 <Td>
                   <Button
+                    style={{ textAlign: 'center' }}
                     colorScheme='teal'
                     variant='ghost'
                     size='sm'
@@ -215,6 +247,20 @@ export const OrdersTable = ({
                       }}
                     >
                       Modifica status
+                    </Button>
+                  </Td>
+                }
+                {data?.roles[0] === MANAGER_RANK &&
+                  <Td>
+                    <Button
+                      colorScheme='teal'
+                      variant='ghost'
+                      size='sm'
+                      onClick={() => {
+                        handleBillGenerator(order);
+                      }}
+                    >
+                      Genereaza si descarca factura
                     </Button>
                   </Td>
                 }

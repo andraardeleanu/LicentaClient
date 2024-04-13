@@ -6,7 +6,7 @@ const initialState = {
   needCompaniesCall: true,
   needWorkPointsCall: true,
   needProductsCall: true,
-  needOrdersCall:true,
+  needOrdersCall: true,
   needCustomersCall: true,
   needStocksCall: true
 };
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
     },
     setNeedWorkPointsCall: (state, { payload }) => {
       state.needWorkPointsCall = payload;
-    },    
+    },
     setNeedProductsCall: (state, { payload }) => {
       state.needProductsCall = payload;
     },
@@ -44,7 +44,7 @@ export const userSlice = createSlice({
     },
     setNeedStocksCall: (state, { payload }) => {
       state.needStocksCall = payload;
-    } 
+    }
   }
 });
 

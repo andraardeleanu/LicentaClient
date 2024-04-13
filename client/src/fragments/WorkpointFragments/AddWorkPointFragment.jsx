@@ -37,8 +37,8 @@ export const AddWorkPointFragment = ({ onClose }) => {
                     setLoading(true);
                     const response = await addWorkPoint(values, cookies.userToken);
                     setLoading(false);
-                    if (response.errorMessage) {
-                        setUserError(response.errorMessage);
+                    if (response.status === 1) {
+                        setUserError(response.message);
                     } else {
                         toast({
                             title: 'Punctul de lucru a fost adaugat.',

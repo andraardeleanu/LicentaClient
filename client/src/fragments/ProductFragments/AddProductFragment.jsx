@@ -27,7 +27,6 @@ export const AddProductFragment = ({ onClose }) => {
 
   const handleSubmit = async (values) => {
     if (parseInt(values.availableStock) <= 0) {
-
       toast({
         title: 'Eroare',
         description: 'Valoarea stocului trebuie sa fie mai mare decat zero.',

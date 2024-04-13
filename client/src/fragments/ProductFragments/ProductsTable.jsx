@@ -85,6 +85,7 @@ export const ProductsTable = ({
         >
           <Thead>
             <Tr>
+            <Th>Identificator</Th>
               <Th className='flex items-center justify-between'>
                 <span>Nume produs</span>
                 <span className='flex gap-2'>
@@ -148,6 +149,7 @@ export const ProductsTable = ({
             {currentItems.map((pd) => {
               return (
                 <Tr key={pd.id}>
+                  <Td>{pd.id}</Td>
                   <Td>{pd.name}</Td>
                   <Td>{pd.price} RON</Td>
                   <Td>
