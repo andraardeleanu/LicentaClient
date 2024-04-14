@@ -63,27 +63,21 @@ export const OrdersTable = ({
     const blob = response.blob;
     const url = window.URL.createObjectURL(new Blob([blob]));
 
-    // Creează un obiect de antete HTTP
     const headers = new Headers();
     headers.append(
-        'Accept', 'application/json',
-        'Content-Type', 'application/json'
+        'Content-Type', 'application/pdf'
     );
 
-    // Creează un obiect de cerere cu URL-ul și antetele corespunzătoare
     const request = new Request(url, {
       method: 'GET',
       headers: headers,
-      mode: 'cors', // Poate fi necesar să modifici acest parametru în funcție de politica de securitate a browser-ului
+      mode: 'cors', 
     });
-
-    // Fetch pentru descărcarea fișierului cu antetele corespunzătoare
     fetch(request)
       .then((response) => response.blob())
       .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
+        const url = window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf; charset=utf-8' }));
 
-        // Creează un link de descarcare
         const link = document.createElement('a');
         link.href = url;
         link.setAttribute('download', response.fileName);
@@ -91,7 +85,7 @@ export const OrdersTable = ({
         link.click();
 
         // Eliberează resursele URL-ului creat
-        window.URL.revokeObjectURL(url);
+       /* window.URL.revokeObjectURL(url);
 
         // Afisează mesaj de succes
         toast({
@@ -100,13 +94,24 @@ export const OrdersTable = ({
           duration: 5000,
           isClosable: true,
           position: 'top'
-        });
+        });*/
       })
       .catch((error) => {
         console.error('Eroare în timpul descărcării fișierului:', error);
-        // Tratează erorile de descărcare
       });
   }
+
+  const downloadV3 = (response) => {
+    console.log('blob', response.blob);
+    const url = window.URL.createObjectURL(new Blob([response.blob], { type: 'application/pdf' }));
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', response.fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
 
   useEffect(() => {
     (async () => {
@@ -149,7 +154,7 @@ export const OrdersTable = ({
   const handleBillGenerator = async (order) => {
     setLoading(true);
     const response = await billGenerator(order, cookies.userToken);
-    console.log('rrr', response);
+    console.log('rrrrrr', response);
     setLoading(false);
     if (response.status === 1) {
       toast({
@@ -160,7 +165,14 @@ export const OrdersTable = ({
         position: 'top'
       });
     } else {
-      downloadV2(response.file);
+      console.log("file", response.file.blob);
+      
+      const reader = new FileReader()
+      const ceva  = reader.readAsText(response.file.blob);         
+      console.log('ceva', ceva);   
+      
+      downloadV3(response);
+
       dispatch(setNeedOrdersCall(true));
     }
   };
@@ -256,8 +268,8 @@ export const OrdersTable = ({
                       colorScheme='teal'
                       variant='ghost'
                       size='sm'
-                      onClick={() => {
-                        handleBillGenerator(order);
+                      onClick={ async () => {
+                        await handleBillGenerator(order);
                       }}
                     >
                       Genereaza si descarca factura

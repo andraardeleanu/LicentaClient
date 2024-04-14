@@ -34,6 +34,7 @@ export const AddCompanyFragment = ({ onClose }) => {
       onSubmit={async (values) => {
         setLoading(true);
         const response = await addCompany(values, cookies.userToken);
+        console.log('respo', response);
         setLoading(false);
         if (response.status === 1) {
           setUserError(response.message);

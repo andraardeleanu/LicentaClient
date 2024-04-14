@@ -57,3 +57,14 @@ export const axiosAuthorizedPost = async (url, data, token) => {
     }
   });
 };
+
+export const axiosAuthorizedPostFile = async (url, data, token) => {
+  return await axiosPost(url, data, {
+    responseType: 'blob',
+    Authorization: `Bearer ${token}`,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+  });
+};

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Divider,
@@ -5,17 +6,16 @@ import {
   Wrap,
   WrapItem,
   useDisclosure,
-  useToast
+  Input,
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { ResultsLoading } from '../../components/ResultsLoading';
 import { useCookies } from 'react-cookie';
-import { useEffect, useState } from 'react';
-import { WorkPointBox } from '../../components/WorkPointBox';
-import { getWorkPointsByUserId, removeWorkpoint } from '../../utils/apiCalls';
+import { getWorkPointsByUserId } from '../../utils/apiCalls';
 import { AddWorkPointModal } from './AddWorkPointModal';
 import { setNeedWorkPointsCall } from '../../slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { WorkPointBox } from '../../components/WorkPointBox';
 import { UpdateWorkpointModal } from './UpdateWorkpointModal';
 import { ConfirmationModal } from './ConfirmationModal';
 
@@ -30,6 +30,7 @@ export const WorkPointsTabContent = () => {
   const needWorkPointsCall = useSelector(
     (state) => state.user.needWorkPointsCall
   );
+  const [searchTerm, setSearchTerm] = useState('');
 
   const {
     isOpen: isAddWorkPointModalOpen,
@@ -68,9 +69,14 @@ export const WorkPointsTabContent = () => {
     })();
   }, [workpoints, cookies.userToken, needWorkPointsCall]);
 
+  // Funcție pentru filtrarea punctelor de lucru în funcție de termenul de căutare
+  const filteredWorkpoints = workpoints.filter(wp => 
+    wp.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
-      <Divider my={4} />
+     <Divider my={4} />
       <Button
         leftIcon={<Icon as={FaPlusCircle} />}
         colorScheme='blue'
@@ -79,10 +85,16 @@ export const WorkPointsTabContent = () => {
         Adauga punct de lucru
       </Button>
       <Divider my={4} />
+      <Input
+        placeholder='Cauta dupa nume punct de lucru...'
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        mb={4}
+      />
       {workPointsLoading && <ResultsLoading />}
       <Wrap spacing={0}>
-        {workpoints.length > 0 ? (
-          workpoints.map((wp, index) => (
+        {filteredWorkpoints.length > 0 ? (
+          filteredWorkpoints.map((wp, index) => (
             <WrapItem
               className='w-full md:w-1/3'
               key={index}

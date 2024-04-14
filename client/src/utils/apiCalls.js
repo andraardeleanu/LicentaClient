@@ -2,6 +2,7 @@ import {
   axiosAuthorizedFormPost,
   axiosAuthorizedGet,
   axiosAuthorizedPost,
+  axiosAuthorizedPostFile
 } from './axiosFunctions';
 
 export const getCompanies = async (token) => {

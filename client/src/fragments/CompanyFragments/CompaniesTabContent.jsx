@@ -4,7 +4,8 @@ import {
   Icon,
   Wrap,
   WrapItem,
-  useDisclosure
+  useDisclosure,
+  Input,
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { ResultsLoading } from '../../components/ResultsLoading';
@@ -45,7 +46,8 @@ export const CompaniesTabContent = () => {
 
   const [companies, setCompanies] = useState([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState();
-  const [selectedCompanyName, setSelectedCompanyName] = useState();
+  const [selectedCompanyName, setSelectedCompanyName] = useState('');
+  const [companyNameFilter, setCompanyNameFilter] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -59,13 +61,23 @@ export const CompaniesTabContent = () => {
           dispatch(setNeedCompaniesCall(false));
         }
       } catch (err) {
-        return err;
+        console.error(err);
       }
     })();
-  }, [companies, cookies.userToken, needCompaniesCall]);
+  }, [cookies.userToken, needCompaniesCall, dispatch]);
+
+  const filteredCompanies = companies.filter((company) =>
+    company.name.toLowerCase().includes(companyNameFilter.toLowerCase())
+  );
 
   return (
     <>
+      <Divider my={4} />
+      <Input
+        placeholder='Cauta dupa nume companie...'
+        value={companyNameFilter}
+        onChange={(e) => setCompanyNameFilter(e.target.value)}
+      />
       <Divider my={4} />
       <Button
         leftIcon={<Icon as={FaPlusCircle} />}
@@ -77,12 +89,9 @@ export const CompaniesTabContent = () => {
       <Divider my={4} />
       {companiesLoading && <ResultsLoading />}
       <Wrap spacing={0}>
-        {companies.length > 0 ? (
-          companies.map((company, index) => (
-            <WrapItem
-              className='w-full md:w-1/3'
-              key={index}
-            >
+        {filteredCompanies.length > 0 ? (
+          filteredCompanies.map((company, index) => (
+            <WrapItem className='w-full md:w-1/3' key={index}>
               <CompanyBox
                 name={company?.name}
                 cui={company?.cui}
@@ -91,17 +100,17 @@ export const CompaniesTabContent = () => {
                 onOptionsClick={() => {
                   setSelectedCompanyId(company?.id);
                   setSelectedCompanyName(company?.name);
-                  onCompanyWorkpointsModalOpen();                 
+                  onCompanyWorkpointsModalOpen();
                 }}
                 onUpdateClick={() => {
                   setSelectedCompanyId(company?.id);
-                  onUpdateCompanyModalOpen();                
+                  onUpdateCompanyModalOpen();
                 }}
               />
             </WrapItem>
           ))
         ) : (
-          <>Nu s-au gasit companii.</>
+          <p>Nu s-au gasit companii.</p>
         )}
       </Wrap>
 
