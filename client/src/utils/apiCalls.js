@@ -1,8 +1,7 @@
 import {
   axiosAuthorizedFormPost,
   axiosAuthorizedGet,
-  axiosAuthorizedPost,
-  axiosAuthorizedPostFile
+  axiosAuthorizedPost
 } from './axiosFunctions';
 
 export const getCompanies = async (token) => {
@@ -93,8 +92,13 @@ export const getStocks = async (token) => {
 export const getOrdersByUserId = async (userId, token) => {
   return await axiosAuthorizedGet(`/getOrdersByUserId/${userId}`, token);
 };
+
 export const getOrderDetails = async (token, orderId) => {
   return await axiosAuthorizedGet(`/getOrderDetails/${orderId}`, token);
+};
+
+export const getOrderDetailsForBill = async (token, orderId) => {
+  return await axiosAuthorizedGet(`/getOrderDetailsForBill/${orderId}`, token);
 };
 
 export const addOrdersFromFile = async (data, token) => {

@@ -5,6 +5,7 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { UserProfilePage } from './pages/UserProfilePage';
 import { AddWorkPointPage } from './pages/AddWorkPointPage';
+import { BillDownloadPage } from './pages/BillDownloadPage';
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
         <Route
           path='/addWorkPoint'
           element={<AddWorkPointPage />}
+        />
+        <Route
+          path='/downloadBill'
+          element={<BillDownloadPage />}
+        />
+        <Route
+          path='/downloadBill/:orderId'
+          element={<BillDownloadPage />}
         />
       </Routes>
     </BrowserRouter>
