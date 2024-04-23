@@ -171,12 +171,6 @@ export const OrdersTable = ({ orders, setOrders }) => {
         position: 'top'
       });
     } else {
-      console.log('file', response.file.blob);
-
-      const reader = new FileReader();
-      const ceva = reader.readAsText(response.file.blob);
-      console.log('ceva', ceva);
-
       downloadV3(response);
 
       dispatch(setNeedOrdersCall(true));
