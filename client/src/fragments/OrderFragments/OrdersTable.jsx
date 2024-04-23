@@ -131,7 +131,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
         return err;
       }
     })();
-  }, [orderNoFilter, statusFilter]);
+  }, [cookies.userToken, orderNoFilter, setOrders, statusFilter]);
 
   const handleStatusUpdate = async (orderId) => {
     setLoading(true);
