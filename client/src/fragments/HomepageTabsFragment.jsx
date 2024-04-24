@@ -18,46 +18,74 @@ export const HomepageTabsFragment = () => {
     setTabIndex(index);
   };
   const { data } = useSelector((store) => store.user);
-  return (
-    <Tabs
-      index={tabIndex}
-      onChange={handleTabsChange}
-    >
-      <TabList>
-        {data?.roles[0] === ADMIN_RANK && <Tab>Companii</Tab>}
-        {data?.roles[0] === MANAGER_RANK && <Tab>Puncte de lucru</Tab>}
-        {data?.roles[0] === ADMIN_RANK && <Tab>Comenzi</Tab>}
-        {data?.roles[0] === MANAGER_RANK && <Tab>Comenzile mele</Tab>}
-        <Tab>Produse</Tab>
-        {data?.roles[0] === ADMIN_RANK && <Tab>Stoc</Tab>}
-        {data?.roles[0] === ADMIN_RANK && <Tab>Facturi</Tab>}
-        {data?.roles[0] === MANAGER_RANK && <Tab>Facturile mele</Tab>}
-        {data?.roles[0] === ADMIN_RANK && <Tab>Clienti</Tab>}
-      </TabList>
-      <TabPanels>
-        <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <CompaniesTabContent />}
-          {data?.roles[0] === MANAGER_RANK && <WorkPointsTabContent />}
-        </TabPanel>
-        <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <OrdersView />}
-          {data?.roles[0] === MANAGER_RANK && <OrdersTabContent />}
-        </TabPanel>
-        <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <ProductsTabContent />}
-          {data?.roles[0] === MANAGER_RANK && <ProductsView />}
-        </TabPanel>
-        <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <StocksView />}
-        </TabPanel>
-        <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <BillsView />}
-          {data?.roles[0] === MANAGER_RANK && <BillsView />}
-        </TabPanel>
-        <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <CustomersTabContent />}
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
+
+  const AdminTabs = () => {
+    return (
+      <Tabs
+        index={tabIndex}
+        onChange={handleTabsChange}
+      >
+        <TabList>
+          <Tab>Companii</Tab>
+          <Tab>Comenzi</Tab>
+          <Tab>Produse</Tab>
+          <Tab>Stoc</Tab>
+          <Tab>Facturi</Tab>
+          <Tab>Clienti</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <CompaniesTabContent />
+          </TabPanel>
+          <TabPanel>
+            <OrdersView />
+          </TabPanel>
+          <TabPanel>
+            <ProductsTabContent />
+          </TabPanel>
+          <TabPanel>
+            <StocksView />
+          </TabPanel>
+          <TabPanel>
+            <BillsView />
+          </TabPanel>
+          <TabPanel>
+            <CustomersTabContent />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    );
+  };
+
+  const ManagerTabs = () => {
+    return (
+      <Tabs
+        index={tabIndex}
+        onChange={handleTabsChange}
+      >
+        <TabList>
+          <Tab>Puncte de lucru</Tab>
+          <Tab>Comenzile mele</Tab>
+          <Tab>Produse</Tab>
+          <Tab>Facturile mele</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <WorkPointsTabContent />
+          </TabPanel>
+          <TabPanel>
+            <OrdersTabContent />
+          </TabPanel>
+          <TabPanel>
+            <ProductsView />
+          </TabPanel>
+          <TabPanel>
+            <BillsView />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    );
+  };
+
+  return data?.roles[0] === ADMIN_RANK ? <AdminTabs /> : <ManagerTabs />;
 };
