@@ -141,12 +141,12 @@ export const OrdersTable = ({ orders, setOrders }) => {
                 </Th>
                 <Th>Data creare</Th>
                 <Th>
-                <span className='flex items-center justify-between'>
-                  Status
+                  <span className='flex items-center justify-between'>
+                    Status
                     <Select
                       placeholder='Status'
                       size='sm'
-                      width='130px' 
+                      width='130px'
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
                     >
@@ -214,7 +214,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                         variant='ghost'
                         size='sm'
                         onClick={async () => {
-                         // navigate(`/downloadBill/${order.id}`)
+                          navigate(`/downloadBill/${order.id}`)
                           await handleBillGenerator(order);
                         }}
 

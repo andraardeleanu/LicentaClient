@@ -69,7 +69,6 @@ export const WorkPointsTabContent = () => {
     })();
   }, [workpoints, cookies.userToken, needWorkPointsCall]);
 
-  // Funcție pentru filtrarea punctelor de lucru în funcție de termenul de căutare
   const filteredWorkpoints = workpoints.filter(wp => 
     wp.name.toLowerCase().includes(searchTerm.toLowerCase())
   );

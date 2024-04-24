@@ -6,13 +6,15 @@ import {
   Th,
   Thead,
   Tr,
-  Divider
+  Divider,
+  Button
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { useNavigate } from 'react-router-dom';
 
 export const BillsTabContent = ({ bills }) => {
-  console.log('bills: ', bills);
+  const navigate = useNavigate();
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
   const currentItems = bills.slice(itemOffset, endOffset);
@@ -25,7 +27,6 @@ export const BillsTabContent = ({ bills }) => {
 
   return (
     <>
-      <div>ceaw</div>
       <Divider my={4} />
       <TableContainer>
         <Table
@@ -36,7 +37,7 @@ export const BillsTabContent = ({ bills }) => {
             <Tr>
               <Th>Comanda</Th>
               <Th>Pret Total</Th>
-              <Th>Data comenzii</Th>
+              <Th>Data generare factura</Th>
               <Th>Optiuni</Th>
             </Tr>
           </Thead>
@@ -47,7 +48,17 @@ export const BillsTabContent = ({ bills }) => {
                   <Td>{bl.orderNo}</Td>
                   <Td>{bl.totalPrice} RON</Td>
                   <Td>{bl.date}</Td>
-                  <Td></Td>
+                  <Td>
+                    <Button
+                      colorScheme='teal'
+                      variant='ghost'
+                      size='sm'
+                      onClick={async () => {
+                        navigate(`/downloadBill/${bl.id}`)
+                      }}
+                    >
+                      Descarca copie
+                    </Button></Td>
                 </Tr>
               );
             })}

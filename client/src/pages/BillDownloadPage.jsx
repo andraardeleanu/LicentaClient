@@ -1,17 +1,19 @@
+import {
+  Heading,
+  Text,
+} from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { AppContainer } from '../components/AppContainer';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getOrderDetails, getOrderDetailsForBill } from '../utils/apiCalls';
+import { getOrderDetailsForBill } from '../utils/apiCalls';
 import { useCookies } from 'react-cookie';
 import { usePDF } from 'react-to-pdf';
-import { Heading } from '@chakra-ui/react';
 
 export const BillDownloadPage = () => {
   const { toPDF, targetRef } = usePDF({ filename: 'Factura comanda.pdf' });
   const navigate = useNavigate();
   const [cookies] = useCookies();
-
   const { orderId } = useParams();
   const [needCall, setNeedCall] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,7 +34,6 @@ export const BillDownloadPage = () => {
           setLoading(true);
           await getOrderDetailsForBill(cookies.userToken, orderId).then(
             (res) => {
-              console.log('res :', res);
               setLoading(false);
               setOrderDetails(res);
             }
