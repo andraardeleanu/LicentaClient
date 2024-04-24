@@ -89,6 +89,10 @@ export const getStocks = async (token) => {
   return await axiosAuthorizedGet('/getStocks', token);
 };
 
+export const getBills = async (token) => {
+  return await axiosAuthorizedGet('/getBills', token);
+};
+
 export const getOrdersByUserId = async (userId, token) => {
   return await axiosAuthorizedGet(`/getOrdersByUserId/${userId}`, token);
 };

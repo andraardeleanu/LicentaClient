@@ -62,62 +62,6 @@ export const OrdersTable = ({ orders, setOrders }) => {
     setItemOffset(newOffset);
   };
 
-  const downloadV2 = (response) => {
-    const blob = response.blob;
-    const url = window.URL.createObjectURL(new Blob([blob]));
-
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/pdf');
-
-    const request = new Request(url, {
-      method: 'GET',
-      headers: headers,
-      mode: 'cors'
-    });
-    fetch(request)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(
-          new Blob([blob], { type: 'application/pdf; charset=utf-8' })
-        );
-
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', response.fileName);
-        document.body.appendChild(link);
-        link.click();
-
-        // Eliberează resursele URL-ului creat
-        /* window.URL.revokeObjectURL(url);
-
-        // Afisează mesaj de succes
-        toast({
-          title: 'Factură generată și descărcată cu succes.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top'
-        });*/
-      })
-      .catch((error) => {
-        console.error('Eroare în timpul descărcării fișierului:', error);
-      });
-  };
-
-  const downloadV3 = (response) => {
-    console.log('blob', response.blob);
-    const url = window.URL.createObjectURL(
-      new Blob([response.blob], { type: 'application/pdf' })
-    );
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', response.fileName);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
   useEffect(() => {
     (async () => {
       try {
@@ -160,7 +104,6 @@ export const OrdersTable = ({ orders, setOrders }) => {
   const handleBillGenerator = async (order) => {
     setLoading(true);
     const response = await billGenerator(order, cookies.userToken);
-    console.log('rrrrrr', response);
     setLoading(false);
     if (response.status === 1) {
       toast({
@@ -171,15 +114,13 @@ export const OrdersTable = ({ orders, setOrders }) => {
         position: 'top'
       });
     } else {
-      downloadV3(response);
-
       dispatch(setNeedOrdersCall(true));
     }
   };
 
+
   return (
     <>
-      <button onClick={() => toPDF()}>Download PDF</button>
       <div ref={targetRef}>
         <Divider my={6} />
         <TableContainer>
@@ -190,29 +131,27 @@ export const OrdersTable = ({ orders, setOrders }) => {
             <Thead>
               <Tr>
                 <Th style={{ textAlign: 'center' }}>ID</Th>
-                <Th
-                  className='flex items-center justify-between'
-                  style={{ textAlign: 'center' }}
-                >
+                <Th className='flex items-center justify-between' style={{ textAlign: 'center' }}>
                   <span>Numar comanda</span>
                   <span className='flex gap-2'>
-                    <Popover>{/* Restul codului */}</Popover>
+                    <Popover>
+                      {/* Restul codului */}
+                    </Popover>
                   </span>
                 </Th>
                 <Th>Data creare</Th>
-                <Th
-                  style={{ textAlign: 'center', width: '180px' }}
-                  className='flex items-center justify-between'
-                >
-                  <span className='flex gap-2'>
+                <Th>
+                <span className='flex items-center justify-between'>
+                  Status
                     <Select
+                      placeholder='Status'
                       size='sm'
-                      placeholder='Alege status'
+                      width='130px' 
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
                     >
-                      <option value='Processed'>Procesata</option>
-                      <option value='Initialized'>Initializata</option>
+                      <option value="Processed">Procesata</option>
+                      <option value="Initialized">Initializata</option>
                     </Select>
                     {statusFilter && (
                       <IconButton
@@ -226,7 +165,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                     )}
                   </span>
                 </Th>
-                <Th style={{ textAlign: 'center' }}>Vezi detalii</Th>
+                <Th >Vezi detalii</Th>
                 <Th style={{ textAlign: 'center' }}>Actiuni</Th>
               </Tr>
             </Thead>
@@ -235,7 +174,9 @@ export const OrdersTable = ({ orders, setOrders }) => {
                 <Tr key={order.orderNo}>
                   <Td>{order.id}</Td>
                   <Td>{order.orderNo}</Td>
-                  <Td>{moment(order.dateCreated).format('DD.MM.yyyy')}</Td>
+                  <Td>
+                    {moment(order.dateCreated).format('DD.MM.yyyy')}
+                  </Td>
                   <Td>{order.status}</Td>
                   <Td>
                     <Button
@@ -252,7 +193,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                       Detalii
                     </Button>
                   </Td>
-                  {data?.roles[0] === ADMIN_RANK && (
+                  {data?.roles[0] === ADMIN_RANK &&
                     <Td>
                       <Button
                         colorScheme='teal'
@@ -265,7 +206,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                         Modifica status
                       </Button>
                     </Td>
-                  )}
+                  }
                   {data?.roles[0] === MANAGER_RANK && (
                     <Td>
                       <Button
@@ -273,8 +214,10 @@ export const OrdersTable = ({ orders, setOrders }) => {
                         variant='ghost'
                         size='sm'
                         onClick={async () => {
+                         // navigate(`/downloadBill/${order.id}`)
                           await handleBillGenerator(order);
                         }}
+
                       >
                         Genereaza si descarca factura
                       </Button>

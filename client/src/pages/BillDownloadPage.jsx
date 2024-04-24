@@ -48,6 +48,7 @@ export const BillDownloadPage = () => {
   useEffect(() => {
     if (!loading && orderDetails) {
       toPDF();
+      navigate(-1);
     }
   }, [loading, orderDetails, toPDF]);
 
