@@ -53,7 +53,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
   const [selectedOrderNo, setSelectedOrderNo] = useState();
   const [orderNoFilter, setOrderNoFilter] = useState();
   const [statusFilter, setStatusFilter] = useState();
-  
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
@@ -137,13 +137,14 @@ export const OrdersTable = ({ orders, setOrders }) => {
         >
           <Thead>
             <Tr>
-              <Th style={{ textAlign: 'center' }}>ID</Th>
-              <Th className='flex items-center justify-between' style={{ textAlign: 'center' }}>
+              <Th>ID</Th>
+              <Th className='flex items-center justify-between'>
                 <span>Numar comanda</span>
                 <span className='flex gap-2'>
                   <Popover>
                     <PopoverTrigger>
                       <IconButton
+                        variant='outline'
                         size={'xs'}
                         colorScheme='blue'
                         icon={<FaFilter />}
@@ -207,6 +208,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
               </Th>
               <Th style={{ textAlign: 'center' }}>Vezi detalii</Th>
               <Th style={{ textAlign: 'center' }}>Actiuni</Th>
+              <Th>Total</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -266,6 +268,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                     </Button>
                   </Td>
                 )}
+                <Td>{order.totalPrice} RON</Td>
               </Tr>
             ))}
           </Tbody>

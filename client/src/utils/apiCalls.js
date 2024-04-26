@@ -66,6 +66,10 @@ export const register = async (data, token) => {
 export const getOrders = async (token, filters = null) => {
   let queryString = '';
 
+  if (filters && filters.orderId) {
+    queryString += `id=${filters.orderId}&`;
+  }
+
   if (filters && filters.orderNo) {
     queryString += `OrderNo=${filters.orderNo}&`;
   }
@@ -99,6 +103,10 @@ export const getOrdersByUserId = async (userId, token) => {
 
 export const getOrderDetails = async (token, orderId) => {
   return await axiosAuthorizedGet(`/getOrderDetails/${orderId}`, token);
+};
+
+export const getBillDetails = async (orderId, token) => {
+  return await axiosAuthorizedGet(`/getBillDetails/${orderId}`, token);
 };
 
 export const getOrderDetailsForBill = async (token, orderId) => {

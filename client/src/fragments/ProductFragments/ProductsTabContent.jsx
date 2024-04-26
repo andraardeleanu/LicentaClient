@@ -7,11 +7,6 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
-import { ResultsLoading } from '../../components/ResultsLoading';
-import { useCookies } from 'react-cookie';
-import { useEffect, useState } from 'react';
-import { ProductBox } from '../../components/ProductBox';
-import { getProducts } from '../../utils/apiCalls';
 import { AddProductModal } from '../ProductFragments/AddProductModal';
 import { ProductsView } from './ProductsView';
 
