@@ -2,7 +2,14 @@ import {
   Button,
   Divider,
   IconButton,
+  Input,
   Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
   Table,
   TableContainer,
   Tbody,
@@ -12,7 +19,7 @@ import {
   Tr,
   useDisclosure,
   Select,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -20,6 +27,7 @@ import { ADMIN_RANK, MANAGER_RANK } from '../../utils/constants';
 import ReactPaginate from 'react-paginate';
 import { OrderDetailsModal } from './OrderDetailsModal';
 import { useEffect, useState } from 'react';
+import { FaFilter } from 'react-icons/fa';
 import {
   getOrders,
   updateOrderStatus,
@@ -45,10 +53,9 @@ export const OrdersTable = ({ orders, setOrders }) => {
   const [selectedOrderNo, setSelectedOrderNo] = useState();
   const [orderNoFilter, setOrderNoFilter] = useState();
   const [statusFilter, setStatusFilter] = useState();
-
+  
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [userError, setUserError] = useState('');
   const toast = useToast();
   const dispatch = useDispatch();
 
@@ -113,140 +120,175 @@ export const OrdersTable = ({ orders, setOrders }) => {
         isClosable: true,
         position: 'top'
       });
+      return false;
     } else {
       dispatch(setNeedOrdersCall(true));
+      return true;
     }
   };
 
-
   return (
     <>
-      <div ref={targetRef}>
-        <Divider my={6} />
-        <TableContainer>
-          <Table
-            variant='striped'
-            colorScheme='blackAlpha'
-          >
-            <Thead>
-              <Tr>
-                <Th style={{ textAlign: 'center' }}>ID</Th>
-                <Th className='flex items-center justify-between' style={{ textAlign: 'center' }}>
-                  <span>Numar comanda</span>
-                  <span className='flex gap-2'>
-                    <Popover>
-                      {/* Restul codului */}
-                    </Popover>
-                  </span>
-                </Th>
-                <Th>Data creare</Th>
-                <Th>
-                  <span className='flex items-center justify-between'>
-                    Status
-                    <Select
-                      placeholder='Status'
-                      size='sm'
-                      width='130px'
-                      value={statusFilter}
-                      onChange={(e) => setStatusFilter(e.target.value)}
-                    >
-                      <option value="Processed">Procesata</option>
-                      <option value="Initialized">Initializata</option>
-                    </Select>
-                    {statusFilter && (
+      <Divider my={4} />
+      <TableContainer>
+        <Table
+          variant='striped'
+          colorScheme='blackAlpha'
+        >
+          <Thead>
+            <Tr>
+              <Th style={{ textAlign: 'center' }}>ID</Th>
+              <Th className='flex items-center justify-between' style={{ textAlign: 'center' }}>
+                <span>Numar comanda</span>
+                <span className='flex gap-2'>
+                  <Popover>
+                    <PopoverTrigger>
                       <IconButton
                         size={'xs'}
-                        colorScheme='red'
-                        icon={<FaPlus className='rotate-45' />}
-                        onClick={() => {
-                          setStatusFilter('');
-                        }}
+                        colorScheme='blue'
+                        icon={<FaFilter />}
                       />
-                    )}
-                  </span>
-                </Th>
-                <Th >Vezi detalii</Th>
-                <Th style={{ textAlign: 'center' }}>Actiuni</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {currentItems.map((order) => (
-                <Tr key={order.orderNo}>
-                  <Td>{order.id}</Td>
-                  <Td>{order.orderNo}</Td>
-                  <Td>
-                    {moment(order.dateCreated).format('DD.MM.yyyy')}
-                  </Td>
-                  <Td>{order.status}</Td>
+                    </PopoverTrigger>
+                    <Portal>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverBody className='mt-6 flex flex-col gap-4'>
+                          <Input
+                            placeholder='Numar comanda'
+                            name='orderNrFilter'
+                            value={orderNoFilter}
+                            onChange={(e) => {
+                              setOrderNoFilter(e.target.value);
+                            }}
+                          />
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Portal>
+                  </Popover>
+                  {orderNoFilter && (
+                    <IconButton
+                      size={'xs'}
+                      colorScheme='red'
+                      icon={<FaPlus className='rotate-45' />}
+                      onClick={() => {
+                        setOrderNoFilter('');
+                      }}
+                    />
+                  )}
+                </span>
+              </Th>
+              <Th>Data creare</Th>
+              <Th style={{ textAlign: 'center', width: '180px' }} className='flex items-center justify-between'>
+                <span className='flex gap-2'>
+                  <Select
+                    size='sm'
+                    placeholder='Alege status'
+                    value={statusFilter}
+                    onChange={(e) => {
+                      setStatusFilter(e.target.value);
+                    }}
+                  >
+                    <option value="Billed">Facturata</option>
+                    <option value="Processed">Procesata</option>
+                    <option value="Initialized">Initializata</option>
+                  </Select>
+                  {statusFilter && (
+                    <IconButton
+                      size={'xs'}
+                      colorScheme='red'
+                      icon={<FaPlus className='rotate-45' />}
+                      onClick={() => {
+                        setStatusFilter('');
+                      }}
+                    />
+                  )}
+                </span>
+              </Th>
+              <Th style={{ textAlign: 'center' }}>Vezi detalii</Th>
+              <Th style={{ textAlign: 'center' }}>Actiuni</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {currentItems.map((order) => (
+              <Tr key={order.orderNo}>
+                <Td>{order.id}</Td>
+                <Td>{order.orderNo}</Td>
+                <Td>
+                  {moment(order.dateCreated).format('DD.MM.yyyy')}
+                </Td>
+                <Td>{order.status}</Td>
+                <Td>
+                  <Button
+                    style={{ textAlign: 'center' }}
+                    colorScheme='teal'
+                    variant='ghost'
+                    size='sm'
+                    onClick={() => {
+                      setSelectedOrderId(order?.id);
+                      setSelectedOrderNo(order?.orderNo);
+                      onOrderDetailsModalOpen();
+                    }}
+                  >
+                    Detalii
+                  </Button>
+                </Td>
+                {data?.roles[0] === ADMIN_RANK &&
                   <Td>
                     <Button
-                      style={{ textAlign: 'center' }}
                       colorScheme='teal'
                       variant='ghost'
                       size='sm'
                       onClick={() => {
-                        setSelectedOrderId(order?.id);
-                        setSelectedOrderNo(order?.orderNo);
-                        onOrderDetailsModalOpen();
+                        handleStatusUpdate(order?.id);
                       }}
                     >
-                      Detalii
+                      Modifica status
                     </Button>
                   </Td>
-                  {data?.roles[0] === ADMIN_RANK &&
-                    <Td>
-                      <Button
-                        colorScheme='teal'
-                        variant='ghost'
-                        size='sm'
-                        onClick={() => {
-                          handleStatusUpdate(order?.id);
-                        }}
-                      >
-                        Modifica status
-                      </Button>
-                    </Td>
-                  }
-                  {data?.roles[0] === MANAGER_RANK && (
-                    <Td>
-                      <Button
-                        colorScheme='teal'
-                        variant='ghost'
-                        size='sm'
-                        onClick={async () => {
-                          navigate(`/downloadBill/${order.id}`)
-                          await handleBillGenerator(order);
-                        }}
+                }
+                {data?.roles[0] === MANAGER_RANK && (
+                  <Td>
+                    <Button
+                      colorScheme='teal'
+                      variant='ghost'
+                      size='sm'
+                      onClick={async () => {
+                        if (await handleBillGenerator(order) == true) {
+                          if (order.status == 'Processed') {
+                            navigate(`/downloadBill/${order.id}`)
+                            dispatch(setNeedOrdersCall(true));
+                          }
+                        }
+                      }}
+                    >
+                      Genereaza si descarca factura
+                    </Button>
+                  </Td>
+                )}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Divider my={6} />
+      <ReactPaginate
+        breakLabel='...'
+        nextLabel='>'
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel='<'
+        renderOnZeroPageCount={null}
+        className='flex items-center gap-4 justify-center'
+      />
 
-                      >
-                        Genereaza si descarca factura
-                      </Button>
-                    </Td>
-                  )}
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <Divider my={6} />
-        <ReactPaginate
-          breakLabel='...'
-          nextLabel='>'
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          pageCount={pageCount}
-          previousLabel='<'
-          renderOnZeroPageCount={null}
-          className='flex items-center gap-4 justify-center'
-        />
-
-        <OrderDetailsModal
-          isOpen={isOrderDetailsModalOpen}
-          onClose={onOrderDetailsModalClose}
-          orderId={selectedOrderId}
-          orderNo={selectedOrderNo}
-        />
-      </div>
+      <OrderDetailsModal
+        isOpen={isOrderDetailsModalOpen}
+        onClose={onOrderDetailsModalClose}
+        orderId={selectedOrderId}
+        orderNo={selectedOrderNo}
+      />
     </>
   );
 };

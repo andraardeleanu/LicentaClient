@@ -1,6 +1,5 @@
 import {
-  Heading,
-  Text,
+  Heading
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { AppContainer } from '../components/AppContainer';

@@ -1,6 +1,6 @@
 import { Divider, Heading } from '@chakra-ui/react';
-import { UserOrdersView } from './UserOrdersView';
 import { UploadOrderFragment } from './UploadOrderFragment';
+import { OrdersView } from './OrdersView';
 
 export const OrdersTabContent = () => {
   return (
@@ -8,7 +8,7 @@ export const OrdersTabContent = () => {
       <UploadOrderFragment />
       <Divider my={4} />
       <Heading>Comenzile mele</Heading>
-      <UserOrdersView />
+      <OrdersView />
     </>
   );
 };

@@ -28,6 +28,7 @@ import {
 import { useCookies } from 'react-cookie';
 import { Form, Formik } from 'formik';
 import { useSelector } from 'react-redux';
+import { setNeedOrdersCall } from '../../slices/userSlice';
 
 export const UploadOrderFragment = () => {
   const { data } = useSelector((store) => store.user);
@@ -43,6 +44,7 @@ export const UploadOrderFragment = () => {
   const [userError, setUserError] = useState('');
   const [uploadedFile, setUploadedFile] = useState([]);
   const toast = useToast();
+  const needOrdersCall = useSelector((state) => state.user.needOrdersCall);
 
   useEffect(() => {
     setNeedWorkpointsCall(true);
@@ -61,6 +63,7 @@ export const UploadOrderFragment = () => {
             setWorkpoints(res);
           });
           setNeedWorkpointsCall(false);
+          needOrdersCall();
         }
       } catch (err) {
         return err;
@@ -90,14 +93,19 @@ export const UploadOrderFragment = () => {
           const response = await addOrdersFromFile({
             workPointId: values.workpointId,
             file: uploadedFile
-          });
-          toast({
-            title: response,
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-            position: 'top'
-          });
+          }, cookies.userToken);
+          if (response.status === 1) {
+            setUserError(response.message);
+          } else {
+            toast({
+              title: 'Comanda plasata cu succes.',
+              status: 'success',
+              duration: 5000,
+              isClosable: true,
+              position: 'top'
+            });
+            setNeedOrdersCall(true);
+          }
         }}
       >
         {({ handleSubmit, handleChange }) => (
@@ -117,7 +125,7 @@ export const UploadOrderFragment = () => {
               <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                boxSize='90px' // Setează dimensiunea imaginii la 50x50 pixeli
+                boxSize='90px'
                 src={require('../../images/upload-file2.png')}
               />
 
