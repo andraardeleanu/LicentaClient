@@ -175,6 +175,7 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
               className='mt-6'
             >
               <Select
+                className='orderModal'
                 id='workpointId'
                 name='workpointId'
                 placeholder='Selecteaza punct de lucru...'
@@ -218,8 +219,8 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
                                   (p) => p.productId === prod?.id
                                 ) !== -1
                                   ? selectedProducts?.find(
-                                      (p) => p.productId === prod?.id
-                                    )?.quantity
+                                    (p) => p.productId === prod?.id
+                                  )?.quantity
                                   : 0
                               }
                               onChange={(e) => {
@@ -267,7 +268,7 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
               <Button
                 colorScheme='blue'
                 onClick={() => {
-                  handleSubmit();                  
+                  handleSubmit();
                 }}
                 isLoading={loading}
               >

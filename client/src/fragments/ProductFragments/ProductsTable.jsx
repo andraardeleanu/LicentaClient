@@ -78,14 +78,15 @@ export const ProductsTable = ({
 
   return (
     <>
-      <TableContainer>
+      <TableContainer
+        class='productsTable'>
         <Table
           variant='striped'
           colorScheme='blackAlpha'
         >
           <Thead>
             <Tr>
-            <Th>Identificator</Th>
+              <Th>Identificator</Th>
               <Th className='flex items-center justify-between'>
                 <span>Nume produs</span>
                 <span className='flex gap-2'>
@@ -101,7 +102,7 @@ export const ProductsTable = ({
                       <PopoverContent>
                         <PopoverArrow />
                         <PopoverCloseButton />
-                        <PopoverBody className='mt-6 flex flex-col gap-4'>
+                        <PopoverBody className='mt-6 productsTable flex flex-col gap-4'>
                           <Input
                             placeholder='Nume produs'
                             name='productNameFilter'
@@ -134,7 +135,7 @@ export const ProductsTable = ({
                     onChange={(e) => setSortByPrice(e.target.value)}
                     placeholder='Sortare'
                     size='sm'
-                    width='130px'                    
+                    width='130px'
                   >
                     <option value='asc'>Crescator</option>
                     <option value='desc'>Descrescator</option>

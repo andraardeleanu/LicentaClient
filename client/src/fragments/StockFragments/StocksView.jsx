@@ -6,7 +6,7 @@ import { StocksTable } from './StocksTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNeedStocksCall } from '../../slices/userSlice';
 
-export const StocksView = ({}) => {
+export const StocksView = ({ }) => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
   const needStocksCall = useSelector((state) => state.user.needStocksCall);
@@ -28,17 +28,23 @@ export const StocksView = ({}) => {
         return err;
       }
     })();
-  }, [stocks, cookies.userToken, needStocksCall, dispatch]);
+  }, [stocks, cookies.userToken, needStocksCall]);
 
   return (
     <>
       {stocksLoading ? (
-        <ResultsLoading />
-      ) : stocks.length > 0 ? (
-        <StocksTable stocks={stocks} />
-      ) : (
-        <>Nu se gasesc stocuri pentru produse.</>
-      )}
+                <ResultsLoading />
+            ) : (
+                <>
+                    <StocksTable
+                        stocks={stocks}
+                        setStocks={setStocks}
+                    />
+                    {stocks?.length === 0 && (
+                        <div className='flex justify-center'>Nu s-au gasit rezultate.</div>
+                    )}
+                </>
+            )}
     </>
   );
 };

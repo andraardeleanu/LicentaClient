@@ -89,16 +89,15 @@ export const getProducts = async (token, filters = null) => {
   );
 };
 
-export const getStocks = async (token) => {
-  return await axiosAuthorizedGet('/getStocks', token);
+export const getStocks = async (token, filters = null) => {
+  return await axiosAuthorizedGet(
+    `/getStocks?${filters?.name && `Name=${filters?.name}`}`,
+    token
+  );
 };
 
 export const getBills = async (token) => {
   return await axiosAuthorizedGet('/getBills', token);
-};
-
-export const getOrdersByUserId = async (userId, token) => {
-  return await axiosAuthorizedGet(`/getOrdersByUserId/${userId}`, token);
 };
 
 export const getOrderDetails = async (token, orderId) => {

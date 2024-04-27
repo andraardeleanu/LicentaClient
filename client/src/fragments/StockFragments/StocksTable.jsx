@@ -8,20 +8,46 @@ import {
     Thead,
     Tr,
     Divider,
-    useDisclosure
+    useDisclosure,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverTrigger,
+    Portal,
+    IconButton,
+    Input
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { FaFilter, FaPlus } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
 import { UpdateStockModal } from './UpdateStockModal';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { getStocks } from '../../utils/apiCalls';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNeedStocksCall } from '../../slices/userSlice';
 
-export const StocksTable = ({ stocks }) => {
+export const StocksTable = ({
+    stocks,
+    setStocks
+}) => {
+    const [cookies] = useCookies();
+    const dispatch = useDispatch();
+
     const [itemOffset, setItemOffset] = useState(0);
     const endOffset = itemOffset + 10;
     const currentItems = stocks.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(stocks.length / 10);
+
     const [selectedStockId, setSelectedStockId] = useState();
     const [selectedAvailableStock, setSelectedAvailableStock] = useState();
 
+    const [productNameFilter, setProductNameFilter] = useState();
+
+    const needStocksCall = useSelector((state) => state.user.needStocksCall);
+    const [stocksLoading, setStocksLoading] = useState(false);
     const handlePageClick = (event) => {
         const newOffset = (event.selected * 10) % stocks.length;
         setItemOffset(newOffset);
@@ -31,6 +57,18 @@ export const StocksTable = ({ stocks }) => {
         onOpen: onStockModalOpen,
         onClose: onStockModalClose
     } = useDisclosure();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                await getStocks(cookies.userToken, { name: productNameFilter }).then((res) => {
+                    setStocks(res);
+                });
+            } catch (err) {
+                return err;
+            }
+        })();
+    }, [productNameFilter, cookies.userToken]);
 
     return (
         <>
@@ -42,7 +80,46 @@ export const StocksTable = ({ stocks }) => {
                 >
                     <Thead>
                         <Tr>
-                            <Th>Produs</Th>
+                            <Th className='flex items-center justify-between'>
+                                <span>Nume produs</span>
+                                <span className='flex gap-2'>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <IconButton
+                                                size={'xs'}
+                                                colorScheme='blue'
+                                                icon={<FaFilter />}
+                                            />
+                                        </PopoverTrigger>
+                                        <Portal>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverCloseButton />
+                                                <PopoverBody className='mt-6 stocksTable flex flex-col gap-4'>
+                                                    <Input
+                                                        placeholder='Nume produs'
+                                                        name='productNameFilter'
+                                                        value={productNameFilter}
+                                                        onChange={(e) => {
+                                                            setProductNameFilter(e.target.value);
+                                                        }}
+                                                    />
+                                                </PopoverBody>
+                                            </PopoverContent>
+                                        </Portal>
+                                    </Popover>
+                                    {productNameFilter && (
+                                        <IconButton
+                                            size={'xs'}
+                                            colorScheme='red'
+                                            icon={<FaPlus className='rotate-45' />}
+                                            onClick={() => {
+                                                setProductNameFilter('');
+                                            }}
+                                        />
+                                    )}
+                                </span>
+                            </Th>
                             <Th>Stoc disponibil</Th>
                             <Th>Stoc in asteptare</Th>
                             <Th>Optiuni</Th>
@@ -55,7 +132,7 @@ export const StocksTable = ({ stocks }) => {
                                     <Td>{st.productName}</Td>
                                     <Td>{st.availableStock} buc.</Td>
                                     <Td>{st.pendingStock} buc.</Td>
-                                    
+
                                     <Td>
                                         <Button
                                             colorScheme='teal'
@@ -65,7 +142,7 @@ export const StocksTable = ({ stocks }) => {
                                                 setSelectedStockId(st?.id);
                                                 setSelectedAvailableStock(st?.availableStock);
                                                 onStockModalOpen();
-                                            }}                                            
+                                            }}
                                         >
                                             Actualizeaza
                                         </Button>
@@ -86,13 +163,13 @@ export const StocksTable = ({ stocks }) => {
                     renderOnZeroPageCount={null}
                     className='flex items-center gap-4 justify-center'
                 />
-            </TableContainer>            
+            </TableContainer>
             <UpdateStockModal
                 isOpen={isStockModalOpen}
                 onClose={onStockModalClose}
                 stockId={selectedStockId}
                 availableStock={selectedAvailableStock}
             />
-        </>    
+        </>
     );
 };

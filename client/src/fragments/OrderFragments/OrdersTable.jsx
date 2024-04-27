@@ -132,6 +132,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
       <Divider my={4} />
       <TableContainer>
         <Table
+          className='ordersTable'
           variant='striped'
           colorScheme='blackAlpha'
         >
@@ -182,17 +183,18 @@ export const OrdersTable = ({ orders, setOrders }) => {
               <Th>Data creare</Th>
               <Th style={{ textAlign: 'center', width: '180px' }} className='flex items-center justify-between'>
                 <span className='flex gap-2'>
-                  <Select
+                  <Select                    
                     size='sm'
                     placeholder='Alege status'
                     value={statusFilter}
                     onChange={(e) => {
                       setStatusFilter(e.target.value);
                     }}
+                    className='statusFilter'
                   >
-                    <option value="Billed">Facturata</option>
-                    <option value="Processed">Procesata</option>
-                    <option value="Initialized">Initializata</option>
+                    <option value="Facturata">Facturata</option>
+                    <option value="Procesata">Procesata</option>
+                    <option value="Initializata">Initializata</option>
                   </Select>
                   {statusFilter && (
                     <IconButton
@@ -257,7 +259,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                       size='sm'
                       onClick={async () => {
                         if (await handleBillGenerator(order) == true) {
-                          if (order.status == 'Processed') {
+                          if (order.status == 'Procesata') {
                             navigate(`/downloadBill/${order.id}`)
                             dispatch(setNeedOrdersCall(true));
                           }

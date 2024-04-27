@@ -76,6 +76,7 @@ export const UploadOrderFragment = () => {
       <Divider my={4} />
       <Flex justify={'space-between'}></Flex>
       <Button
+        className="manualOrderButton"
         leftIcon={<Icon as={FaPlusCircle} />}
         colorScheme='blue'
         onClick={() => {
