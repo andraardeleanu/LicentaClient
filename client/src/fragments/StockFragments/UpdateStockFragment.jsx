@@ -69,6 +69,7 @@ export const UpdateStockFragment = ({
             <Input
               id='availableStock'
               name='availableStock'
+              type='number'
               placeholder='Noul stoc disponibil'
               onChange={handleChange}
               value={values.availableStock}

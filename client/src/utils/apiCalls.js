@@ -8,12 +8,17 @@ export const getCompanies = async (token) => {
   return await axiosAuthorizedGet('/getCompanies', token);
 };
 
-export const getCompanyById = async (token, companyId) => {
-  return await axiosAuthorizedGet(`/getCompanyById/${companyId}`, token);
+
+export const getCompanyById = async (id, token) => {
+  return await axiosAuthorizedGet(`/getCompanyById?id=${id}`,
+    token
+  );
 };
 
-export const getWorkpointById = async (token, workpointId) => {
-  return await axiosAuthorizedGet(`/getWorkpointById/${workpointId}`, token);
+export const getWorkpointById = async (token, id) => {
+  return await axiosAuthorizedGet(`/getWorkpointById?id=${id}`,
+    token
+  );
 };
 
 export const addCompany = async (data, token) => {
@@ -28,23 +33,28 @@ export const getWorkPoints = async (token) => {
   return await axiosAuthorizedGet('/getWorkpoints', token);
 };
 
-export const getWorkPointsByCompanyId = async (token, companyId) => {
-  return await axiosAuthorizedGet(
-    `/getWorkpointsFromCompany/${companyId}`,
+export const getWorkpointsFromCompany = async (token, companyId) => {
+  return await axiosAuthorizedGet(`/getWorkpointsFromCompany?companyId=${companyId}`,
     token
   );
 };
 
 export const getWorkPointsByUserId = async (userId, token) => {
-  return await axiosAuthorizedGet(`/getWorkpointsByUserId/${userId}`, token);
+  return await axiosAuthorizedGet(`/getWorkpointsByUserId?userId=${userId}`,
+    token
+  );
 };
 
 export const getStockByProductId = async (productId, token) => {
-  return await axiosAuthorizedGet(`/getStockByProductId/${productId}`, token);
+  return await axiosAuthorizedGet(`/getStockByProductId?productId=${productId}`,
+    token
+  );
 };
 
 export const getStockById = async (id, token) => {
-  return await axiosAuthorizedGet(`/getStockById/${id}`, token);
+  return await axiosAuthorizedGet(`/getStockById?id=${id}`,
+    token
+  );
 };
 
 export const addProduct = async (data, token) => {

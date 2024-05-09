@@ -23,7 +23,7 @@ import { CreateManualOrderModal } from './CreateManualOrderModal';
 import { useEffect, useState } from 'react';
 import {
   addOrdersFromFile,
-  getWorkPointsByCompanyId
+  getWorkpointsFromCompany
 } from '../../utils/apiCalls';
 import { useCookies } from 'react-cookie';
 import { Form, Formik } from 'formik';
@@ -55,7 +55,7 @@ export const UploadOrderFragment = () => {
       try {
         if (needWorkpointsCall) {
           setWorkpointsLoading(true);
-          await getWorkPointsByCompanyId(
+          await getWorkpointsFromCompany(
             cookies.userToken,
             data?.companies[0]?.id
           ).then((res) => {

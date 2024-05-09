@@ -7,7 +7,7 @@ import { setUserCompanyData, setUserData } from '../slices/userSlice';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { LOADER_COLOR } from '../utils/constants';
 import { Footer } from './Footer';
-import { axiosAuthorizedGet } from '../utils/axiosFunctions';
+import { getCompanyById } from '../utils/apiCalls';
 
 export const AppContainer = ({
   forGuest = false,
@@ -33,11 +33,11 @@ export const AppContainer = ({
           setIsLoggedIn(res?.id !== undefined);
           if (res?.id) {
             dispatch(setUserData(res));
-            const companyRes = await axiosAuthorizedGet(
-              `/getCompanyById/${res?.companies[0]?.id}`,
+            const companyRes = await getCompanyById(             
+              res?.companies[0]?.id,
               cookies.userToken
-            );
-
+            )
+            console.log("abc", res?.companies[0]?.id);
             dispatch(setUserCompanyData(companyRes));
           }
         });
@@ -47,7 +47,7 @@ export const AppContainer = ({
 
     fetchUserData();
 
-    return () => {};
+    return () => { };
   }, [cookies.userToken, dispatch, getFinished, getUser]);
 
   if (loading) {

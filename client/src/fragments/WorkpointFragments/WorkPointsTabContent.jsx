@@ -57,6 +57,7 @@ export const WorkPointsTabContent = () => {
           setWorkPointsLoading(true);
           await getWorkPointsByUserId(data.id, cookies.userToken).then(
             (res) => {
+              console.log("fffff", res);
               setWorkPointsLoading(false);
               setWorkPoints(res);
             }

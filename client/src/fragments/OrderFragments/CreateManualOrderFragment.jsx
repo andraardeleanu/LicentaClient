@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   createOrder,
   getProducts,
-  getWorkPointsByCompanyId
+  getWorkpointsFromCompany
 } from '../../utils/apiCalls';
 import { findProductIndexById } from '../../utils/other';
 import { useSelector } from 'react-redux';
@@ -97,7 +97,7 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
       try {
         if (needWorkpointsCall) {
           setWorkpointsLoading(true);
-          await getWorkPointsByCompanyId(cookies.userToken, companyId).then(
+          await getWorkpointsFromCompany(cookies.userToken, companyId).then(
             (res) => {
               setWorkpointsLoading(false);
               setWorkpoints(res);

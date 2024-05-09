@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { getWorkPointsByCompanyId } from '../../utils/apiCalls';
+import { getWorkpointsFromCompany } from '../../utils/apiCalls';
 import { ResultsLoading } from '../../components/ResultsLoading';
 import { WorkpointsTable } from '../WorkpointFragments/WorkpointsTable';
 
@@ -32,7 +32,7 @@ export const CompanyWorkpointsModal = ({
       try {
         if (needWorkpointsCall) {
           setWorkpointsLoading(true);
-          await getWorkPointsByCompanyId(cookies.userToken, companyId).then(
+          await getWorkpointsFromCompany(cookies.userToken, companyId).then(
             (res) => {
               setWorkpointsLoading(false);
               setWorkpoints(res);

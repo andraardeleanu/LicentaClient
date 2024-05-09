@@ -80,7 +80,7 @@ export const StocksTable = ({
                 >
                     <Thead>
                         <Tr>
-                            <Th className='flex items-center justify-between'>
+                            <Th className='flex items-center stockTable justify-between'>
                                 <span>Nume produs</span>
                                 <span className='flex gap-2'>
                                     <Popover>
