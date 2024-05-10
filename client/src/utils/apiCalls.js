@@ -115,7 +115,9 @@ export const getOrderDetails = async (token, orderId) => {
 };
 
 export const getBillDetails = async (orderId, token) => {
-  return await axiosAuthorizedGet(`/getBillDetails/${orderId}`, token);
+  return await axiosAuthorizedGet(`/getBillDetails?orderId=${orderId}`,
+    token
+  );
 };
 
 export const getOrderDetailsForBill = async (token, orderId) => {
