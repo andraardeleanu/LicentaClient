@@ -86,11 +86,13 @@ export const BillsTabContent = ({ bills }) => {
                       variant='ghost'
                       size='sm'
                       onClick={async () => {
-                        navigate(`/downloadBill/${bl.id}`)
+                        console.log('bl.id ', bl);
+                        window.open(`/downloadBill/${bl.id}`, '_blank');
                       }}
                     >
                       Descarca copie
-                    </Button></Td>
+                    </Button>
+                  </Td>
                 </Tr>
               );
             })}

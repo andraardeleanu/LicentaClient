@@ -1,11 +1,4 @@
-import {
-  Heading,
-  Text,
-  Divider,
-  GridItem,
-  Grid,
-  Kbd
-} from '@chakra-ui/react';
+import { Heading, Text, Divider, GridItem, Grid, Kbd } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { AppContainer } from '../components/AppContainer';
 import { useEffect, useState } from 'react';
@@ -36,12 +29,10 @@ export const BillDownloadPage = () => {
       try {
         if (needCall) {
           setLoading(true);
-          await getBillDetails(orderId, cookies.userToken).then(
-            (res) => {
-              setLoading(false);
-              setOrderDetails(res);
-            }
-          );
+          await getBillDetails(orderId, cookies.userToken).then((res) => {
+            setLoading(false);
+            setOrderDetails(res);
+          });
           setNeedCall(false);
         }
       } catch (err) {
@@ -53,7 +44,7 @@ export const BillDownloadPage = () => {
   useEffect(() => {
     if (!loading && orderDetails) {
       toPDF();
-      navigate(-1);
+      window.close();
     }
   }, [loading, orderDetails, toPDF]);
 
@@ -92,24 +83,45 @@ export const BillDownloadPage = () => {
             color='blackAlpha.700'
             fontWeight='bold'
           >
-            <GridItem pl='2' area={'header'}>
+            <GridItem
+              pl='2'
+              area={'header'}
+            >
               Detalii factura
-              <Text mt='6' fontWeight='bold'>
+              <Text
+                mt='6'
+                fontWeight='bold'
+              >
                 Total price - {orderDetails?.totalPrice}
               </Text>
-              <Text mt='6' fontWeight='bold'>
+              <Text
+                mt='6'
+                fontWeight='bold'
+              >
                 Numar comanda - {orderDetails?.orderNo}
               </Text>
             </GridItem>
-            <GridItem pl='2' area={'footer'}>
+            <GridItem
+              pl='2'
+              area={'footer'}
+            >
               Detalii client
-              <Text mt='6' fontWeight='bold'>
+              <Text
+                mt='6'
+                fontWeight='bold'
+              >
                 Client - {orderDetails?.author}
               </Text>
-              <Text mt='6' fontWeight='bold'>
+              <Text
+                mt='6'
+                fontWeight='bold'
+              >
                 Companie - {orderDetails?.companyName}
               </Text>
-              <Text mt='6' fontWeight='bold'>
+              <Text
+                mt='6'
+                fontWeight='bold'
+              >
                 Punct de lucru - {orderDetails?.workpointName}
               </Text>
             </GridItem>

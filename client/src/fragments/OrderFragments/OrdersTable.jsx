@@ -19,7 +19,7 @@ import {
   Tr,
   useDisclosure,
   Select,
-  useToast,
+  useToast
 } from '@chakra-ui/react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -181,9 +181,12 @@ export const OrdersTable = ({ orders, setOrders }) => {
                 </span>
               </Th>
               <Th>Data creare</Th>
-              <Th style={{ textAlign: 'center', width: '180px' }} className='flex items-center justify-between'>
+              <Th
+                style={{ textAlign: 'center', width: '180px' }}
+                className='flex items-center justify-between'
+              >
                 <span className='flex gap-2'>
-                  <Select                    
+                  <Select
                     size='sm'
                     placeholder='Alege status'
                     value={statusFilter}
@@ -192,9 +195,9 @@ export const OrdersTable = ({ orders, setOrders }) => {
                     }}
                     className='statusFilter'
                   >
-                    <option value="Facturata">Facturata</option>
-                    <option value="Procesata">Procesata</option>
-                    <option value="Initializata">Initializata</option>
+                    <option value='Facturata'>Facturata</option>
+                    <option value='Procesata'>Procesata</option>
+                    <option value='Initializata'>Initializata</option>
                   </Select>
                   {statusFilter && (
                     <IconButton
@@ -218,9 +221,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
               <Tr key={order.orderNo}>
                 <Td>{order.id}</Td>
                 <Td>{order.orderNo}</Td>
-                <Td>
-                  {moment(order.dateCreated).format('DD.MM.yyyy')}
-                </Td>
+                <Td>{moment(order.dateCreated).format('DD.MM.yyyy')}</Td>
                 <Td>{order.status}</Td>
                 <Td>
                   <Button
@@ -237,7 +238,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                     Detalii
                   </Button>
                 </Td>
-                {data?.roles[0] === ADMIN_RANK &&
+                {data?.roles[0] === ADMIN_RANK && (
                   <Td>
                     <Button
                       colorScheme='teal'
@@ -250,7 +251,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                       Modifica status
                     </Button>
                   </Td>
-                }
+                )}
                 {data?.roles[0] === MANAGER_RANK && (
                   <Td>
                     <Button
@@ -258,9 +259,10 @@ export const OrdersTable = ({ orders, setOrders }) => {
                       variant='ghost'
                       size='sm'
                       onClick={async () => {
-                        if (await handleBillGenerator(order) == true) {
-                          if (order.status == 'Procesata') {
-                            navigate(`/downloadBill/${order.id}`)
+                        if (await handleBillGenerator(order)) {
+                          if (order.status === 'Procesata') {
+                            console.log('daaa');
+                            window.open(`/downloadBill/${order.id}`, '_blank');
                             dispatch(setNeedOrdersCall(true));
                           }
                         }
