@@ -7,12 +7,11 @@ import {
   Stack,
   Text,
   IconButton,
-  Tooltip,
+  Tooltip
 } from '@chakra-ui/react';
 import moment from 'moment';
-import { useState } from 'react';
 import { FaClock, FaStar } from 'react-icons/fa';
-import { ViewIcon, EditIcon } from '@chakra-ui/icons'
+import { ViewIcon, EditIcon } from '@chakra-ui/icons';
 
 export const CompanyBox = ({
   name,
@@ -21,7 +20,6 @@ export const CompanyBox = ({
   onOptionsClick,
   onUpdateClick
 }) => {
-
   return (
     <Card
       borderRadius='20px'
@@ -31,7 +29,7 @@ export const CompanyBox = ({
       <CardBody>
         <Stack
           direction='row'
-          spacing={44}
+          className='flex justify-between'
         >
           <Tooltip
             placement='top'
@@ -79,7 +77,7 @@ export const CompanyBox = ({
             <span className='flex gap-2 items-center'>
               <Icon as={FaClock} />
               <span>Ultima modificare:</span>
-              <span className='font-bold' >
+              <span className='font-bold'>
                 {moment(dateUpdated).fromNow().toString()}
               </span>
             </span>
@@ -92,6 +90,6 @@ export const CompanyBox = ({
           </div>
         </Stack>
       </CardBody>
-    </Card >
+    </Card>
   );
 };

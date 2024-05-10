@@ -10,7 +10,6 @@ import {
   Button
 } from '@chakra-ui/react';
 import ReactPaginate from 'react-paginate';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { getBills } from '../../utils/apiCalls';
@@ -18,7 +17,6 @@ import { setNeedBillsCall } from '../../slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const BillsTabContent = ({ bills }) => {
-  const navigate = useNavigate();
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
   const currentItems = bills.slice(itemOffset, endOffset);
@@ -27,7 +25,6 @@ export const BillsTabContent = ({ bills }) => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
   const needBillsCall = useSelector((state) => state.user.needBillsCall);
-  const [billsLoading, setBillsLoading] = useState(false);
   const [setBills] = useState();
 
   const handlePageClick = (event) => {
@@ -39,10 +36,7 @@ export const BillsTabContent = ({ bills }) => {
     (async () => {
       try {
         if (needBillsCall) {
-          setBillsLoading(true);
-          await getBills(cookies.userToken).then((res) => {
-            setBillsLoading(false);
-          });
+          await getBills(cookies.userToken);
           setBills(bills);
           dispatch(setNeedBillsCall(false));
         }
@@ -51,6 +45,7 @@ export const BillsTabContent = ({ bills }) => {
         return err;
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setBills, cookies.userToken, needBillsCall]);
 
   return (
@@ -72,7 +67,7 @@ export const BillsTabContent = ({ bills }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentItems.map((bl, key) => {
+            {currentItems?.map((bl, key) => {
               return (
                 <Tr key={key}>
                   <Td>{bl.orderNo}</Td>

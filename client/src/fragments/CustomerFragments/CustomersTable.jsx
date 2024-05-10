@@ -45,7 +45,6 @@ export const CustomersTable = ({ customers }) => {
     onClose: onUpdateCustomerModalClose
   } = useDisclosure();
 
-
   return (
     <>
       <Input
@@ -55,7 +54,10 @@ export const CustomersTable = ({ customers }) => {
         mb={4}
       />
       <TableContainer>
-        <Table variant='striped' colorScheme='blackAlpha'>
+        <Table
+          variant='striped'
+          colorScheme='blackAlpha'
+        >
           <Thead>
             <Tr>
               <Th>Prenume</Th>
@@ -66,19 +68,22 @@ export const CustomersTable = ({ customers }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentItems.map((cm) => (
+            {currentItems?.map((cm) => (
               <Tr key={cm.id}>
                 <Td>{cm.firstName}</Td>
                 <Td>{cm.lastName}</Td>
                 <Td>{cm.username}</Td>
                 <Td>{cm.companies.length > 0 && cm.companies[0].name}</Td>
                 <Td>
-                  <Button colorScheme='teal' variant='outline' size='sm'
+                  <Button
+                    colorScheme='teal'
+                    variant='outline'
+                    size='sm'
                     onClick={() => {
                       setSelectedCustomer(cm);
                       console.log('vvv', cm);
-                      onUpdateCustomerModalOpen();                
-                    }}                  
+                      onUpdateCustomerModalOpen();
+                    }}
                   >
                     Modifica
                   </Button>

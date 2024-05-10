@@ -28,10 +28,7 @@ import { getProducts } from '../../utils/apiCalls';
 import { useCookies } from 'react-cookie';
 import { FaFilter, FaPlus } from 'react-icons/fa';
 
-export const ProductsTable = ({
-  products,
-  setProducts
-}) => {
+export const ProductsTable = ({ products, setProducts }) => {
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
   const currentItems = products.slice(itemOffset, endOffset);
@@ -78,8 +75,7 @@ export const ProductsTable = ({
 
   return (
     <>
-      <TableContainer
-        class='productsTable'>
+      <TableContainer class='productsTable'>
         <Table
           variant='striped'
           colorScheme='blackAlpha'
@@ -147,7 +143,7 @@ export const ProductsTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {currentItems.map((pd) => {
+            {currentItems?.map((pd) => {
               return (
                 <Tr key={pd.id}>
                   <Td>{pd.id}</Td>

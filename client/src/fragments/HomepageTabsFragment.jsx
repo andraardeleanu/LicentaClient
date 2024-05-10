@@ -13,6 +13,7 @@ import { StocksView } from './StockFragments/StocksView';
 import { BillsView } from './BillFragments/BillsView';
 
 export const HomepageTabsFragment = () => {
+  const [needBillsRefresh, setNeedBillsRefresh] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabsChange = (index) => {
     setTabIndex(index);
@@ -32,7 +33,15 @@ export const HomepageTabsFragment = () => {
         {data?.roles[0] === ADMIN_RANK && <Tab>Stoc</Tab>}
         {data?.roles[0] === MANAGER_RANK && <Tab>Facturile mele</Tab>}
         {data?.roles[0] === ADMIN_RANK && <Tab>Clienti</Tab>}
-        {data?.roles[0] === ADMIN_RANK && <Tab>Facturi</Tab>}
+        {data?.roles[0] === ADMIN_RANK && (
+          <Tab
+            onClick={() => {
+              setNeedBillsRefresh(true);
+            }}
+          >
+            Facturi
+          </Tab>
+        )}
       </TabList>
       <TabPanels>
         <TabPanel>
@@ -49,13 +58,23 @@ export const HomepageTabsFragment = () => {
         </TabPanel>
         <TabPanel>
           {data?.roles[0] === ADMIN_RANK && <StocksView />}
-          {data?.roles[0] === MANAGER_RANK && <BillsView />}
+          {data?.roles[0] === MANAGER_RANK && (
+            <BillsView
+              needBillsRefresh={needBillsRefresh}
+              setNeedBillsRefresh={setNeedBillsRefresh}
+            />
+          )}
         </TabPanel>
         <TabPanel>
           {data?.roles[0] === ADMIN_RANK && <CustomersTabContent />}
         </TabPanel>
         <TabPanel>
-          {data?.roles[0] === ADMIN_RANK && <BillsView />}
+          {data?.roles[0] === ADMIN_RANK && (
+            <BillsView
+              needBillsRefresh={needBillsRefresh}
+              setNeedBillsRefresh={setNeedBillsRefresh}
+            />
+          )}
         </TabPanel>
       </TabPanels>
     </Tabs>

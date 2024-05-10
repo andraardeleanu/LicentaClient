@@ -202,7 +202,7 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {currentItems.map((prod) => (
+                      {currentItems?.map((prod) => (
                         <Tr key={prod?.id}>
                           <Td>{prod?.name}</Td>
                           <Td>{prod?.price}</Td>
@@ -219,8 +219,8 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
                                   (p) => p.productId === prod?.id
                                 ) !== -1
                                   ? selectedProducts?.find(
-                                    (p) => p.productId === prod?.id
-                                  )?.quantity
+                                      (p) => p.productId === prod?.id
+                                    )?.quantity
                                   : 0
                               }
                               onChange={(e) => {

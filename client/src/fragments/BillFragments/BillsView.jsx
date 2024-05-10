@@ -6,18 +6,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNeedBillsCall } from '../../slices/userSlice';
 import { BillsTabContent } from './BillsTabContent';
 
-export const BillsView = () => {
+export const BillsView = ({ needBillsRefresh, setNeedBillsRefresh }) => {
   const [cookies] = useCookies();
   const dispatch = useDispatch();
   const needBillsCall = useSelector((state) => state.user.needBillsCall);
   const [billsLoading, setBillsLoading] = useState(false);
-  const [bills, setBills] = useState();
+  const [bills, setBills] = useState([]);
+
+  useEffect(() => {
+    if (needBillsRefresh) {
+      console.log('da');
+      dispatch(setNeedBillsCall(true));
+      setNeedBillsRefresh(false);
+    }
+  }, [dispatch, needBillsRefresh, setNeedBillsRefresh]);
 
   useEffect(() => {
     (async () => {
       try {
+        console.log('daaaa');
+
         let myBills = [];
         if (needBillsCall) {
+          console.log('nbc ', needBillsCall);
           setBillsLoading(true);
           await getBills(cookies.userToken).then((res) => {
             myBills = res;
@@ -31,6 +42,7 @@ export const BillsView = () => {
         return err;
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bills, cookies.userToken, needBillsCall]);
 
   return (
