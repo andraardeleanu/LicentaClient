@@ -30,7 +30,7 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
   const [needCompanyCall, setNeedCompanyCall] = useState(false);
   const [companyLoading, setCompanyLoading] = useState(false);
   const [company, setCompany] = useState([]);
-  const [showPassword, setShowPassword] = useState(false); // Definirea variabilei showPassword și a funcției setShowPassword pentru afișarea sau ascunderea parolei
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     setNeedCompanyCall(true);
@@ -138,7 +138,7 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
                   id='password'
                   name='password'
                   pr='4.5rem'
-                  type={showPassword ? 'text' : 'password'} // Utilizarea variabilei showPassword pentru a decide tipul de input
+                  type={showPassword ? 'text' : 'password'}
                   placeholder='Parola'
                   onChange={handleChange}
                   value={values.password}

@@ -1,4 +1,4 @@
-import { Heading, Text, Divider, GridItem, Grid, Kbd } from '@chakra-ui/react';
+import { Heading, Text, Divider, GridItem, Grid } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { AppContainer } from '../components/AppContainer';
 import { useEffect, useState } from 'react';

@@ -110,8 +110,10 @@ export const getBills = async (token) => {
   return await axiosAuthorizedGet('/getBills', token);
 };
 
-export const getOrderDetails = async (token, orderId) => {
-  return await axiosAuthorizedGet(`/getOrderDetails/${orderId}`, token);
+export const getOrderDetails = async (orderId, token) => {
+  return await axiosAuthorizedGet(`/getOrderDetails?orderId=${orderId}`,
+    token
+  );
 };
 
 export const getBillDetails = async (orderId, token) => {
@@ -120,8 +122,10 @@ export const getBillDetails = async (orderId, token) => {
   );
 };
 
-export const getOrderDetailsForBill = async (token, orderId) => {
-  return await axiosAuthorizedGet(`/getOrderDetailsForBill/${orderId}`, token);
+export const getOrderDetailsForBill = async (orderId, token) => {
+  return await axiosAuthorizedGet(`/getOrderDetailsForBill?orderId=${orderId}`,
+    token
+  );
 };
 
 export const addOrdersFromFile = async (data, token) => {
@@ -136,8 +140,8 @@ export const updateCompany = async (data, token) => {
   return await axiosAuthorizedPost(`/updateCompany`, data, token);
 };
 
-export const updateOrderStatus = async (orderId, token) => {
-  return await axiosAuthorizedPost(`/updateOrderStatus/${orderId}`, token);
+export const updateOrderStatus = async (data, token) => {
+  return await axiosAuthorizedPost(`/updateOrderStatus`, data, token);
 };
 
 export const updateWorkpoint = async (data, token) => {

@@ -4,7 +4,7 @@ import {
     AlertDialogContent,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogOverlay,  
+    AlertDialogOverlay,
     useDisclosure,
     useToast,
     Button
@@ -13,14 +13,14 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import {  removeWorkpoint } from '../../utils/apiCalls';
+import { removeWorkpoint } from '../../utils/apiCalls';
 import { setNeedWorkPointsCall } from '../../slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ConfirmationModal = ({
     isOpen,
     onClose,
-    workpoint    
+    workpoint
 }) => {
     const cancelRef = useRef();
     const [cookies] = useCookies();
@@ -30,29 +30,28 @@ export const ConfirmationModal = ({
     const [setUserError] = useState('');
     const [loading, setLoading] = useState(false);
     const needWorkPointsCall = useSelector(
-      (state) => state.user.needWorkPointsCall
+        (state) => state.user.needWorkPointsCall
     );
 
-    const handleSubmit = async (workpoint) => {
+    const handleSubmit = async () => {
         setLoading(true);
-        console.log('vvv', workpoint);
-        const response = await removeWorkpoint(workpoint, cookies.userToken);
+        const response = await removeWorkpoint({id: workpoint}, cookies.userToken);
         setLoading(false);
         if (response.status === 1) {
-          setUserError(response.message);
+            setUserError(response.message);
         } else {
-          toast({
-            title: 'Punctul de lucru a fost sters cu succes.',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-            position: 'top'
-          });
-          dispatch(setNeedWorkPointsCall(true));
-          navigate('/');
-          onClose();
+            toast({
+                title: 'Punctul de lucru a fost sters cu succes.',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+                position: 'top'
+            });
+            dispatch(setNeedWorkPointsCall(true));
+            navigate('/');
+            onClose();
         }
-      };
+    };
 
     return (
         <AlertDialog
@@ -82,8 +81,8 @@ export const ConfirmationModal = ({
                         </Button>
                         <Button
                             colorScheme='red'
-                            onClick={() => {                                
-                                handleSubmit(workpoint)
+                            onClick={() => {
+                                handleSubmit()
                             }}
                             isLoading={loading}
                         >

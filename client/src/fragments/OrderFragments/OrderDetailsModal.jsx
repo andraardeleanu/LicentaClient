@@ -29,7 +29,7 @@ export const OrderDetailsModal = ({ isOpen, onClose, orderNo, orderId }) => {
       try {
         if (needOrdersCall) {
           setOrdersLoading(true);
-          await getOrderDetails(cookies.userToken, orderId).then((res) => {
+          await getOrderDetails(orderId, cookies.userToken).then((res) => {
             setOrdersLoading(false);
             setOrders(res);
           });

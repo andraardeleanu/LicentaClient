@@ -86,7 +86,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
 
   const handleStatusUpdate = async (orderId) => {
     setLoading(true);
-    const response = await updateOrderStatus(orderId, cookies.userToken);
+    const response = await updateOrderStatus({id: orderId}, cookies.userToken);
     setLoading(false);
     if (response.status === 1) {
       toast({
@@ -262,8 +262,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                         if (await handleBillGenerator(order)) {
                           if (order.status === 'Procesata') {
                             console.log('daaa');
-                            window.open(`/downloadBill/${order.id}`, '_blank');
-                            dispatch(setNeedOrdersCall(true));
+                            window.open(`/downloadBill/${order.id}`, '_blank');                            
                           }
                         }
                       }}
