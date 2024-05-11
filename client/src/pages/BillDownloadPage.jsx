@@ -1,11 +1,25 @@
-import { Heading, Text, Divider, GridItem, Grid } from '@chakra-ui/react';
+import {
+  Heading,
+  Text,
+  Divider,
+  GridItem,
+  Grid,
+  TableContainer,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  Tfoot
+} from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { AppContainer } from '../components/AppContainer';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBillDetails } from '../utils/apiCalls';
 import { useCookies } from 'react-cookie';
-import { usePDF } from 'react-to-pdf';
+import { Margin, usePDF } from 'react-to-pdf';
 
 export const BillDownloadPage = () => {
   const { toPDF, targetRef } = usePDF({ filename: 'Factura comanda.pdf' });
@@ -43,14 +57,92 @@ export const BillDownloadPage = () => {
 
   useEffect(() => {
     if (!loading && orderDetails) {
-      toPDF();
-      window.close();
+      toPDF({
+        page: {
+          orientation: 'portrait',
+          format: 'letter'
+        }
+      });
     }
   }, [loading, orderDetails, toPDF]);
 
   return (
     <AppContainer needAuth>
       {orderDetails && (
+        <div className='flex justify-center'>
+          <div
+            className='w-1/2 px-8 py-4'
+            ref={targetRef}
+          >
+            <div className='text-center font-bold text-3xl mb-8'>
+              Factura comanda
+            </div>
+            <div className='bg-sky-600 rounded-lg p-4 my-4 text-white font-bold text-xl'>
+              Detalii comanda
+            </div>
+            <div>
+              <p>
+                <span className='font-bold'>Numar comanda:</span>{' '}
+                {orderDetails?.orderNo}
+              </p>
+            </div>
+            <div className='bg-sky-600 rounded-lg p-4 my-4 text-white font-bold text-xl'>
+              Detalii client
+            </div>
+            <div>
+              <p>
+                <span className='font-bold'>Client:</span>{' '}
+                {orderDetails?.author}
+              </p>
+            </div>
+            <div>
+              <p>
+                <span className='font-bold'>Companie:</span>{' '}
+                {orderDetails?.companyName}
+              </p>
+            </div>
+            <div>
+              <p>
+                <span className='font-bold'>Punct de lucru:</span>{' '}
+                {orderDetails?.workpointName}
+              </p>
+            </div>
+            <div className='bg-sky-600 rounded-lg p-4 my-4 text-white font-bold text-xl'>
+              Produse
+            </div>
+            <TableContainer>
+              <Table size={'lg'}>
+                <Thead>
+                  <Tr>
+                    <Th>Nume produs</Th>
+                    <Th>Pret</Th>
+                    <Th>Cantitate</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {/* {orders.map((or) => (
+                    <Tr>
+                      <Td>{or.name}</Td>
+                      <Td>{or.price} RON</Td>
+                      <Td>{or.quantity} buc.</Td>
+                    </Tr>
+                  ))} */}
+                </Tbody>
+              </Table>
+            </TableContainer>
+
+            <Heading
+              size={'xs'}
+              mb={2}
+              className='flex items-center justify-between'
+            >
+              <Heading size={'lg'}>Pret total:</Heading>
+              <span className='text-4xl'>5 RON</span>
+            </Heading>
+          </div>
+        </div>
+      )}
+      {/* {orderDetails && (
         <div
           className='w-full h-[100vh]'
           ref={targetRef}
@@ -127,7 +219,7 @@ export const BillDownloadPage = () => {
             </GridItem>
           </Grid>
         </div>
-      )}
+      )} */}
     </AppContainer>
   );
 };
