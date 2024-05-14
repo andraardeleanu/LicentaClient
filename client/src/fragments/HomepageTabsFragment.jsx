@@ -31,7 +31,14 @@ export const HomepageTabsFragment = () => {
         {data?.roles[0] === MANAGER_RANK && <Tab>Comenzile mele</Tab>}
         <Tab>Produse</Tab>
         {data?.roles[0] === ADMIN_RANK && <Tab>Stoc</Tab>}
-        {data?.roles[0] === MANAGER_RANK && <Tab>Facturile mele</Tab>}
+        {data?.roles[0] === MANAGER_RANK &&
+          <Tab
+            onClick={() => {
+              setNeedBillsRefresh(true);
+            }}
+          >
+            Facturile mele
+          </Tab>}
         {data?.roles[0] === ADMIN_RANK && <Tab>Clienti</Tab>}
         {data?.roles[0] === ADMIN_RANK && (
           <Tab

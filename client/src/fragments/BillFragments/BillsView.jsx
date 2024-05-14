@@ -15,7 +15,6 @@ export const BillsView = ({ needBillsRefresh, setNeedBillsRefresh }) => {
 
   useEffect(() => {
     if (needBillsRefresh) {
-      console.log('da');
       dispatch(setNeedBillsCall(true));
       setNeedBillsRefresh(false);
     }
@@ -23,9 +22,7 @@ export const BillsView = ({ needBillsRefresh, setNeedBillsRefresh }) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        console.log('daaaa');
-
+      try {        
         let myBills = [];
         if (needBillsCall) {
           console.log('nbc ', needBillsCall);
@@ -42,7 +39,6 @@ export const BillsView = ({ needBillsRefresh, setNeedBillsRefresh }) => {
         return err;
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bills, cookies.userToken, needBillsCall]);
 
   return (

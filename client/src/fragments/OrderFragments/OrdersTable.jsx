@@ -264,7 +264,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
                       onClick={async () => {
                         if (await handleBillGenerator(order)) {
                           if (order.status === 'Procesata') {
-                            console.log('daaa');
+                            console.log('sadsa', order.id);
                             window.open(`/downloadBill/${order.id}`, '_blank');
                           }
                         }

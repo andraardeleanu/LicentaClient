@@ -15,6 +15,7 @@ export const BillDownloadPage = () => {
   const [needCall, setNeedCall] = useState(false);
   const [loading, setLoading] = useState(false);
   const [orderDetails, setOrderDetails] = useState();
+  const [isOrderReady, setIsOrderReady] = useState(false);
 
   useEffect(() => {
     if (!orderId) {
@@ -32,6 +33,7 @@ export const BillDownloadPage = () => {
           await getBillDetails(orderId, cookies.userToken).then((res) => {
             setLoading(false);
             setOrderDetails(res);
+            setIsOrderReady(true);
           });
           setNeedCall(false);
         }
@@ -42,15 +44,15 @@ export const BillDownloadPage = () => {
   }, [orderDetails, cookies.userToken, needCall, orderId]);
 
   useEffect(() => {
-    if (!loading && orderDetails) {
+    if (!loading && orderDetails && isOrderReady) {
       toPDF();
-      window.close();
+      //window.close();
     }
   }, [loading, orderDetails, toPDF]);
 
   return (
     <AppContainer needAuth>
-      {orderDetails && (
+      {isOrderReady && orderDetails && (
         <div
           className='w-full h-[100vh]'
           ref={targetRef}
