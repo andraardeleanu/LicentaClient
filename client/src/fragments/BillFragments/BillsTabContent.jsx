@@ -41,7 +41,6 @@ export const BillsTabContent = ({ bills }) => {
           dispatch(setNeedBillsCall(false));
         }
       } catch (err) {
-        console.log('err: ', err);
         return err;
       }
     })();
@@ -81,7 +80,6 @@ export const BillsTabContent = ({ bills }) => {
                       variant='ghost'
                       size='sm'
                       onClick={async () => {
-                        console.log('bl.id ', bl);
                         window.open(`/downloadBill/${bl.id}`, '_blank');
                       }}
                     >

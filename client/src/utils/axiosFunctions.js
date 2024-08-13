@@ -30,6 +30,24 @@ export const axiosPost = async (url, data, config) => {
   );
 };
 
+export const axiosPatch = async (url, data, config) => {
+  return returnData(
+    await api.patch(url, data, config).catch((res) => {
+      return res.response;
+    })
+  );
+};
+
+export const axiosAuthorizedFormPatch = async (url, data, token) => {
+  return await axiosPatch(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: '*/*',
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
 export const axiosGet = async (url, config) => {
   return returnData(
     await api.get(url, config).catch((res) => {

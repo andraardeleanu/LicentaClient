@@ -81,7 +81,6 @@ export const CustomersTable = ({ customers }) => {
                     size='sm'
                     onClick={() => {
                       setSelectedCustomer(cm);
-                      console.log('vvv', cm);
                       onUpdateCustomerModalOpen();
                     }}
                   >

@@ -15,7 +15,6 @@ export const BillsView = ({ needBillsRefresh, setNeedBillsRefresh }) => {
 
   useEffect(() => {
     if (needBillsRefresh) {
-      console.log('da');
       dispatch(setNeedBillsCall(true));
       setNeedBillsRefresh(false);
     }
@@ -24,11 +23,8 @@ export const BillsView = ({ needBillsRefresh, setNeedBillsRefresh }) => {
   useEffect(() => {
     (async () => {
       try {
-        console.log('daaaa');
-
         let myBills = [];
         if (needBillsCall) {
-          console.log('nbc ', needBillsCall);
           setBillsLoading(true);
           await getBills(cookies.userToken).then((res) => {
             myBills = res;
@@ -38,7 +34,6 @@ export const BillsView = ({ needBillsRefresh, setNeedBillsRefresh }) => {
           dispatch(setNeedBillsCall(false));
         }
       } catch (err) {
-        console.log('err: ', err);
         return err;
       }
     })();

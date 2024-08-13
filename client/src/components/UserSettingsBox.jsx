@@ -4,42 +4,40 @@ import {
   AlertTitle,
   Button,
   Card,
+  Heading,
   Input,
   Stack
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useCookies } from 'react-cookie';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-export const LoginFragment = () => {
+export const UserSettingsBox = () => {
   const [cookies, setCookie] = useCookies(['userToken']);
-  const [loginLoading, setLoginLoading] = useState(false);
-  const { login } = useAuth(cookies.userToken);
+  const [loading, setLoading] = useState(false);
+  const { changePassword } = useAuth(cookies.userToken);
   const [userError, setUserError] = useState('');
-  const navigate = useNavigate();
+
   return (
     <Card className='p-4'>
       <Formik
         initialValues={{
-          username: '',
-          password: '',
-          rememberMe: true
+          oldPassword: '',
+          newPassword: ''
         }}
         onSubmit={async (values) => {
-          setLoginLoading(true);
-          const response = await login(
-            values.username,
-            values.password,
-            values.rememberMe
+          setLoading(true);
+          const response = await changePassword(
+            values.oldPassword,
+            values.newPassword
           );
-          setLoginLoading(false);
+          setLoading(false);
           if (response.errorMessage) {
             setUserError(response.errorMessage);
           } else {
-            setCookie('userToken', response.token);
-            navigate('/');
+            setCookie('userToken', '');
+            window.location.reload();
           }
         }}
       >
@@ -51,19 +49,21 @@ export const LoginFragment = () => {
             }}
           >
             <Stack spacing={4}>
+              <Heading>Schimba parola</Heading>
               <Input
-                id='username'
-                name='username'
-                placeholder='Nume de utilizator'
+                id='oldPassword'
+                name='oldPassword'
+                placeholder='Parola veche'
+                type='password'
                 onChange={handleChange}
-                value={values.username}
+                value={values.oldPassword}
               />
               <Input
-                id='password'
-                name='password'
-                placeholder='Parola'
+                id='newPassword'
+                name='newPassword'
+                placeholder='Parola noua'
                 onChange={handleChange}
-                value={values.password}
+                value={values.newPassword}
                 type='password'
               />
               {userError && (
@@ -75,10 +75,10 @@ export const LoginFragment = () => {
               <Button
                 colorScheme='blue'
                 onClick={handleSubmit}
-                isLoading={loginLoading}
+                isLoading={loading}
                 type='submit'
               >
-                Conecteaza-te
+                Schimba parola
               </Button>
             </Stack>
           </Form>

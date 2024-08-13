@@ -5,7 +5,7 @@ import {
   Wrap,
   WrapItem,
   useDisclosure,
-  Input,
+  Input
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { ResultsLoading } from '../../components/ResultsLoading';
@@ -90,8 +90,11 @@ export const CompaniesTabContent = () => {
       {companiesLoading && <ResultsLoading />}
       <Wrap spacing={0}>
         {filteredCompanies.length > 0 ? (
-          filteredCompanies.map((company, index) => (    
-            <WrapItem className='w-full md:w-1/3' key={index}>
+          filteredCompanies?.map((company, index) => (
+            <WrapItem
+              className='w-full md:w-1/3'
+              key={index}
+            >
               <CompanyBox
                 name={company?.name}
                 cui={company?.cui}

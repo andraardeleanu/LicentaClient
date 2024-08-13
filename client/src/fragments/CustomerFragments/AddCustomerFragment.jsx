@@ -84,7 +84,10 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
     >
       {({ handleSubmit, handleChange, values }) => (
         <Form onSubmit={handleSubmit}>
-          <Stack spacing={4} className='mt-6'>
+          <Stack
+            spacing={4}
+            className='mt-6'
+          >
             <FormControl isRequired>
               <FormLabel>Prenume</FormLabel>
               <Input
@@ -112,7 +115,7 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
               onChange={handleChange}
               isDisabled={companyLoading}
             >
-              {company.map((cp) => (
+              {company?.map((cp) => (
                 <option
                   key={cp?.id}
                   companyId={cp?.id}
@@ -132,7 +135,7 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
               />
             </FormControl>
             <FormControl isRequired>
-            <FormLabel>Parola</FormLabel>
+              <FormLabel>Parola</FormLabel>
               <InputGroup size='md'>
                 <Input
                   id='password'
@@ -173,7 +176,7 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
             <Button
               colorScheme='blue'
               onClick={() => {
-                handleSubmit()
+                handleSubmit();
               }}
               isLoading={loading}
             >

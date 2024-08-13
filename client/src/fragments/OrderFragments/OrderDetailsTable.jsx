@@ -24,7 +24,7 @@ export const OrderDetailsTable = ({ orders, onClose }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {orders.map((or) => (
+            {orders?.map((or) => (
               <Tr>
                 <Td>{or.name}</Td>
                 <Td>{or.price} RON</Td>

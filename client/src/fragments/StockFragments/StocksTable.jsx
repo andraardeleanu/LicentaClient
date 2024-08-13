@@ -26,12 +26,9 @@ import { UpdateStockModal } from './UpdateStockModal';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { getStocks } from '../../utils/apiCalls';
-import { useDispatch, useSelector } from 'react-redux';
-import { setNeedStocksCall } from '../../slices/userSlice';
 
 export const StocksTable = ({ stocks, setStocks }) => {
   const [cookies] = useCookies();
-  const dispatch = useDispatch();
 
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
@@ -43,8 +40,6 @@ export const StocksTable = ({ stocks, setStocks }) => {
 
   const [productNameFilter, setProductNameFilter] = useState();
 
-  const needStocksCall = useSelector((state) => state.user.needStocksCall);
-  const [stocksLoading, setStocksLoading] = useState(false);
   const handlePageClick = (event) => {
     const newOffset = (event.selected * 10) % stocks.length;
     setItemOffset(newOffset);
@@ -67,6 +62,7 @@ export const StocksTable = ({ stocks, setStocks }) => {
         return err;
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productNameFilter, cookies.userToken]);
 
   return (
@@ -88,6 +84,7 @@ export const StocksTable = ({ stocks, setStocks }) => {
                         size={'xs'}
                         colorScheme='blue'
                         icon={<FaFilter />}
+                        variant={'outline'}
                       />
                     </PopoverTrigger>
                     <Portal>

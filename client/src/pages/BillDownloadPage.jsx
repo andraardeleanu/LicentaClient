@@ -1,17 +1,11 @@
 import {
   Heading,
-  Text,
-  Divider,
-  GridItem,
-  Grid,
   TableContainer,
   Table,
   Thead,
   Tr,
   Th,
-  Tbody,
-  Td,
-  Tfoot
+  Tbody
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { AppContainer } from '../components/AppContainer';
@@ -19,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBillDetails } from '../utils/apiCalls';
 import { useCookies } from 'react-cookie';
-import { Margin, usePDF } from 'react-to-pdf';
+import { usePDF } from 'react-to-pdf';
 
 export const BillDownloadPage = () => {
   const { toPDF, targetRef } = usePDF({ filename: 'Factura comanda.pdf' });

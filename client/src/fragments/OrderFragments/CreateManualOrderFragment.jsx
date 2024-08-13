@@ -170,10 +170,7 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
               setUserError('');
             }}
           >
-            <Stack
-              spacing={2}
-              className='mt-6'
-            >
+            <Stack spacing={2}>
               <Select
                 className='orderModal'
                 id='workpointId'
@@ -182,7 +179,7 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
                 onChange={handleChange}
                 isDisabled={workpointsLoading}
               >
-                {workpoints.map((wp) => (
+                {workpoints?.map((wp) => (
                   <option
                     key={wp?.id}
                     value={wp?.id}

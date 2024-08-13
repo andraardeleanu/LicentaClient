@@ -61,6 +61,7 @@ export const ProductsTable = ({ products, setProducts }) => {
         return err;
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productNameFilter, sortByPrice]);
 
   const sortProductsByPrice = (products, sortByPrice) => {
@@ -75,7 +76,7 @@ export const ProductsTable = ({ products, setProducts }) => {
 
   return (
     <>
-      <TableContainer class='productsTable'>
+      <TableContainer className='productsTable'>
         <Table
           variant='striped'
           colorScheme='blackAlpha'
@@ -89,6 +90,7 @@ export const ProductsTable = ({ products, setProducts }) => {
                   <Popover>
                     <PopoverTrigger>
                       <IconButton
+                        variant='outline'
                         size={'xs'}
                         colorScheme='blue'
                         icon={<FaFilter />}

@@ -23,7 +23,7 @@ export const WorkpointsTable = ({ workpoints, onClose }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {workpoints.map((wp) => (
+          {workpoints?.map((wp) => (
             <Tr>
               <Td>{wp.name}</Td>
               <Td>{wp.address}</Td>

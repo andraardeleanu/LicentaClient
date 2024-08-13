@@ -33,11 +33,10 @@ export const AppContainer = ({
           setIsLoggedIn(res?.id !== undefined);
           if (res?.id) {
             dispatch(setUserData(res));
-            const companyRes = await getCompanyById(             
+            const companyRes = await getCompanyById(
               res?.companies[0]?.id,
               cookies.userToken
-            )
-            console.log("abc", res?.companies[0]?.id);
+            );
             dispatch(setUserCompanyData(companyRes));
           }
         });
@@ -47,7 +46,7 @@ export const AppContainer = ({
 
     fetchUserData();
 
-    return () => { };
+    return () => {};
   }, [cookies.userToken, dispatch, getFinished, getUser]);
 
   if (loading) {

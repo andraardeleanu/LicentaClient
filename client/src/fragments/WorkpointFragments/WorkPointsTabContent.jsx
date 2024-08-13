@@ -6,7 +6,7 @@ import {
   Wrap,
   WrapItem,
   useDisclosure,
-  Input,
+  Input
 } from '@chakra-ui/react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { ResultsLoading } from '../../components/ResultsLoading';
@@ -49,7 +49,7 @@ export const WorkPointsTabContent = () => {
     onOpen: onConfirmationModalOpen,
     onClose: onConfirmationModalClose
   } = useDisclosure();
-  
+
   useEffect(() => {
     (async () => {
       try {
@@ -57,7 +57,6 @@ export const WorkPointsTabContent = () => {
           setWorkPointsLoading(true);
           await getWorkPointsByUserId(data.id, cookies.userToken).then(
             (res) => {
-              console.log("fffff", res);
               setWorkPointsLoading(false);
               setWorkPoints(res);
             }
@@ -68,15 +67,16 @@ export const WorkPointsTabContent = () => {
         return err;
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workpoints, cookies.userToken, needWorkPointsCall]);
 
-  const filteredWorkpoints = workpoints.filter(wp => 
+  const filteredWorkpoints = workpoints.filter((wp) =>
     wp.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <>
-     <Divider my={4} />
+      <Divider my={4} />
       <Button
         leftIcon={<Icon as={FaPlusCircle} />}
         colorScheme='blue'
@@ -94,7 +94,7 @@ export const WorkPointsTabContent = () => {
       {workPointsLoading && <ResultsLoading />}
       <Wrap spacing={0}>
         {filteredWorkpoints.length > 0 ? (
-          filteredWorkpoints.map((wp, index) => (
+          filteredWorkpoints?.map((wp, index) => (
             <WrapItem
               className='w-full md:w-1/3'
               key={index}
@@ -105,7 +105,7 @@ export const WorkPointsTabContent = () => {
                 author={wp?.author}
                 dateUpdated={wp?.dateUpdated}
                 onUpdateClick={() => {
-                  setSelectedWorkpoint(wp);                  
+                  setSelectedWorkpoint(wp);
                   onUpdateWorkpointModalOpen();
                 }}
                 onDeleteClick={() => {

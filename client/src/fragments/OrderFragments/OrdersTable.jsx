@@ -35,13 +35,10 @@ import {
 } from '../../utils/apiCalls';
 import { useCookies } from 'react-cookie';
 import { FaPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setNeedOrdersCall } from '../../slices/userSlice';
-import { usePDF } from 'react-to-pdf';
 
 export const OrdersTable = ({ orders, setOrders }) => {
-  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
   const [cookies] = useCookies();
   const {
     isOpen: isOrderDetailsModalOpen,
@@ -54,8 +51,6 @@ export const OrdersTable = ({ orders, setOrders }) => {
   const [orderNoFilter, setOrderNoFilter] = useState();
   const [statusFilter, setStatusFilter] = useState();
 
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const toast = useToast();
   const dispatch = useDispatch();
 
@@ -85,12 +80,10 @@ export const OrdersTable = ({ orders, setOrders }) => {
   }, [cookies.userToken, orderNoFilter, setOrders, statusFilter]);
 
   const handleStatusUpdate = async (orderId) => {
-    setLoading(true);
     const response = await updateOrderStatus(
       { id: orderId },
       cookies.userToken
     );
-    setLoading(false);
     if (response.status === 1) {
       toast({
         title: response.message,
@@ -112,9 +105,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
   };
 
   const handleBillGenerator = async (order) => {
-    setLoading(true);
     const response = await billGenerator(order, cookies.userToken);
-    setLoading(false);
     if (response.status === 1) {
       toast({
         title: response.message,
@@ -264,7 +255,6 @@ export const OrdersTable = ({ orders, setOrders }) => {
                       onClick={async () => {
                         if (await handleBillGenerator(order)) {
                           if (order.status === 'Procesata') {
-                            console.log('daaa');
                             window.open(`/downloadBill/${order.id}`, '_blank');
                           }
                         }

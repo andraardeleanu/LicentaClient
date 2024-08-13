@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { UserDetailsBox } from '../components/UserDetailsBox';
 import { FaHome } from 'react-icons/fa';
+import { UserSettingsBox } from '../components/UserSettingsBox';
 
 export const UserProfilePage = () => {
   return (
@@ -38,8 +39,25 @@ export const UserProfilePage = () => {
             </BreadcrumbItem>
           </Breadcrumb>
           <Box>
-            <Heading mb={4}>Profil</Heading>
+            <Heading>Profil</Heading>
+            <Heading
+              size={'lg'}
+              mb={4}
+              mt={4}
+            >
+              Detaliile utilizatorului
+            </Heading>
             <UserDetailsBox />
+          </Box>
+          <Box mb={4}>
+            <Heading
+              size={'lg'}
+              mt={4}
+              mb={4}
+            >
+              Setari
+            </Heading>
+            <UserSettingsBox />
           </Box>
         </Container>
       </>

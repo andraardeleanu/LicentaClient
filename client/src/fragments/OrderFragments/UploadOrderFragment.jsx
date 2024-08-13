@@ -48,6 +48,7 @@ export const UploadOrderFragment = () => {
 
   useEffect(() => {
     setNeedWorkpointsCall(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.companies[0]?.id]);
 
   useEffect(() => {
@@ -69,6 +70,7 @@ export const UploadOrderFragment = () => {
         return err;
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workpoints, cookies.userToken, needWorkpointsCall, data?.companies]);
 
   return (
@@ -76,7 +78,7 @@ export const UploadOrderFragment = () => {
       <Divider my={4} />
       <Flex justify={'space-between'}></Flex>
       <Button
-        className="manualOrderButton"
+        className='manualOrderButton'
         leftIcon={<Icon as={FaPlusCircle} />}
         colorScheme='blue'
         onClick={() => {
@@ -91,10 +93,13 @@ export const UploadOrderFragment = () => {
           workpointId: 0
         }}
         onSubmit={async (values) => {
-          const response = await addOrdersFromFile({
-            workPointId: values.workpointId,
-            file: uploadedFile
-          }, cookies.userToken);
+          const response = await addOrdersFromFile(
+            {
+              workPointId: values.workpointId,
+              file: uploadedFile
+            },
+            cookies.userToken
+          );
           if (response.status === 1) {
             setUserError(response.message);
           } else {
@@ -161,7 +166,7 @@ export const UploadOrderFragment = () => {
                     id='workpointId'
                     name='workpointId'
                   >
-                    {workpoints.map((wp) => (
+                    {workpoints?.map((wp) => (
                       <option
                         key={wp?.id}
                         value={wp?.id}
