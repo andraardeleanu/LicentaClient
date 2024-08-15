@@ -6,18 +6,21 @@ import {
   Card,
   Heading,
   Input,
-  Stack
+  Stack,
+  useToast
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useCookies } from 'react-cookie';
 import useAuth from '../hooks/useAuth';
 import { useState } from 'react';
+import { delay } from '../utils/other';
 
 export const UserSettingsBox = () => {
   const [cookies, setCookie] = useCookies(['userToken']);
   const [loading, setLoading] = useState(false);
   const { changePassword } = useAuth(cookies.userToken);
   const [userError, setUserError] = useState('');
+  const toast = useToast();
 
   return (
     <Card className='p-4'>
@@ -36,6 +39,15 @@ export const UserSettingsBox = () => {
           if (response.errorMessage) {
             setUserError(response.errorMessage);
           } else {
+            toast({
+              title:
+                'Parola a fost schimbata. Te rugam sa te reconectezi folosind noua parola.',
+              status: 'success',
+              duration: 5000,
+              isClosable: true,
+              position: 'top'
+            });
+            await delay(3000);
             setCookie('userToken', '');
             window.location.reload();
           }

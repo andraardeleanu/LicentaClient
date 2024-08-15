@@ -6,3 +6,7 @@ export const findProductIndexById = (list, id) => {
   }
   return -1;
 };
+
+export const delay = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
