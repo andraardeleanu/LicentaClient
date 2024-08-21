@@ -48,8 +48,7 @@ export const UploadOrderFragment = () => {
 
   useEffect(() => {
     setNeedWorkpointsCall(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.companies[0]?.id]);
+  }, [data?.companyId]);
 
   useEffect(() => {
     (async () => {
@@ -58,7 +57,7 @@ export const UploadOrderFragment = () => {
           setWorkpointsLoading(true);
           await getWorkpointsFromCompany(
             cookies.userToken,
-            data?.companies[0]?.id
+            data?.companyId
           ).then((res) => {
             setWorkpointsLoading(false);
             setWorkpoints(res);
@@ -70,8 +69,7 @@ export const UploadOrderFragment = () => {
         return err;
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workpoints, cookies.userToken, needWorkpointsCall, data?.companies]);
+  }, [workpoints, cookies.userToken, needWorkpointsCall, data?.companyId]);
 
   return (
     <>

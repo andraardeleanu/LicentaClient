@@ -33,7 +33,7 @@ export const UpdateCustomerModal = ({
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Seteaza noile date ale clientului</ModalHeader>
+                    <ModalHeader>Actualizeaza datele pe care le doresti modificate</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={12}>
                         <UpdateCustomerFragment

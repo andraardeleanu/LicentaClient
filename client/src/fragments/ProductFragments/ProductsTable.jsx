@@ -90,6 +90,7 @@ export const ProductsTable = ({ products, setProducts }) => {
                   <Popover>
                     <PopoverTrigger>
                       <IconButton
+                        className='productNameFilterIcon'
                         variant='outline'
                         size={'xs'}
                         colorScheme='blue'

@@ -1,4 +1,5 @@
 import {
+  axiosAuthorizedDelete,
   axiosAuthorizedFormPost,
   axiosAuthorizedGet,
   axiosAuthorizedPost
@@ -148,8 +149,10 @@ export const updateWorkpoint = async (data, token) => {
   return await axiosAuthorizedPost(`/updateWorkpoint`, data, token);
 };
 
-export const removeWorkpoint = async (data, token) => {
-  return await axiosAuthorizedPost(`/removeWorkpoint`, data, token);
+export const removeWorkpoint = async (id, token) => {
+  return await axiosAuthorizedDelete(`/removeWorkpoint?id=${id}`,
+    token
+  );
 };
 
 export const updateCustomer = async (data, token) => {

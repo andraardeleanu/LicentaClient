@@ -66,6 +66,24 @@ export const axiosAuthorizedGet = async (url, token) => {
   });
 };
 
+export const axiosDelete = async (url, config) => {
+  return returnData(
+    await api.delete(url, config).catch((res) => {
+      return res.response;
+    })
+  );
+};
+
+export const axiosAuthorizedDelete = async (url, token) => {
+  return await axiosDelete(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: '*/*',
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
 export const axiosAuthorizedPost = async (url, data, token) => {
   return await axiosPost(url, data, {
     headers: {

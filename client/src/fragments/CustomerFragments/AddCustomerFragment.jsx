@@ -47,7 +47,7 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
           dispatch(setNeedCompanyCall(false));
         }
       } catch (err) {
-        console.error(err);
+        console.error("ERROR", err);
       }
     })();
   }, [cookies.userToken, dispatch, needCompanyCall]);
@@ -118,7 +118,7 @@ export const AddCustomerFragment = ({ onClose, companyId }) => {
               {company?.map((cp) => (
                 <option
                   key={cp?.id}
-                  companyId={cp?.id}
+                  value={cp?.id}                
                 >
                   {cp?.name}
                 </option>

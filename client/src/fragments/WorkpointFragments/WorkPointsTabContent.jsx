@@ -67,7 +67,6 @@ export const WorkPointsTabContent = () => {
         return err;
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workpoints, cookies.userToken, needWorkPointsCall]);
 
   const filteredWorkpoints = workpoints.filter((wp) =>
@@ -132,7 +131,7 @@ export const WorkPointsTabContent = () => {
       <ConfirmationModal
         isOpen={isConfirmationModalOpen}
         onClose={onConfirmationModalClose}
-        workpoint={selectedWorkpointId}
+        workpointId={selectedWorkpointId}
       />
     </>
   );

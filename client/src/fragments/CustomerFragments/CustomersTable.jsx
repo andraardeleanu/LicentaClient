@@ -73,7 +73,7 @@ export const CustomersTable = ({ customers }) => {
                 <Td>{cm.firstName}</Td>
                 <Td>{cm.lastName}</Td>
                 <Td>{cm.username}</Td>
-                <Td>{cm.companies.length > 0 && cm.companies[0].name}</Td>
+                <Td>{cm.companyName}</Td>
                 <Td>
                   <Button
                     colorScheme='teal'

@@ -20,14 +20,14 @@ import { useDispatch, useSelector } from 'react-redux';
 export const ConfirmationModal = ({
     isOpen,
     onClose,
-    workpoint
+    workpointId
 }) => {
     const cancelRef = useRef();
     const [cookies] = useCookies();
     const dispatch = useDispatch();
     const toast = useToast();
     const navigate = useNavigate();
-    const [setUserError] = useState('');
+    const [userError, setUserError] = useState('');
     const [loading, setLoading] = useState(false);
     const needWorkPointsCall = useSelector(
         (state) => state.user.needWorkPointsCall
@@ -35,7 +35,7 @@ export const ConfirmationModal = ({
 
     const handleSubmit = async () => {
         setLoading(true);
-        const response = await removeWorkpoint({id: workpoint}, cookies.userToken);
+        const response = await removeWorkpoint(workpointId, cookies.userToken);
         setLoading(false);
         if (response.status === 1) {
             setUserError(response.message);

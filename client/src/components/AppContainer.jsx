@@ -34,7 +34,7 @@ export const AppContainer = ({
           if (res?.id) {
             dispatch(setUserData(res));
             const companyRes = await getCompanyById(
-              res?.companies[0]?.id,
+              res?.companies?.id,
               cookies.userToken
             );
             dispatch(setUserCompanyData(companyRes));

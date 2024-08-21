@@ -27,7 +27,7 @@ export const CreateManualOrderModal = ({ isOpen, onClose }) => {
           <ModalBody pb={4}>
             <CreateManualOrderFragment
               onClose={onClose}
-              companyId={data?.companies[0]?.id}
+              companyId={data?.companyId}
             />
           </ModalBody>
         </ModalContent>
