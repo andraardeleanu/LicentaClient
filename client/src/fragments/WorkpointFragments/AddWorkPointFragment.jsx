@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNeedWorkPointsCall } from '../../slices/userSlice';
 
-export const  AddWorkPointFragment = ({ onClose }) => {
+export const AddWorkPointFragment = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [userError, setUserError] = useState('');
@@ -35,11 +35,7 @@ export const  AddWorkPointFragment = ({ onClose }) => {
         }}
         onSubmit={async (values) => {
           setLoading(true);
-          const response = await addWorkPoint(
-            values,
-            cookies.userToken
-          );
-          console.log("company", values);
+          const response = await addWorkPoint(values, cookies.userToken);
           setLoading(false);
           if (response.status === 1) {
             setUserError(response.message);

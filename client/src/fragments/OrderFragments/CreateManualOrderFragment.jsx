@@ -142,7 +142,8 @@ export const CreateManualOrderFragment = ({ onClose, companyId }) => {
               createdBy: data?.id,
               workpointId: values.workpointId,
               fileType: 1,
-              products: selectedProducts
+              products: selectedProducts,
+              totalPrice
             },
             cookies.userToken
           );

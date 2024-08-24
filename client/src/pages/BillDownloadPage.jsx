@@ -5,7 +5,8 @@ import {
   Thead,
   Tr,
   Th,
-  Tbody
+  Tbody,
+  Td
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { AppContainer } from '../components/AppContainer';
@@ -114,13 +115,13 @@ export const BillDownloadPage = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {/* {orders.map((or) => (
-                    <Tr>
+                  {orderDetails?.products?.map((or, index) => (
+                    <Tr key={index}>
                       <Td>{or.name}</Td>
                       <Td>{or.price} RON</Td>
                       <Td>{or.quantity} buc.</Td>
                     </Tr>
-                  ))} */}
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
@@ -131,7 +132,7 @@ export const BillDownloadPage = () => {
               className='flex items-center justify-between'
             >
               <Heading size={'lg'}>Pret total:</Heading>
-              <span className='text-4xl'>5 RON</span>
+              <span className='text-4xl'>{orderDetails.totalPrice} RON</span>
             </Heading>
           </div>
         </div>

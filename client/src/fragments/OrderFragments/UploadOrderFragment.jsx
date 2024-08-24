@@ -69,6 +69,7 @@ export const UploadOrderFragment = () => {
         return err;
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workpoints, cookies.userToken, needWorkpointsCall, data?.companyId]);
 
   return (
