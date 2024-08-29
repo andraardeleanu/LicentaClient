@@ -87,7 +87,7 @@ export const BillDownloadPage = () => {
             <div>
               <p>
                 <span className='font-bold'>Client:</span>{' '}
-                {orderDetails?.author}
+                {orderDetails?.customer}
               </p>
             </div>
             <div>

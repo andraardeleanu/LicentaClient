@@ -62,7 +62,6 @@ export const BillsTabContent = ({ bills }) => {
               <Th>Data generare factura</Th>
               <Th>Punct de lucru</Th>
               <Th>Companie</Th>
-              <Th style={{ textAlign: 'center', width: '180px' }}>Optiuni</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -73,19 +72,7 @@ export const BillsTabContent = ({ bills }) => {
                   <Td>{bl.totalPrice} RON</Td>
                   <Td>{bl.dateCreated}</Td>
                   <Td>{bl.workpointName}</Td>
-                  <Td>{bl.companyName}</Td>
-                  <Td>
-                    <Button
-                      colorScheme='teal'
-                      variant='ghost'
-                      size='sm'
-                      onClick={async () => {
-                        window.open(`/downloadBill/${bl.id}`, '_blank');
-                      }}
-                    >
-                      Descarca copie
-                    </Button>
-                  </Td>
+                  <Td>{bl.companyName}</Td>                
                 </Tr>
               );
             })}
