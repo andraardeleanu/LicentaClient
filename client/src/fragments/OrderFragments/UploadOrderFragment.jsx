@@ -99,6 +99,7 @@ export const UploadOrderFragment = () => {
             },
             cookies.userToken
           );
+          setLoading(false);
           if (response.status === 1) {
             setUserError(response.message);
           } else {
@@ -109,7 +110,7 @@ export const UploadOrderFragment = () => {
               isClosable: true,
               position: 'top'
             });
-            setNeedOrdersCall(true);
+            dispatch(setNeedOrdersCall(true));
           }
         }}
       >
@@ -186,6 +187,10 @@ export const UploadOrderFragment = () => {
                     variant='solid'
                     colorScheme='blue'
                     type='submit'
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                    isLoading={loading}
                   >
                     Creeaza comanda automat
                   </Button>
