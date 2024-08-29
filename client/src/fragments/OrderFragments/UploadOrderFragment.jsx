@@ -27,7 +27,7 @@ import {
 } from '../../utils/apiCalls';
 import { useCookies } from 'react-cookie';
 import { Form, Formik } from 'formik';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNeedOrdersCall } from '../../slices/userSlice';
 
 export const UploadOrderFragment = () => {
@@ -45,6 +45,8 @@ export const UploadOrderFragment = () => {
   const [uploadedFile, setUploadedFile] = useState([]);
   const toast = useToast();
   const needOrdersCall = useSelector((state) => state.user.needOrdersCall);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setNeedWorkpointsCall(true);
@@ -186,7 +188,6 @@ export const UploadOrderFragment = () => {
                   <Button
                     variant='solid'
                     colorScheme='blue'
-                    type='submit'
                     onClick={() => {
                       handleSubmit();
                     }}

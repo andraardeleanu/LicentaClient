@@ -6,8 +6,7 @@ import {
   Th,
   Thead,
   Tr,
-  Divider,
-  Button
+  Divider
 } from '@chakra-ui/react';
 import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
@@ -72,7 +71,7 @@ export const BillsTabContent = ({ bills }) => {
                   <Td>{bl.totalPrice} RON</Td>
                   <Td>{bl.dateCreated}</Td>
                   <Td>{bl.workpointName}</Td>
-                  <Td>{bl.companyName}</Td>                
+                  <Td>{bl.companyName}</Td>
                 </Tr>
               );
             })}
