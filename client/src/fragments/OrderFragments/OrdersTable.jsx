@@ -211,7 +211,7 @@ export const OrdersTable = ({ orders, setOrders }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentItems?.map((order) => (
+            {currentItems?.reverse().map((order) => (
               <Tr key={order.orderNo}>
                 <Td>{order.id}</Td>
                 <Td>{order.orderNo}</Td>
